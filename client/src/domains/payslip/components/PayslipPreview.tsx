@@ -1,16 +1,11 @@
-import { lazy, Suspense } from 'react';
-import { PDFDownloadLink } from '@react-pdf/renderer';
+import { Suspense } from 'react';
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
 import { useTranslation } from 'react-i18next';
 import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import type { IForm } from '@payslips-maker/shared';
 import { formatPeriod } from '@/lib/utils';
-
-// Lazy-load PDFViewer to keep initial bundle small (~300kb savings)
-const PDFViewer = lazy(() =>
-  import('@react-pdf/renderer').then((m) => ({ default: m.PDFViewer }))
-);
 
 import { PayslipPDF } from './PayslipPDF';
 
