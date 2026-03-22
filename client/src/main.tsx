@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { heIL } from '@clerk/localizations';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -18,13 +18,15 @@ if (!DEMO_MODE && !PUBLISHABLE_KEY) {
 
 const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
 
+// createBrowserRouter (data router) is required for useBlocker to work.
+// App.tsx's internal <Routes> still handles all route matching.
+const router = createBrowserRouter([{ path: '*', element: <App /> }], { basename });
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ClerkProvider publishableKey={PUBLISHABLE_KEY || 'demo'} localization={heIL}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter basename={basename}>
-          <App />
-        </BrowserRouter>
+        <RouterProvider router={router} />
       </QueryClientProvider>
     </ClerkProvider>
   </React.StrictMode>
