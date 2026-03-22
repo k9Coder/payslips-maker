@@ -1,0 +1,195 @@
+{
+  "nav": {
+    "dashboard": "לוח בקרה",
+    "newForm": "תלוש חדש",
+    "signOut": "התנתק",
+    "admin": "ניהול",
+    "profile": "פרופיל"
+  },
+  "home": {
+    "title": "יוצר תלושי שכר",
+    "subtitle": "מערכת ליצירת תלושי שכר לעובדים זרים",
+    "signIn": "כניסה למערכת",
+    "signUp": "הרשמה"
+  },
+  "dashboard": {
+    "title": "תלושי השכר שלי",
+    "noForms": "אין תלושים עדיין",
+    "noFormsDesc": "לחץ על \"תלוש חדש\" כדי ליצור את תלוש השכר הראשון שלך",
+    "newForm": "תלוש חדש",
+    "lastUpdated": "עודכן לאחרונה",
+    "period": "תקופה",
+    "employee": "עובד",
+    "gross": "ברוטו",
+    "net": "נטו",
+    "view": "צפה",
+    "edit": "עריכה"
+  },
+  "payslip": {
+    "title": "תלוש שכר",
+    "newTitle": "יצירת תלוש שכר חדש",
+    "editTitle": "עריכת תלוש שכר",
+    "save": "שמור",
+    "duplicate": "שכפל",
+    "unsavedChanges": {
+      "title": "לצאת בלי לשמור?",
+      "message": "יש שינויים שלא נשמרו. אם תצא עכשיו, השינויים יאבדו.",
+      "stay": "הישאר",
+      "leave": "צא בלי לשמור"
+    },
+    "generatePdf": "צור PDF",
+    "downloadPdf": "הורד PDF",
+    "saving": "שומר...",
+    "saved": "נשמר בהצלחה",
+    "sections": {
+      "period": "תקופת השכר",
+      "employee": "פרטי העובד",
+      "employer": "פרטי המעסיק",
+      "workDetails": "פירוט ימי עבודה",
+      "pay": "חישוב שכר",
+      "deductions": "ניכויים",
+      "employerContributions": "תשלומי מעסיק",
+      "paymentInfo": "פרטי תשלום",
+      "summary": "סיכום"
+    },
+    "period": {
+      "month": "חודש",
+      "year": "שנה",
+      "months": {
+        "1": "ינואר",
+        "2": "פברואר",
+        "3": "מרץ",
+        "4": "אפריל",
+        "5": "מאי",
+        "6": "יוני",
+        "7": "יולי",
+        "8": "אוגוסט",
+        "9": "ספטמבר",
+        "10": "אוקטובר",
+        "11": "נובמבר",
+        "12": "דצמבר"
+      }
+    },
+    "employee": {
+      "fullName": "שם מלא",
+      "idNumber": "מספר זהות / דרכון",
+      "nationality": "לאום",
+      "employerName": "שם המעסיק / חברה",
+      "employerTaxId": "מספר עוסק / ח.פ"
+    },
+    "workDetails": {
+      "standardDays": "ימי עבודה תקניים בחודש",
+      "workedDays": "ימי עבודה בפועל",
+      "vacationDays": "ימי חופשה",
+      "sickDays": "ימי מחלה",
+      "holidayDays": "ימי חג",
+      "overtime100h": "שעות נוספות (100%)",
+      "overtime125h": "שעות נוספות (125%)",
+      "overtime150h": "שעות נוספות (150%)"
+    },
+    "pay": {
+      "dailyRate": "תעריף יומי (₪)",
+      "baseSalary": "שכר בסיס",
+      "overtimePay": "תשלום שעות נוספות",
+      "vacationPay": "פדיון חופשה",
+      "grossSalary": "שכר ברוטו",
+      "calculated": "מחושב אוטומטית",
+      "override": "ערך ידני"
+    },
+    "deductions": {
+      "title": "ניכויים",
+      "incomeTax": "מס הכנסה",
+      "nationalInsurance": "ביטוח לאומי (עובד)",
+      "healthInsurance": "ביטוח בריאות",
+      "otherDeductions": "ניכויים אחרים",
+      "total": "סה\"כ ניכויים",
+      "overrideHint": "ניתן לשנות את הסכום המחושב"
+    },
+    "employerContributions": {
+      "nationalInsurance": "ביטוח לאומי (מעסיק)",
+      "pension": "פנסיה"
+    },
+    "paymentInfo": {
+      "paymentMethod": "אמצעי תשלום",
+      "bankName": "שם הבנק",
+      "accountNumber": "מספר חשבון",
+      "branchNumber": "מספר סניף",
+      "paymentMethods": {
+        "bank": "העברה בנקאית",
+        "cash": "מזומן",
+        "check": "המחאה"
+      }
+    },
+    "summary": {
+      "grossSalary": "שכר ברוטו",
+      "totalDeductions": "סה\"כ ניכויים",
+      "netSalary": "שכר נטו לתשלום",
+      "employerSignature": "חתימת המעסיק"
+    }
+  },
+  "profile": {
+    "title": "הפרופיל שלי",
+    "fullName": "שם מלא",
+    "phone": "מספר טלפון",
+    "employerName": "שם המעסיק",
+    "employerTaxId": "מספר עוסק",
+    "save": "שמור שינויים"
+  },
+  "admin": {
+    "title": "ניהול",
+    "users": {
+      "title": "משתמשים",
+      "fullName": "שם מלא",
+      "email": "דוא\"ל",
+      "phone": "טלפון",
+      "formCount": "מספר תלושים",
+      "joinedAt": "הצטרף בתאריך",
+      "viewForms": "הצג תלושים",
+      "noUsers": "אין משתמשים"
+    },
+    "forms": {
+      "title": "כל התלושים",
+      "employee": "עובד",
+      "user": "משתמש",
+      "period": "תקופה",
+      "gross": "ברוטו",
+      "net": "נטו",
+      "createdAt": "נוצר בתאריך",
+      "updatedAt": "עודכן בתאריך",
+      "filterByUser": "סנן לפי משתמש",
+      "filterByPeriod": "סנן לפי תקופה",
+      "sortBy": "מיון לפי",
+      "groupByPeriod": "קבץ לפי תקופה",
+      "allUsers": "כל המשתמשים",
+      "noForms": "אין תלושים",
+      "quickView": "צפייה מהירה"
+    }
+  },
+  "common": {
+    "save": "שמור",
+    "cancel": "ביטול",
+    "back": "חזרה",
+    "loading": "טוען...",
+    "error": "שגיאה",
+    "success": "הצלחה",
+    "confirm": "אישור",
+    "close": "סגור",
+    "search": "חיפוש",
+    "filter": "סינון",
+    "sort": "מיון",
+    "page": "עמוד",
+    "of": "מתוך",
+    "actions": "פעולות",
+    "currency": "₪",
+    "required": "שדה חובה"
+  },
+  "errors": {
+    "required": "שדה זה הוא חובה",
+    "minLength": "ערך קצר מדי",
+    "invalidId": "מספר זהות לא תקין",
+    "generic": "אירעה שגיאה, אנא נסה שוב",
+    "unauthorized": "אין הרשאה לביצוע פעולה זו",
+    "notFound": "הפריט לא נמצא",
+    "sessionExpired": "פג תוקף ההתחברות, אנא התחבר מחדש"
+  }
+}

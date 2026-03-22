@@ -1,0 +1,83 @@
+import { useAuth } from '@clerk/clerk-react';
+import type { ApiResponse } from '@payslips-maker/shared';
+import { getDemoResponse } from '@/demo/demoData';
+
+const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
+
+export function useApiClient() {
+  const { getToken } = useAuth();
+
+  async function request<T>(
+    url: string,
+    options: RequestInit = {}
+  ): Promise<T> {
+    if (DEMO_MODE) {
+      return getDemoResponse<T>(url, options.method ?? 'GET');
+    }
+
+    const token = await getToken();
+
+    const res = await fetch(url, {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    });
+
+    // Handle USER_SYNC_REQUIRED: user authenticated but not yet in DB
+    if (res.status === 202) {
+      const body = (await res.json()) as ApiResponse<null>;
+      if (body.error === 'USER_SYNC_REQUIRED') {
+        throw new Error('USER_SYNC_REQUIRED');
+      }
+    }
+
+    if (!res.ok) {
+      let errMsg = `HTTP ${res.status}`;
+      try {
+        const body = (await res.json()) as ApiResponse<null>;
+        errMsg = body.error ?? errMsg;
+      } catch {
+        // ignore
+      }
+      throw new Error(errMsg);
+    }
+
+    return res.json() as Promise<T>;
+  }
+
+  async function get<T>(url: string): Promise<T> {
+    return request<T>(url);
+  }
+
+  async function post<T>(url: string, body: unknown): Promise<T> {
+    return request<T>(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async function put<T>(url: string, body: unknown): Promise<T> {
+    return request<T>(url, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+    });
+  }
+
+  async function postSync(email: string, fullName: string): Promise<void> {
+    if (DEMO_MODE) return;
+    const token = await getToken();
+    await fetch('/api/users/sync', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({ email, fullName }),
+    });
+  }
+
+  return { get, post, put, postSync };
+}

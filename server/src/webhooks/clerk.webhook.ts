@@ -1,0 +1,62 @@
+import { Router, Request, Response } from 'express';
+import { Webhook } from 'svix';
+import { UserService } from '../domains/users/user.service';
+import { env } from '../infrastructure/env';
+import { logger } from '../infrastructure/logger/logger';
+
+const router = Router();
+
+interface ClerkUserCreatedEvent {
+  type: 'user.created';
+  data: {
+    id: string;
+    email_addresses: Array<{ email_address: string; id: string }>;
+    first_name: string | null;
+    last_name: string | null;
+  };
+}
+
+type ClerkWebhookEvent = ClerkUserCreatedEvent | { type: string; data: unknown };
+
+router.post('/', async (req: Request, res: Response): Promise<void> => {
+  const svixId = req.headers['svix-id'] as string;
+  const svixTimestamp = req.headers['svix-timestamp'] as string;
+  const svixSignature = req.headers['svix-signature'] as string;
+
+  if (!svixId || !svixTimestamp || !svixSignature) {
+    res.status(400).json({ error: 'Missing svix headers' });
+    return;
+  }
+
+  const wh = new Webhook(env.CLERK_WEBHOOK_SECRET);
+  let event: ClerkWebhookEvent;
+
+  try {
+    event = wh.verify(req.body, {
+      'svix-id': svixId,
+      'svix-timestamp': svixTimestamp,
+      'svix-signature': svixSignature,
+    }) as ClerkWebhookEvent;
+  } catch (error) {
+    logger.warn('Clerk webhook verification failed', { error: String(error) });
+    res.status(400).json({ error: 'Webhook verification failed' });
+    return;
+  }
+
+  if (event.type === 'user.created') {
+    const { id, email_addresses, first_name, last_name } = (event as ClerkUserCreatedEvent).data;
+    const email = email_addresses[0]?.email_address ?? '';
+    const fullName = `${first_name ?? ''} ${last_name ?? ''}`.trim() || email;
+
+    try {
+      await UserService.createUserFromClerk(id, email, fullName);
+      logger.info('User created via webhook', { clerkId: id, email });
+    } catch (error) {
+      logger.error('Failed to create user from webhook', { error: String(error), clerkId: id });
+    }
+  }
+
+  res.status(200).json({ received: true });
+});
+
+export { router as clerkWebhookRouter };

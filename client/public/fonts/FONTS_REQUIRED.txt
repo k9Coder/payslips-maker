@@ -1,0 +1,16 @@
+Hebrew font files are required for PDF generation.
+
+Download Heebo font TTF files from Google Fonts:
+https://fonts.google.com/specimen/Heebo
+
+Required files (place in this directory):
+- Heebo-Regular.ttf    (weight 400)
+- Heebo-Medium.ttf     (weight 500)
+- Heebo-Bold.ttf       (weight 700)
+
+Steps:
+1. Go to https://fonts.google.com/specimen/Heebo
+2. Click "Download family"
+3. Extract and copy the above .ttf files here
+
+Without these files, Hebrew text in the generated PDF will not render correctly.

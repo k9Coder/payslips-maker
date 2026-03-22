@@ -1,0 +1,54 @@
+import { lazy, Suspense } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { useTranslation } from 'react-i18next';
+import { Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { PageLoading } from '@/shared/components/LoadingSpinner';
+import type { IForm } from '@payslips-maker/shared';
+import { formatPeriod } from '@/lib/utils';
+
+// Lazy-load PDFViewer to keep initial bundle small (~300kb savings)
+const PDFViewer = lazy(() =>
+  import('@react-pdf/renderer').then((m) => ({ default: m.PDFViewer }))
+);
+
+import { PayslipPDF } from './PayslipPDF';
+
+interface PayslipPreviewProps {
+  form: IForm;
+}
+
+export function PayslipPreview({ form }: PayslipPreviewProps) {
+  const { t } = useTranslation();
+
+  const fileName = `תלוש-שכר-${form.employeeInfo.fullName}-${formatPeriod(form.period.month, form.period.year)}.pdf`;
+
+  return (
+    <div className="space-y-4">
+      {/* Download button */}
+      <div className="flex items-center justify-between">
+        <h3 className="text-xl font-semibold">{t('payslip.title')}</h3>
+        <PDFDownloadLink
+          document={<PayslipPDF form={form} />}
+          fileName={fileName}
+        >
+          {({ loading }) => (
+            <Button disabled={loading} className="flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              {loading ? t('common.loading') : t('payslip.downloadPdf')}
+            </Button>
+          )}
+        </PDFDownloadLink>
+      </div>
+
+      {/* Inline PDF viewer - lazy loaded */}
+      <div className="rounded-lg border overflow-hidden" style={{ height: '70vh' }}>
+        <Suspense fallback={<PageLoading />}>
+          <PDFViewer width="100%" height="100%" showToolbar={false}>
+            <PayslipPDF form={form} />
+          </PDFViewer>
+        </Suspense>
+      </div>
+    </div>
+  );
+}
