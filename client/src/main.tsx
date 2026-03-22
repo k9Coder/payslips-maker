@@ -20,7 +20,7 @@ const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY ?? 'pk_test_demo'} localization={heIL}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY || 'demo'} localization={heIL}>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter basename={basename}>
           <App />

@@ -5,10 +5,13 @@ import { FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 
+const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
+
 export function HomePage() {
   const { isLoaded, isSignedIn } = useAuth();
   const { t } = useTranslation();
 
+  if (DEMO_MODE) return <Navigate to="/dashboard" replace />;
   if (!isLoaded) return <PageLoading />;
   if (isSignedIn) return <Navigate to="/dashboard" replace />;
 
