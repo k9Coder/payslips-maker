@@ -10,16 +10,19 @@ import { App } from './App';
 import { queryClient } from './lib/queryClient';
 
 const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY as string;
+const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
-if (!PUBLISHABLE_KEY) {
+if (!DEMO_MODE && !PUBLISHABLE_KEY) {
   throw new Error('VITE_CLERK_PUBLISHABLE_KEY is not set');
 }
 
+const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || '';
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} localization={heIL}>
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY ?? 'pk_test_demo'} localization={heIL}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <App />
         </BrowserRouter>
       </QueryClientProvider>

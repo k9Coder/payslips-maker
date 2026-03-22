@@ -78,9 +78,9 @@ const FORM_ADMIN_1: IForm = {
   clerkId: 'demo-clerk-admin',
   period: { month: 1, year: 2025 },
   employeeInfo: {
-    fullName: 'Nguyen Van An',
+    fullName: 'סומחאי לרצ׳אי',
     idNumber: 'P12345678',
-    nationality: 'וייטנאמית',
+    nationality: 'תאילנדית',
     employerName: 'חברת הדמו בע"מ',
     employerTaxId: '512345678',
   },
@@ -128,7 +128,7 @@ const FORM_ADMIN_2: IForm = {
   clerkId: 'demo-clerk-admin',
   period: { month: 2, year: 2025 },
   employeeInfo: {
-    fullName: 'Ahmed Al-Rashid',
+    fullName: 'מוחמד אל-חמד',
     idNumber: 'J98765432',
     nationality: 'ירדנית',
     employerName: 'חברת הדמו בע"מ',
@@ -178,7 +178,7 @@ const FORM_ADMIN_3: IForm = {
   clerkId: 'demo-clerk-admin',
   period: { month: 3, year: 2025 },
   employeeInfo: {
-    fullName: 'Olena Kovalenko',
+    fullName: 'אולנה פטרנקו',
     idNumber: 'U55544433',
     nationality: 'אוקראינית',
     employerName: 'חברת הדמו בע"מ',
@@ -230,7 +230,7 @@ const FORM_DAVID_1: IForm = {
   clerkId: 'demo-clerk-1',
   period: { month: 12, year: 2024 },
   employeeInfo: {
-    fullName: 'Carlos Mendoza',
+    fullName: 'קרלוס מנדוזה',
     idNumber: 'M33322211',
     nationality: 'מקסיקנית',
     employerName: 'כהן קבלנות בנין בע"מ',
@@ -280,7 +280,7 @@ const FORM_DAVID_2: IForm = {
   clerkId: 'demo-clerk-1',
   period: { month: 1, year: 2025 },
   employeeInfo: {
-    fullName: 'Priya Sharma',
+    fullName: 'פריה שארמה',
     idNumber: 'I77788899',
     nationality: 'הודית',
     employerName: 'כהן קבלנות בנין בע"מ',
@@ -330,7 +330,7 @@ const FORM_SARAH_1: IForm = {
   clerkId: 'demo-clerk-2',
   period: { month: 11, year: 2024 },
   employeeInfo: {
-    fullName: 'Mohamed Hassan',
+    fullName: 'מוחמד חסן',
     idNumber: 'E22233344',
     nationality: 'מצרית',
     employerName: 'לוי ניקיון ושמירה בע"מ',
@@ -380,7 +380,7 @@ const FORM_SARAH_2: IForm = {
   clerkId: 'demo-clerk-2',
   period: { month: 12, year: 2024 },
   employeeInfo: {
-    fullName: 'Fatima Al-Zahra',
+    fullName: 'פאטמה אל-זהרה',
     idNumber: 'M55566677',
     nationality: 'מרוקאית',
     employerName: 'לוי ניקיון ושמירה בע"מ',
@@ -430,7 +430,7 @@ const FORM_YOSEF_1: IForm = {
   clerkId: 'demo-clerk-3',
   period: { month: 10, year: 2024 },
   employeeInfo: {
-    fullName: 'Andrei Popescu',
+    fullName: 'אנדריי פופסקו',
     idNumber: 'R88877766',
     nationality: 'רומנית',
     employerName: 'מזרחי חקלאות בע"מ',
@@ -480,7 +480,7 @@ const FORM_YOSEF_2: IForm = {
   clerkId: 'demo-clerk-3',
   period: { month: 11, year: 2024 },
   employeeInfo: {
-    fullName: 'Svetlana Ivanova',
+    fullName: 'סבטלנה איבנובה',
     idNumber: 'R11122233',
     nationality: 'רוסית',
     employerName: 'מזרחי חקלאות בע"מ',
@@ -530,7 +530,7 @@ const FORM_RACHEL_1: IForm = {
   clerkId: 'demo-clerk-4',
   period: { month: 2, year: 2025 },
   employeeInfo: {
-    fullName: 'Jean-Pierre Dubois',
+    fullName: 'ז׳אן-פייר דובואה',
     idNumber: 'F99900011',
     nationality: 'צרפתית',
     employerName: 'אברהם מסעדות בע"מ',
@@ -580,7 +580,7 @@ const FORM_RACHEL_2: IForm = {
   clerkId: 'demo-clerk-4',
   period: { month: 3, year: 2025 },
   employeeInfo: {
-    fullName: 'Anna Kowalski',
+    fullName: 'אנה קובלסקי',
     idNumber: 'P44455566',
     nationality: 'פולנית',
     employerName: 'אברהם מסעדות בע"מ',
