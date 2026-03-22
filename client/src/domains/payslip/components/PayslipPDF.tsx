@@ -10,12 +10,13 @@ import type { IForm } from '@payslips-maker/shared';
 
 // Register Heebo Hebrew font once (guard against HMR double-registration)
 if (!(window as unknown as Record<string, boolean>).__heeboFontRegistered) {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   Font.register({
     family: 'Heebo',
     fonts: [
-      { src: '/fonts/Heebo-Regular.ttf', fontWeight: 400 },
-      { src: '/fonts/Heebo-Medium.ttf', fontWeight: 500 },
-      { src: '/fonts/Heebo-Bold.ttf', fontWeight: 700 },
+      { src: `${base}/fonts/Heebo-Regular.ttf`, fontWeight: 400 },
+      { src: `${base}/fonts/Heebo-Medium.ttf`, fontWeight: 500 },
+      { src: `${base}/fonts/Heebo-Bold.ttf`, fontWeight: 700 },
     ],
   });
   (window as unknown as Record<string, boolean>).__heeboFontRegistered = true;
