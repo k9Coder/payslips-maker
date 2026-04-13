@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "डैशबोर्ड",
+    "newForm": "नया पे स्लिप",
+    "signOut": "साइन आउट",
+    "admin": "एडमिन",
+    "profile": "प्रोफाइल",
+    "companies": "कंपनियाँ",
+    "employees": "कर्मचारी",
+    "manual": "मार्गदर्शिका"
+  },
+  "home": {
+    "title": "पे स्लिप निर्माता",
+    "subtitle": "विदेशी कर्मचारियों के लिए पे स्लिप बनाने की प्रणाली",
+    "signIn": "साइन इन",
+    "signUp": "साइन अप"
+  },
+  "dashboard": {
+    "title": "मेरे पे स्लिप",
+    "noForms": "अभी तक कोई पे स्लिप नहीं",
+    "noFormsDesc": "अपना पहला पे स्लिप बनाने के लिए \"नया पे स्लिप\" पर क्लिक करें",
+    "newForm": "नया पे स्लिप",
+    "lastUpdated": "अंतिम अद्यतन",
+    "period": "अवधि",
+    "employee": "कर्मचारी",
+    "gross": "सकल",
+    "net": "शुद्ध",
+    "view": "देखें",
+    "edit": "संपादित करें"
+  },
+  "payslip": {
+    "title": "पे स्लिप",
+    "newTitle": "नया पे स्लिप बनाएं",
+    "editTitle": "पे स्लिप संपादित करें",
+    "save": "सहेजें",
+    "duplicate": "नकल करें",
+    "unsavedChanges": {
+      "title": "बिना सहेजे बाहर निकलें?",
+      "message": "कुछ परिवर्तन अभी तक सहेजे नहीं गए हैं। अभी बाहर निकलने पर परिवर्तन खो जाएंगे।",
+      "stay": "रहें",
+      "leave": "बिना सहेजे बाहर निकलें"
+    },
+    "generatePdf": "PDF बनाएं",
+    "downloadPdf": "PDF डाउनलोड करें",
+    "saving": "सहेजा जा रहा है...",
+    "saved": "सफलतापूर्वक सहेजा गया",
+    "sections": {
+      "period": "वेतन अवधि",
+      "employee": "कर्मचारी विवरण",
+      "employer": "नियोक्ता विवरण",
+      "workDetails": "कार्य दिवसों का विवरण",
+      "pay": "वेतन गणना",
+      "deductions": "कटौतियाँ",
+      "employerContributions": "नियोक्ता का योगदान",
+      "paymentInfo": "भुगतान विवरण",
+      "summary": "सारांश",
+      "customPayItems": "अतिरिक्त भुगतान",
+      "vacationSickAccount": "अवकाश और बीमारी खाता"
+    },
+    "period": {
+      "month": "महीना",
+      "year": "वर्ष",
+      "months": {
+        "1": "जनवरी",
+        "2": "फरवरी",
+        "3": "मार्च",
+        "4": "अप्रैल",
+        "5": "मई",
+        "6": "जून",
+        "7": "जुलाई",
+        "8": "अगस्त",
+        "9": "सितंबर",
+        "10": "अक्टूबर",
+        "11": "नवंबर",
+        "12": "दिसंबर"
+      }
+    },
+    "employee": {
+      "fullName": "पूरा नाम",
+      "idNumber": "आईडी / पासपोर्ट नंबर",
+      "nationality": "राष्ट्रीयता",
+      "employerName": "नियोक्ता / कंपनी का नाम",
+      "employerTaxId": "नियोक्ता का टैक्स आईडी",
+      "taxFileNumber": "टैक्स फ़ाइल नंबर",
+      "employerRegistrationNumber": "नियोक्ता पंजीकरण संख्या",
+      "employerAddress": "नियोक्ता का पता",
+      "employerCity": "नियोक्ता का शहर",
+      "employerZip": "नियोक्ता का पिन कोड",
+      "employerDetails": "नियोक्ता के अतिरिक्त विवरण",
+      "employeeNumber": "कर्मचारी संख्या",
+      "jobTitle": "नौकरी कोड",
+      "department": "विभाग",
+      "familyStatus": "पारिवारिक स्थिति",
+      "grade": "ग्रेड",
+      "employmentStartDate": "रोजगार प्रारंभ तिथि",
+      "taxCalcType": "कर गणना विधि",
+      "nationalInsuranceType": "राष्ट्रीय बीमा प्रकार",
+      "salaryBasis": "वेतन आधार",
+      "salaryBasisMonthly": "मासिक",
+      "salaryBasisDaily": "दैनिक",
+      "salaryBasisHourly": "प्रति घंटा",
+      "jobFraction": "नौकरी का अंश",
+      "employeeAddress": "कर्मचारी का पता",
+      "employeeCity": "कर्मचारी का शहर",
+      "employeeZip": "कर्मचारी का पिन कोड",
+      "employeeDetails": "कर्मचारी के अतिरिक्त विवरण"
+    },
+    "workDetails": {
+      "standardDays": "प्रति माह मानक कार्य दिवस",
+      "workedDays": "वास्तविक कार्य दिवस",
+      "vacationDays": "अवकाश दिवस",
+      "sickDays": "बीमारी के दिन",
+      "holidayDays": "छुट्टी के दिन",
+      "overtime100h": "ओवरटाइम (100%)",
+      "overtime125h": "ओवरटाइम (125%)",
+      "overtime150h": "ओवरटाइम (150%)"
+    },
+    "pay": {
+      "dailyRate": "दैनिक दर (₪)",
+      "baseSalary": "मूल वेतन",
+      "overtimePay": "ओवरटाइम वेतन",
+      "vacationPay": "अवकाश भुगतान",
+      "grossSalary": "सकल वेतन",
+      "calculated": "स्वचालित रूप से गणना की गई",
+      "override": "मैन्युअल मूल्य"
+    },
+    "deductions": {
+      "title": "कटौतियाँ",
+      "incomeTax": "आयकर",
+      "nationalInsurance": "राष्ट्रीय बीमा (कर्मचारी)",
+      "healthInsurance": "स्वास्थ्य बीमा",
+      "otherDeductions": "अन्य कटौतियाँ",
+      "total": "कुल कटौतियाँ",
+      "overrideHint": "आप गणना की गई राशि बदल सकते हैं"
+    },
+    "employerContributions": {
+      "nationalInsurance": "राष्ट्रीय बीमा (नियोक्ता)",
+      "pension": "पेंशन",
+      "pensionFund": "पेंशन फंड",
+      "pensionEmployeeRate": "कर्मचारी पेंशन दर (%)",
+      "pensionEmployerRate": "नियोक्ता पेंशन दर (%)",
+      "severanceFund": "सेवेरेंस फंड (₪)",
+      "educationFund": "शिक्षा फंड - नियोक्ता (₪)",
+      "educationFundEmployee": "शिक्षा फंड - कर्मचारी (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "भुगतान विधि",
+      "bankName": "बैंक का नाम",
+      "accountNumber": "खाता संख्या",
+      "branchNumber": "शाखा संख्या",
+      "paymentMethods": {
+        "bank": "बैंक ट्रांसफर",
+        "cash": "नकद",
+        "check": "चेक"
+      }
+    },
+    "summary": {
+      "grossSalary": "सकल वेतन",
+      "totalDeductions": "कुल कटौतियाँ",
+      "netSalary": "भुगतान योग्य शुद्ध वेतन",
+      "employerSignature": "नियोक्ता का हस्ताक्षर"
+    },
+    "customPayItems": {
+      "code": "कोड",
+      "description": "विवरण",
+      "quantity": "मात्रा",
+      "rate": "दर",
+      "amount": "राशि",
+      "taxPercent": "कर दर (%)",
+      "add": "भुगतान पंक्ति जोड़ें",
+      "empty": "कोई अतिरिक्त भुगतान नहीं"
+    },
+    "vacationAccount": {
+      "title": "अवकाश खाता",
+      "previousBalance": "पिछली शेषराशि",
+      "accrued": "अर्जित",
+      "used": "उपयोग किया गया",
+      "remaining": "अवधि के अंत में शेषराशि"
+    },
+    "sickAccount": {
+      "title": "बीमारी खाता",
+      "previousBalance": "पिछली शेषराशि",
+      "accrued": "अर्जित",
+      "used": "उपयोग किया गया",
+      "remaining": "अवधि के अंत में शेषराशि"
+    }
+  },
+  "profile": {
+    "title": "मेरी प्रोफाइल",
+    "fullName": "पूरा नाम",
+    "phone": "फोन नंबर",
+    "employerName": "नियोक्ता का नाम",
+    "employerTaxId": "नियोक्ता का टैक्स आईडी",
+    "save": "परिवर्तन सहेजें"
+  },
+  "admin": {
+    "title": "प्रशासन",
+    "users": {
+      "title": "उपयोगकर्ता",
+      "fullName": "पूरा नाम",
+      "email": "ईमेल",
+      "phone": "फोन",
+      "formCount": "पे स्लिप की संख्या",
+      "joinedAt": "शामिल होने की तिथि",
+      "viewForms": "पे स्लिप देखें",
+      "noUsers": "कोई उपयोगकर्ता नहीं"
+    },
+    "forms": {
+      "title": "सभी पे स्लिप",
+      "employee": "कर्मचारी",
+      "user": "उपयोगकर्ता",
+      "period": "अवधि",
+      "gross": "सकल",
+      "net": "शुद्ध",
+      "createdAt": "निर्माण तिथि",
+      "updatedAt": "अद्यतन तिथि",
+      "filterByUser": "उपयोगकर्ता के अनुसार फ़िल्टर करें",
+      "filterByPeriod": "अवधि के अनुसार फ़िल्टर करें",
+      "sortBy": "इसके अनुसार क्रमबद्ध करें",
+      "groupByPeriod": "अवधि के अनुसार समूहित करें",
+      "allUsers": "सभी उपयोगकर्ता",
+      "noForms": "कोई पे स्लिप नहीं",
+      "quickView": "त्वरित दृश्य"
+    }
+  },
+  "finalSettlement": {
+    "title": "अंतिम निपटान",
+    "sections": {
+      "employmentPeriod": "रोजगार अवधि",
+      "lastSalary": "अंतिम वेतन",
+      "severance": "सेवेरेंस भुगतान",
+      "vacation": "अवकाश दिवस",
+      "recuperation": "स्वास्थ्य लाभ भुगतान",
+      "notice": "नोटिस अवधि",
+      "extras": "अतिरिक्त भत्ते",
+      "deductions": "कटौतियाँ",
+      "total": "सारांश"
+    },
+    "fields": {
+      "employmentStartDate": "रोजगार प्रारंभ तिथि",
+      "employmentEndDate": "रोजगार समाप्ति तिथि",
+      "terminationReason": "समाप्ति का कारण",
+      "dismissal": "बर्खास्तगी",
+      "resignation": "इस्तीफा",
+      "mutual": "आपसी सहमति",
+      "lastMonthlySalary": "अंतिम मासिक वेतन",
+      "severancePay": "सेवेरेंस भुगतान",
+      "severanceEligible": "सेवेरेंस के लिए पात्र",
+      "vacationDaysAccrued": "अर्जित अवकाश दिवस",
+      "vacationDaysUsed": "उपयोग किए गए अवकाश दिवस",
+      "unusedVacationDays": "अप्रयुक्त अवकाश दिवस",
+      "vacationPayout": "अवकाश भुगतान",
+      "recuperationDaysEntitled": "पात्र स्वास्थ्य लाभ दिवस",
+      "recuperationDaysAlreadyPaid": "पहले से भुगतान किए गए स्वास्थ्य लाभ दिवस",
+      "recuperationPayout": "स्वास्थ्य लाभ भुगतान",
+      "noticePeriodDays": "नोटिस अवधि के दिन",
+      "noticeActuallyGiven": "वास्तव में दिया गया नोटिस",
+      "noticePeriodPay": "नोटिस अवधि भुगतान",
+      "unpaidWages": "अवैतनिक वेतन",
+      "otherAdditions": "अन्य जोड़",
+      "totalGross": "कुल सकल",
+      "netTotal": "भुगतान योग्य कुल शुद्ध"
+    }
+  },
+  "email": {
+    "sendButton": "कर्मचारी को भेजें",
+    "dialogTitle": "कर्मचारी को दस्तावेज़ भेजें",
+    "defaultRecipient": "इसे भेजें",
+    "language": "दस्तावेज़ भाषा",
+    "remaining": "आज {{count}} भेजना शेष है",
+    "limitReached": "आपने दैनिक भेजने की सीमा पूरी कर ली है (3)",
+    "success": "दस्तावेज़ सफलतापूर्वक भेजा गया",
+    "noEmail": "कर्मचारी के पास ईमेल पता नहीं है। ईमेल जोड़ने के लिए कर्मचारी विवरण संपादित करें।",
+    "subscriptionRequired": "दस्तावेज़ भेजने के लिए सक्रिय सदस्यता की आवश्यकता है"
+  },
+  "common": {
+    "save": "सहेजें",
+    "cancel": "रद्द करें",
+    "back": "वापस",
+    "loading": "लोड हो रहा है...",
+    "error": "त्रुटि",
+    "success": "सफलता",
+    "confirm": "पुष्टि करें",
+    "close": "बंद करें",
+    "search": "खोजें",
+    "filter": "फ़िल्टर",
+    "sort": "क्रमबद्ध करें",
+    "page": "पृष्ठ",
+    "of": "का",
+    "actions": "क्रियाएँ",
+    "currency": "₪",
+    "required": "आवश्यक फ़ील्ड"
+  },
+  "errors": {
+    "required": "यह फ़ील्ड आवश्यक है",
+    "minLength": "मूल्य बहुत छोटा है",
+    "invalidId": "अमान्य आईडी नंबर",
+    "generic": "एक त्रुटि हुई, कृपया पुनः प्रयास करें",
+    "unauthorized": "आप इस कार्य को करने के लिए अधिकृत नहीं हैं",
+    "notFound": "आइटम नहीं मिला",
+    "sessionExpired": "सत्र समाप्त हो गया, कृपया फिर से साइन इन करें"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "उपयोगकर्ता मार्गदर्शिका",
+    "toc": "विषय सूची",
+    "companies": {
+      "title": "कंपनियों का प्रबंधन",
+      "content": "नई कंपनी जोड़ने के लिए, नेविगेशन बार में 'कंपनियाँ' लिंक पर क्लिक करें, फिर 'कंपनी जोड़ें' पर क्लिक करें। कंपनी का नाम, टैक्स आईडी, पंजीकरण संख्या, पता, शहर और पिन कोड भरें। कंपनी का विवरण आपके द्वारा बनाए गए सभी पे स्लिप में स्वचालित रूप से भर जाएगा। आप कंपनियों की सूची में क्लिक करके किसी भी समय कंपनी के विवरण को संपादित कर सकते हैं।"
+    },
+    "employees": {
+      "title": "कर्मचारियों का प्रबंधन",
+      "content": "नया कर्मचारी जोड़ने के लिए, नेविगेशन बार में 'कर्मचारी' लिंक पर क्लिक करें, फिर 'कर्मचारी जोड़ें' पर क्लिक करें। कर्मचारी का पूरा नाम, पासपोर्ट या आईडी नंबर, राष्ट्रीयता, नौकरी का शीर्षक, विभाग, रोजगार प्रारंभ तिथि, वेतन आधार और दस्तावेज़ निर्माण के लिए पसंदीदा भाषा सहित व्यक्तिगत विवरण भरें। कर्मचारी की पसंदीदा भाषा का उपयोग ईमेल द्वारा दस्तावेज़ भेजते समय डिफ़ॉल्ट के रूप में किया जाएगा।"
+    },
+    "payslip": {
+      "title": "पे स्लिप बनाना",
+      "content": "नया पे स्लिप बनाने के लिए, नेविगेशन बार या डैशबोर्ड से 'नया पे स्लिप' पर क्लिक करें। वेतन अवधि (महीना और वर्ष) चुनें, फिर कर्मचारी विवरण, कार्य दिवसों का विवरण, वेतन, कटौतियाँ और नियोक्ता का योगदान भरें। सिस्टम इज़राइली कानून के अनुसार आयकर, राष्ट्रीय बीमा और स्वास्थ्य बीमा की गणना स्वचालित रूप से करता है। 'मैन्युअल मूल्य' पर स्विच करके किसी भी गणना की गई मान को ओवरराइड किया जा सकता है।"
+    },
+    "fields": {
+      "title": "फ़ील्ड संदर्भ (कानूनी अर्थ)",
+      "content": "आयकर: आयकर अध्यादेश के तहत प्रगतिशील कर स्लैब के आधार पर काटा जाता है। राष्ट्रीय बीमा (कर्मचारी): राष्ट्रीय बीमा कानून के तहत कर्मचारी के वेतन से काटा जाता है। स्वास्थ्य बीमा: राष्ट्रीय स्वास्थ्य बीमा कोष में कर्मचारी का योगदान। पेंशन: नियोक्ता और कर्मचारी दोनों को अनिवार्य पेंशन कानून के तहत पेंशन फंड में योगदान देना होता है। सेवेरेंस फंड: सेवेरेंस भुगतान के लिए नियोक्ता का योगदान। शिक्षा फंड: स्वैच्छिक बचत योजना जिसमें नियोक्ता और कर्मचारी दोनों मासिक योगदान देते हैं। स्वास्थ्य लाभ भुगतान: स्वास्थ्य लाभ दिनों के लिए कर्मचारियों को वार्षिक हकदारी।"
+    },
+    "export": {
+      "title": "PDF में निर्यात",
+      "content": "पे स्लिप सहेजने के बाद, 'PDF बनाएं' बटन पर क्लिक करें। एक डायलॉग दिखाई देगा जहाँ आप PDF के लिए आउटपुट भाषा चुन सकते हैं। PDF आपके ब्राउज़र में पूरी तरह से बनाई जाती है और इज़राइली श्रम कानून की आवश्यकताओं के अनुसार स्वरूपित होती है। कर्मचारी को ईमेल द्वारा दस्तावेज़ सीधे भेजने के लिए 'कर्मचारी को भेजें' बटन पर क्लिक करें (सक्रिय सदस्यता की आवश्यकता है)।"
+    },
+    "subscription": {
+      "title": "सदस्यता लाभ",
+      "content": "सदस्यता पे स्लिप और अंतिम निपटान दस्तावेजों को ईमेल द्वारा सीधे कर्मचारियों को भेजने की क्षमता अनलॉक करती है। निःशुल्क खाते प्रति दिन 3 ईमेल भेजने तक सीमित हैं। सदस्यता के साथ, आपको असीमित दैनिक भेजना और सिस्टम की सभी उन्नत सुविधाओं तक पहुँच मिलती है।"
+    }
+  },
+  "languages": {
+    "he": "हिब्रू",
+    "en": "अंग्रेजी",
+    "ar": "अरबी",
+    "fil": "फ़िलिपीनो",
+    "th": "थाई",
+    "am": "अम्हारिक",
+    "hi": "हिंदी"
+  }
+}

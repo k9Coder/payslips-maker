@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 
 const isDemoMode = process.env.VITE_DEMO_MODE === 'true';
 
 export default defineConfig({
-  base: '/payslips-maker/',
+  base: process.env.NODE_ENV === 'production' ? '/payslips-maker/' : '/',
   plugins: [react()],
   resolve: {
     alias: {
@@ -16,6 +16,12 @@ export default defineConfig({
         : {}),
     },
   },
+  build: {
+    sourcemap: true,
+  },
+  esbuild: {
+    sourcesContent: true,
+  },
   server: {
     port: 5173,
     proxy: {
@@ -24,5 +30,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
+  },
+  test: {
+    environment: 'node',
+    include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
   },
 });

@@ -1,18 +1,20 @@
 import { useAuth } from '@clerk/clerk-react';
 import type { ApiResponse } from '@payslips-maker/shared';
 import { getDemoResponse } from '@/demo/demoData';
+import { useImpersonation } from '@/domains/admin/context/ImpersonationContext';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
 export function useApiClient() {
   const { getToken } = useAuth();
+  const impersonation = useImpersonation();
 
   async function request<T>(
     url: string,
     options: RequestInit = {}
   ): Promise<T> {
     if (DEMO_MODE) {
-      return getDemoResponse<T>(url, options.method ?? 'GET');
+      return getDemoResponse<T>(url, options.method ?? 'GET', impersonation?.targetUserId);
     }
 
     const token = await getToken();
@@ -22,6 +24,7 @@ export function useApiClient() {
       headers: {
         'Content-Type': 'application/json',
         ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(impersonation ? { 'X-Impersonate-User': impersonation.targetUserId } : {}),
         ...options.headers,
       },
     });
@@ -66,6 +69,17 @@ export function useApiClient() {
     });
   }
 
+  async function del<T>(url: string): Promise<T> {
+    return request<T>(url, { method: 'DELETE' });
+  }
+
+  async function patch<T>(url: string, body: unknown): Promise<T> {
+    return request<T>(url, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    });
+  }
+
   async function postSync(email: string, fullName: string): Promise<void> {
     if (DEMO_MODE) return;
     const token = await getToken();
@@ -79,5 +93,5 @@ export function useApiClient() {
     });
   }
 
-  return { get, post, put, postSync };
+  return { get, post, put, patch, del, postSync };
 }

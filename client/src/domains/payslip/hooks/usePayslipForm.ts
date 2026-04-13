@@ -14,10 +14,10 @@ const currentMonth = new Date().getMonth() + 1;
 const defaultValues: PayslipFormValues = {
   period: { month: currentMonth, year: currentYear },
   employeeInfo: {
-    fullName: '',
+    fullName: {},
     idNumber: '',
     nationality: '',
-    employerName: '',
+    employerName: {},
     employerTaxId: '',
   },
   workDetails: {
@@ -46,6 +46,11 @@ const defaultValues: PayslipFormValues = {
   employerContributions: {
     nationalInsurance: 0,
     pension: 0,
+    pensionEmployeeRate: 0,
+    pensionEmployerRate: 0,
+    severanceFund: 0,
+    educationFund: 0,
+    educationFundEmployee: 0,
   },
   netSalary: 0,
   paymentInfo: {
@@ -54,6 +59,9 @@ const defaultValues: PayslipFormValues = {
     accountNumber: '',
     branchNumber: '',
   },
+  customPayItems: [],
+  vacationAccount: null,
+  sickAccount: null,
 };
 
 export function toFormValues(form: IForm): PayslipFormValues {
@@ -63,9 +71,21 @@ export function toFormValues(form: IForm): PayslipFormValues {
     workDetails: form.workDetails,
     payCalculation: form.payCalculation,
     deductions: form.deductions,
-    employerContributions: form.employerContributions,
+    employerContributions: {
+      nationalInsurance: form.employerContributions.nationalInsurance,
+      pension: form.employerContributions.pension,
+      pensionFund: form.employerContributions.pensionFund,
+      pensionEmployeeRate: form.employerContributions.pensionEmployeeRate ?? 0,
+      pensionEmployerRate: form.employerContributions.pensionEmployerRate ?? 0,
+      severanceFund: form.employerContributions.severanceFund ?? 0,
+      educationFund: form.employerContributions.educationFund ?? 0,
+      educationFundEmployee: form.employerContributions.educationFundEmployee ?? 0,
+    },
     netSalary: form.netSalary,
     paymentInfo: form.paymentInfo,
+    customPayItems: form.customPayItems ?? [],
+    vacationAccount: form.vacationAccount ?? null,
+    sickAccount: form.sickAccount ?? null,
   };
 }
 
@@ -93,16 +113,7 @@ export function usePayslipForm(formId?: string) {
 
   useEffect(() => {
     if (!existingForm) return;
-    form.reset({
-      period: existingForm.period,
-      employeeInfo: existingForm.employeeInfo,
-      workDetails: existingForm.workDetails,
-      payCalculation: existingForm.payCalculation,
-      deductions: existingForm.deductions,
-      employerContributions: existingForm.employerContributions,
-      netSalary: existingForm.netSalary,
-      paymentInfo: existingForm.paymentInfo,
-    });
+    form.reset(toFormValues(existingForm));
   }, [existingForm]);
 
   const createMutation = useMutation({

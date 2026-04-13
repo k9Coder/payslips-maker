@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "แดชบอร์ด",
+    "newForm": "สลิปเงินเดือนใหม่",
+    "signOut": "ออกจากระบบ",
+    "admin": "ผู้ดูแลระบบ",
+    "profile": "โปรไฟล์",
+    "companies": "บริษัท",
+    "employees": "พนักงาน",
+    "manual": "คู่มือ"
+  },
+  "home": {
+    "title": "ระบบสร้างสลิปเงินเดือน",
+    "subtitle": "ระบบสำหรับสร้างสลิปเงินเดือนสำหรับพนักงานต่างชาติ",
+    "signIn": "เข้าสู่ระบบ",
+    "signUp": "สมัครสมาชิก"
+  },
+  "dashboard": {
+    "title": "สลิปเงินเดือนของฉัน",
+    "noForms": "ยังไม่มีสลิปเงินเดือน",
+    "noFormsDesc": "คลิก \"สลิปเงินเดือนใหม่\" เพื่อสร้างสลิปเงินเดือนแรกของคุณ",
+    "newForm": "สลิปเงินเดือนใหม่",
+    "lastUpdated": "อัปเดตล่าสุด",
+    "period": "ระยะเวลา",
+    "employee": "พนักงาน",
+    "gross": "รายได้รวม",
+    "net": "รายได้สุทธิ",
+    "view": "ดู",
+    "edit": "แก้ไข"
+  },
+  "payslip": {
+    "title": "สลิปเงินเดือน",
+    "newTitle": "สร้างสลิปเงินเดือนใหม่",
+    "editTitle": "แก้ไขสลิปเงินเดือน",
+    "save": "บันทึก",
+    "duplicate": "ทำซ้ำ",
+    "unsavedChanges": {
+      "title": "ออกโดยไม่บันทึก?",
+      "message": "มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก หากออกตอนนี้ การเปลี่ยนแปลงจะหายไป",
+      "stay": "อยู่ต่อ",
+      "leave": "ออกโดยไม่บันทึก"
+    },
+    "generatePdf": "สร้าง PDF",
+    "downloadPdf": "ดาวน์โหลด PDF",
+    "saving": "กำลังบันทึก...",
+    "saved": "บันทึกสำเร็จ",
+    "sections": {
+      "period": "ระยะเวลาการจ่ายเงินเดือน",
+      "employee": "ข้อมูลพนักงาน",
+      "employer": "ข้อมูลนายจ้าง",
+      "workDetails": "รายละเอียดวันทำงาน",
+      "pay": "การคำนวณเงินเดือน",
+      "deductions": "การหักเงิน",
+      "employerContributions": "เงินสมทบของนายจ้าง",
+      "paymentInfo": "รายละเอียดการชำระเงิน",
+      "summary": "สรุป",
+      "customPayItems": "รายการจ่ายเพิ่มเติม",
+      "vacationSickAccount": "บัญชีวันหยุดและวันลาป่วย"
+    },
+    "period": {
+      "month": "เดือน",
+      "year": "ปี",
+      "months": {
+        "1": "มกราคม",
+        "2": "กุมภาพันธ์",
+        "3": "มีนาคม",
+        "4": "เมษายน",
+        "5": "พฤษภาคม",
+        "6": "มิถุนายน",
+        "7": "กรกฎาคม",
+        "8": "สิงหาคม",
+        "9": "กันยายน",
+        "10": "ตุลาคม",
+        "11": "พฤศจิกายน",
+        "12": "ธันวาคม"
+      }
+    },
+    "employee": {
+      "fullName": "ชื่อ-นามสกุล",
+      "idNumber": "เลขประจำตัว / หมายเลขหนังสือเดินทาง",
+      "nationality": "สัญชาติ",
+      "employerName": "ชื่อนายจ้าง / บริษัท",
+      "employerTaxId": "เลขประจำตัวผู้เสียภาษีนายจ้าง",
+      "taxFileNumber": "หมายเลขแฟ้มภาษี",
+      "employerRegistrationNumber": "หมายเลขทะเบียนนายจ้าง",
+      "employerAddress": "ที่อยู่นายจ้าง",
+      "employerCity": "เมืองนายจ้าง",
+      "employerZip": "รหัสไปรษณีย์นายจ้าง",
+      "employerDetails": "รายละเอียดเพิ่มเติมของนายจ้าง",
+      "employeeNumber": "หมายเลขพนักงาน",
+      "jobTitle": "รหัสตำแหน่งงาน",
+      "department": "แผนก",
+      "familyStatus": "สถานภาพครอบครัว",
+      "grade": "ระดับ",
+      "employmentStartDate": "วันที่เริ่มงาน",
+      "taxCalcType": "วิธีคำนวณภาษี",
+      "nationalInsuranceType": "ประเภทประกันสังคม",
+      "salaryBasis": "ฐานเงินเดือน",
+      "salaryBasisMonthly": "รายเดือน",
+      "salaryBasisDaily": "รายวัน",
+      "salaryBasisHourly": "รายชั่วโมง",
+      "jobFraction": "สัดส่วนงาน",
+      "employeeAddress": "ที่อยู่พนักงาน",
+      "employeeCity": "เมืองพนักงาน",
+      "employeeZip": "รหัสไปรษณีย์พนักงาน",
+      "employeeDetails": "รายละเอียดเพิ่มเติมของพนักงาน"
+    },
+    "workDetails": {
+      "standardDays": "วันทำงานมาตรฐานต่อเดือน",
+      "workedDays": "วันทำงานจริง",
+      "vacationDays": "วันหยุดพักผ่อน",
+      "sickDays": "วันลาป่วย",
+      "holidayDays": "วันหยุดนักขัตฤกษ์",
+      "overtime100h": "ทำงานล่วงเวลา (100%)",
+      "overtime125h": "ทำงานล่วงเวลา (125%)",
+      "overtime150h": "ทำงานล่วงเวลา (150%)"
+    },
+    "pay": {
+      "dailyRate": "อัตรารายวัน (₪)",
+      "baseSalary": "เงินเดือนพื้นฐาน",
+      "overtimePay": "ค่าล่วงเวลา",
+      "vacationPay": "ค่าวันหยุด",
+      "grossSalary": "เงินเดือนรวม",
+      "calculated": "คำนวณอัตโนมัติ",
+      "override": "ค่าที่กำหนดเอง"
+    },
+    "deductions": {
+      "title": "การหักเงิน",
+      "incomeTax": "ภาษีเงินได้",
+      "nationalInsurance": "ประกันสังคม (พนักงาน)",
+      "healthInsurance": "ประกันสุขภาพ",
+      "otherDeductions": "การหักเงินอื่นๆ",
+      "total": "รวมการหักเงิน",
+      "overrideHint": "คุณสามารถเปลี่ยนจำนวนที่คำนวณได้"
+    },
+    "employerContributions": {
+      "nationalInsurance": "ประกันสังคม (นายจ้าง)",
+      "pension": "กองทุนเกษียณอายุ",
+      "pensionFund": "กองทุนบำนาญ",
+      "pensionEmployeeRate": "อัตราบำนาญพนักงาน (%)",
+      "pensionEmployerRate": "อัตราบำนาญนายจ้าง (%)",
+      "severanceFund": "กองทุนชดเชย (₪)",
+      "educationFund": "กองทุนการศึกษา - นายจ้าง (₪)",
+      "educationFundEmployee": "กองทุนการศึกษา - พนักงาน (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "วิธีการชำระเงิน",
+      "bankName": "ชื่อธนาคาร",
+      "accountNumber": "หมายเลขบัญชี",
+      "branchNumber": "หมายเลขสาขา",
+      "paymentMethods": {
+        "bank": "โอนเงินผ่านธนาคาร",
+        "cash": "เงินสด",
+        "check": "เช็ค"
+      }
+    },
+    "summary": {
+      "grossSalary": "เงินเดือนรวม",
+      "totalDeductions": "รวมการหักเงิน",
+      "netSalary": "เงินเดือนสุทธิที่ต้องจ่าย",
+      "employerSignature": "ลายเซ็นนายจ้าง"
+    },
+    "customPayItems": {
+      "code": "รหัส",
+      "description": "คำอธิบาย",
+      "quantity": "จำนวน",
+      "rate": "อัตรา",
+      "amount": "จำนวนเงิน",
+      "taxPercent": "อัตราภาษี (%)",
+      "add": "เพิ่มรายการจ่าย",
+      "empty": "ไม่มีรายการจ่ายเพิ่มเติม"
+    },
+    "vacationAccount": {
+      "title": "บัญชีวันหยุด",
+      "previousBalance": "ยอดยกมา",
+      "accrued": "สะสม",
+      "used": "ใช้ไป",
+      "remaining": "ยอดคงเหลือปลายงวด"
+    },
+    "sickAccount": {
+      "title": "บัญชีวันลาป่วย",
+      "previousBalance": "ยอดยกมา",
+      "accrued": "สะสม",
+      "used": "ใช้ไป",
+      "remaining": "ยอดคงเหลือปลายงวด"
+    }
+  },
+  "profile": {
+    "title": "โปรไฟล์ของฉัน",
+    "fullName": "ชื่อ-นามสกุล",
+    "phone": "หมายเลขโทรศัพท์",
+    "employerName": "ชื่อนายจ้าง",
+    "employerTaxId": "เลขประจำตัวผู้เสียภาษีนายจ้าง",
+    "save": "บันทึกการเปลี่ยนแปลง"
+  },
+  "admin": {
+    "title": "การดูแลระบบ",
+    "users": {
+      "title": "ผู้ใช้",
+      "fullName": "ชื่อ-นามสกุล",
+      "email": "อีเมล",
+      "phone": "โทรศัพท์",
+      "formCount": "จำนวนสลิปเงินเดือน",
+      "joinedAt": "วันที่เข้าร่วม",
+      "viewForms": "ดูสลิปเงินเดือน",
+      "noUsers": "ไม่มีผู้ใช้"
+    },
+    "forms": {
+      "title": "สลิปเงินเดือนทั้งหมด",
+      "employee": "พนักงาน",
+      "user": "ผู้ใช้",
+      "period": "ระยะเวลา",
+      "gross": "รายได้รวม",
+      "net": "รายได้สุทธิ",
+      "createdAt": "วันที่สร้าง",
+      "updatedAt": "วันที่อัปเดต",
+      "filterByUser": "กรองตามผู้ใช้",
+      "filterByPeriod": "กรองตามระยะเวลา",
+      "sortBy": "เรียงตาม",
+      "groupByPeriod": "จัดกลุ่มตามระยะเวลา",
+      "allUsers": "ผู้ใช้ทั้งหมด",
+      "noForms": "ไม่มีสลิปเงินเดือน",
+      "quickView": "ดูอย่างรวดเร็ว"
+    }
+  },
+  "finalSettlement": {
+    "title": "การชำระบัญชีครั้งสุดท้าย",
+    "sections": {
+      "employmentPeriod": "ระยะเวลาการจ้างงาน",
+      "lastSalary": "เงินเดือนสุดท้าย",
+      "severance": "เงินชดเชย",
+      "vacation": "วันหยุดพักผ่อน",
+      "recuperation": "ค่าพักฟื้น",
+      "notice": "ระยะเวลาบอกกล่าว",
+      "extras": "เงินเพิ่มเติม",
+      "deductions": "การหักเงิน",
+      "total": "สรุป"
+    },
+    "fields": {
+      "employmentStartDate": "วันที่เริ่มงาน",
+      "employmentEndDate": "วันที่สิ้นสุดงาน",
+      "terminationReason": "เหตุผลในการสิ้นสุดงาน",
+      "dismissal": "การเลิกจ้าง",
+      "resignation": "การลาออก",
+      "mutual": "การตกลงร่วมกัน",
+      "lastMonthlySalary": "เงินเดือนรายเดือนสุดท้าย",
+      "severancePay": "เงินชดเชย",
+      "severanceEligible": "มีสิทธิ์ได้รับเงินชดเชย",
+      "vacationDaysAccrued": "วันหยุดที่สะสม",
+      "vacationDaysUsed": "วันหยุดที่ใช้ไป",
+      "unusedVacationDays": "วันหยุดที่เหลือ",
+      "vacationPayout": "ค่าวันหยุด",
+      "recuperationDaysEntitled": "วันพักฟื้นที่มีสิทธิ์",
+      "recuperationDaysAlreadyPaid": "วันพักฟื้นที่จ่ายแล้ว",
+      "recuperationPayout": "ค่าพักฟื้น",
+      "noticePeriodDays": "วันในระยะเวลาบอกกล่าว",
+      "noticeActuallyGiven": "มีการบอกกล่าวจริง",
+      "noticePeriodPay": "ค่าระยะเวลาบอกกล่าว",
+      "unpaidWages": "ค่าจ้างที่ค้างชำระ",
+      "otherAdditions": "รายการเพิ่มเติมอื่นๆ",
+      "totalGross": "รวมรายได้รวม",
+      "netTotal": "รวมรายได้สุทธิที่ต้องจ่าย"
+    }
+  },
+  "email": {
+    "sendButton": "ส่งให้พนักงาน",
+    "dialogTitle": "ส่งเอกสารให้พนักงาน",
+    "defaultRecipient": "ส่งถึง",
+    "language": "ภาษาของเอกสาร",
+    "remaining": "เหลือ {{count}} ครั้งในวันนี้",
+    "limitReached": "คุณถึงขีดจำกัดการส่งรายวันแล้ว (3)",
+    "success": "ส่งเอกสารสำเร็จ",
+    "noEmail": "พนักงานไม่มีที่อยู่อีเมล แก้ไขข้อมูลพนักงานเพื่อเพิ่มอีเมล",
+    "subscriptionRequired": "การส่งเอกสารต้องมีการสมัครสมาชิกที่ใช้งานอยู่"
+  },
+  "common": {
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "back": "กลับ",
+    "loading": "กำลังโหลด...",
+    "error": "ข้อผิดพลาด",
+    "success": "สำเร็จ",
+    "confirm": "ยืนยัน",
+    "close": "ปิด",
+    "search": "ค้นหา",
+    "filter": "กรอง",
+    "sort": "เรียง",
+    "page": "หน้า",
+    "of": "จาก",
+    "actions": "การกระทำ",
+    "currency": "₪",
+    "required": "ช่องที่จำเป็น"
+  },
+  "errors": {
+    "required": "ช่องนี้จำเป็น",
+    "minLength": "ค่าสั้นเกินไป",
+    "invalidId": "หมายเลข ID ไม่ถูกต้อง",
+    "generic": "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+    "unauthorized": "คุณไม่ได้รับอนุญาตให้ดำเนินการนี้",
+    "notFound": "ไม่พบรายการ",
+    "sessionExpired": "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "คู่มือผู้ใช้",
+    "toc": "สารบัญ",
+    "companies": {
+      "title": "การจัดการบริษัท",
+      "content": "เพื่อเพิ่มบริษัทใหม่ ให้คลิกลิงก์ 'บริษัท' ในแถบนำทาง จากนั้นคลิก 'เพิ่มบริษัท' กรอกชื่อบริษัท Tax ID หมายเลขทะเบียน ที่อยู่ เมือง และรหัสไปรษณีย์ ข้อมูลบริษัทจะถูกกรอกอัตโนมัติในสลิปเงินเดือนทั้งหมดที่คุณสร้าง คุณสามารถแก้ไขข้อมูลบริษัทได้ตลอดเวลาโดยคลิกในรายการบริษัท"
+    },
+    "employees": {
+      "title": "การจัดการพนักงาน",
+      "content": "เพื่อเพิ่มพนักงานใหม่ ให้คลิกลิงก์ 'พนักงาน' ในแถบนำทาง จากนั้นคลิก 'เพิ่มพนักงาน' กรอกข้อมูลส่วนตัวของพนักงาน รวมถึงชื่อ-นามสกุล หมายเลขหนังสือเดินทางหรือ ID สัญชาติ ตำแหน่งงาน แผนก วันที่เริ่มงาน ฐานเงินเดือน และภาษาที่ต้องการสำหรับการสร้างเอกสาร ภาษาที่ต้องการของพนักงานจะถูกใช้เป็นค่าเริ่มต้นเมื่อส่งเอกสารให้ทางอีเมล"
+    },
+    "payslip": {
+      "title": "การสร้างสลิปเงินเดือน",
+      "content": "เพื่อสร้างสลิปเงินเดือนใหม่ ให้คลิก 'สลิปเงินเดือนใหม่' ในแถบนำทางหรือจากแดชบอร์ด เลือกระยะเวลาการจ่ายเงินเดือน (เดือนและปี) จากนั้นกรอกข้อมูลพนักงาน รายละเอียดวันทำงาน เงินเดือน การหักเงิน และเงินสมทบของนายจ้าง ระบบจะคำนวณภาษีเงินได้ ประกันสังคม และประกันสุขภาพโดยอัตโนมัติตามกฎหมายอิสราเอล คุณสามารถแทนที่ค่าที่คำนวณใดๆ โดยเปลี่ยนเป็น 'ค่าที่กำหนดเอง' คลิก 'บันทึก' ได้ตลอดเวลา"
+    },
+    "fields": {
+      "title": "คู่มืออ้างอิงฟิลด์ (ความหมายทางกฎหมาย)",
+      "content": "ภาษีเงินได้: หักตามอัตราภาษีแบบก้าวหน้าตาม Income Tax Ordinance ประกันสังคม (พนักงาน): หักจากเงินเดือนพนักงานตาม National Insurance Law ประกันสุขภาพ: เงินสมทบของพนักงานในกองทุนประกันสุขภาพแห่งชาติ กองทุนเกษียณอายุ: ทั้งนายจ้างและพนักงานต้องสมทบในกองทุนบำนาญตาม Mandatory Pension Law กองทุนชดเชย: เงินสมทบของนายจ้างสำหรับสิทธิ์เงินชดเชย กองทุนการศึกษา: โครงการออมทรัพย์โดยสมัครใจที่ทั้งนายจ้างและพนักงานสมทบทุกเดือน ค่าพักฟื้น: สิทธิ์รายปีที่จ่ายให้พนักงานสำหรับวันพักฟื้น"
+    },
+    "export": {
+      "title": "การส่งออกเป็น PDF",
+      "content": "เมื่อบันทึกสลิปเงินเดือนแล้ว ให้คลิกปุ่ม 'สร้าง PDF' กล่องโต้ตอบจะปรากฏขึ้นเพื่อให้คุณเลือกภาษาสำหรับ PDF ไฟล์ PDF ถูกสร้างทั้งหมดในเบราว์เซอร์ของคุณและจัดรูปแบบตามข้อกำหนดของกฎหมายแรงงานอิสราเอล หากต้องการส่งเอกสารโดยตรงให้พนักงานทางอีเมล ให้คลิกปุ่ม 'ส่งให้พนักงาน' (ต้องมีการสมัครสมาชิกที่ใช้งานอยู่)"
+    },
+    "subscription": {
+      "title": "สิทธิประโยชน์การสมัครสมาชิก",
+      "content": "การสมัครสมาชิกช่วยให้คุณส่งสลิปเงินเดือนและเอกสารการชำระบัญชีครั้งสุดท้ายโดยตรงให้พนักงานทางอีเมล บัญชีฟรีจำกัดที่ 3 การส่งต่อวัน ด้วยการสมัครสมาชิก คุณจะได้รับการส่งรายวันไม่จำกัดและเข้าถึงฟีเจอร์ขั้นสูงทั้งหมดของระบบ"
+    }
+  },
+  "languages": {
+    "he": "ฮีบรู",
+    "en": "อังกฤษ",
+    "ar": "อาหรับ",
+    "fil": "ฟิลิปปินส์",
+    "th": "ไทย",
+    "am": "อัมฮาริก",
+    "hi": "ฮินดี"
+  }
+}

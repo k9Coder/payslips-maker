@@ -1,14 +1,16 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Layout } from '@/shared/components/Layout';
 import { ProtectedRoute } from '@/domains/auth/components/ProtectedRoute';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { ErrorBoundary } from '@/shared/components/ErrorBoundary';
 import { useUserSync } from '@/hooks/useUserSync';
+import { ImpersonationProvider } from '@/domains/admin/context/ImpersonationContext';
 
 import { HomePage } from '@/pages/HomePage';
 import { SignInPage } from '@/pages/SignInPage';
 import { SignUpPage } from '@/pages/SignUpPage';
+import { ManualPage } from '@/pages/ManualPage';
 
 // Lazy load heavier pages
 const DashboardPage = lazy(() =>
@@ -35,6 +37,26 @@ const AdminUserDetailPage = lazy(() =>
 const AdminFormsPage = lazy(() =>
   import('@/pages/admin/AdminFormsPage').then((m) => ({ default: m.AdminFormsPage }))
 );
+const EmployeesPage = lazy(() =>
+  import('@/domains/employees/components/EmployeesPage').then((m) => ({ default: m.EmployeesPage }))
+);
+const EmployeeFormPage = lazy(() =>
+  import('@/domains/employees/components/EmployeeFormPage').then((m) => ({ default: m.EmployeeFormPage }))
+);
+const CompaniesPage = lazy(() =>
+  import('@/domains/companies/components/CompaniesPage').then((m) => ({ default: m.CompaniesPage }))
+);
+const CompanyFormPage = lazy(() =>
+  import('@/domains/companies/components/CompanyFormPage').then((m) => ({ default: m.CompanyFormPage }))
+);
+
+function ImpersonationLayout() {
+  return (
+    <ImpersonationProvider>
+      <Outlet />
+    </ImpersonationProvider>
+  );
+}
 
 function AppRoutes() {
   useUserSync();
@@ -45,6 +67,7 @@ function AppRoutes() {
         <Route index element={<HomePage />} />
         <Route path="sign-in/*" element={<SignInPage />} />
         <Route path="sign-up/*" element={<SignUpPage />} />
+        <Route path="manual" element={<ManualPage />} />
 
         {/* Protected user routes */}
         <Route element={<ProtectedRoute />}>
@@ -77,6 +100,54 @@ function AppRoutes() {
             element={
               <Suspense fallback={<PageLoading />}>
                 <ProfilePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="companies"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <CompaniesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="companies/new"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <CompanyFormPage mode="create" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="companies/:id/edit"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <CompanyFormPage mode="edit" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeesPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees/new"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeFormPage mode="create" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees/:id/edit"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeFormPage mode="edit" />
               </Suspense>
             }
           />
@@ -116,6 +187,82 @@ function AppRoutes() {
               </Suspense>
             }
           />
+
+          {/* Impersonation routes — admin managing another user's data */}
+          <Route path=":userId" element={<ImpersonationLayout />}>
+            <Route
+              path="companies"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <CompaniesPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="companies/new"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <CompanyFormPage mode="create" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="companies/:id/edit"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <CompanyFormPage mode="edit" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="employees"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <EmployeesPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="employees/new"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <EmployeeFormPage mode="create" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="employees/:id/edit"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <EmployeeFormPage mode="edit" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="forms/new"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <NewFormPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="forms/:id"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <FormDetailPage />
+                </Suspense>
+              }
+            />
+            <Route
+              path="dashboard"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <DashboardPage />
+                </Suspense>
+              }
+            />
+          </Route>
         </Route>
       </Route>
     </Routes>

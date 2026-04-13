@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { useQueryClient } from '@tanstack/react-query';
+import LogRocket from 'logrocket';
 import { useApiClient } from '@/lib/useApiClient';
 
 /**
@@ -24,6 +25,7 @@ export function useUserSync() {
         const fullName = user.fullName ?? email;
         await postSync(email, fullName);
         synced.current = true;
+        LogRocket.identify(user.id, { name: fullName, email });
         // Invalidate currentUser query so it refetches with the new DB entry
         queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       } catch {

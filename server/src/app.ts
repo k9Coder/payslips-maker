@@ -1,13 +1,23 @@
 import './infrastructure/env'; // validate env first
-import express, { Request, Response, NextFunction } from 'express';
+import express, { Request, Response } from 'express';
 import cors from 'cors';
 import { env } from './infrastructure/env';
 import { connectDB } from './infrastructure/database/mongodb';
 import { logger } from './infrastructure/logger/logger';
+import './domains/employees/employee.model';
+import './domains/companies/company.model';
 import { clerkWebhookRouter } from './webhooks/clerk.webhook';
 import { userRouter } from './domains/users/user.router';
 import { formRouter } from './domains/forms/form.router';
 import { adminRouter } from './domains/admin/admin.router';
+import { employeeRouter } from './domains/employees/employee.router';
+import { companyRouter } from './domains/companies/company.router';
+import { internalMiddleware } from './middleware/internal.middleware';
+import { userInternalRouter } from './domains/users/user.internal.router';
+import { employeeInternalRouter } from './domains/employees/employee.internal.router';
+import { formInternalRouter } from './domains/forms/form.internal.router';
+import { requestLoggerMiddleware } from './middleware/requestLogger.middleware';
+import { errorMiddleware } from './middleware/error.middleware';
 
 const app = express();
 
@@ -26,6 +36,9 @@ app.use(
   })
 );
 
+// Request lifecycle logging
+app.use(requestLoggerMiddleware);
+
 // Health check
 app.get('/health', (_req: Request, res: Response) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -35,6 +48,13 @@ app.get('/health', (_req: Request, res: Response) => {
 app.use('/api/users', userRouter);
 app.use('/api/forms', formRouter);
 app.use('/api/admin', adminRouter);
+app.use('/api/employees', employeeRouter);
+app.use('/api/companies', companyRouter);
+
+// Internal M2M routes (service-to-service only)
+app.use('/api/internal/users', internalMiddleware, userInternalRouter);
+app.use('/api/internal/employees', internalMiddleware, employeeInternalRouter);
+app.use('/api/internal/forms', internalMiddleware, formInternalRouter);
 
 // 404 handler
 app.use((_req: Request, res: Response) => {
@@ -42,10 +62,7 @@ app.use((_req: Request, res: Response) => {
 });
 
 // Global error handler
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  logger.error('Unhandled error', { error: err.message, stack: err.stack });
-  res.status(500).json({ success: false, error: 'Internal server error' });
-});
+app.use(errorMiddleware);
 
 async function start(): Promise<void> {
   await connectDB();

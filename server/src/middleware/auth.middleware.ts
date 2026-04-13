@@ -37,6 +37,22 @@ export async function authMiddleware(
     req.clerkId = clerkId;
     req.userId = user._id.toString();
     req.isAdmin = user.isAdmin;
+    req.hasSubscription = user.hasSubscription;
+    req.companyIds = user.companyIds.map((id) => id.toString());
+
+    const impersonateId = req.headers['x-impersonate-user'] as string | undefined;
+    if (impersonateId && user.isAdmin) {
+      const target = await User.findById(impersonateId);
+      if (!target) {
+        res.status(404).json({ success: false, error: 'Impersonation target not found' });
+        return;
+      }
+      req.userId = target._id.toString();
+      req.companyIds = target.companyIds.map((id) => id.toString());
+      req.hasSubscription = target.hasSubscription;
+      req.impersonating = true;
+      req.impersonatedUserId = target._id.toString();
+    }
 
     next();
   } catch (error) {

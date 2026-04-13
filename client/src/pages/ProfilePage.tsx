@@ -15,8 +15,6 @@ import type { ApiResponse, IUser } from '@payslips-maker/shared';
 const profileSchema = z.object({
   fullName: z.string().min(2, 'שם מלא חייב להכיל לפחות 2 תווים'),
   phone: z.string().optional(),
-  employerName: z.string().optional(),
-  employerTaxId: z.string().optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -37,8 +35,6 @@ export function ProfilePage() {
       ? {
           fullName: currentUser.fullName,
           phone: currentUser.phone ?? '',
-          employerName: currentUser.employerName ?? '',
-          employerTaxId: currentUser.employerTaxId ?? '',
         }
       : undefined,
   });
@@ -79,16 +75,6 @@ export function ProfilePage() {
             <div className="flex flex-col gap-2">
               <Label htmlFor="phone">{t('profile.phone')}</Label>
               <Input id="phone" type="tel" {...register('phone')} />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="employerName">{t('profile.employerName')}</Label>
-              <Input id="employerName" {...register('employerName')} />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <Label htmlFor="employerTaxId">{t('profile.employerTaxId')}</Label>
-              <Input id="employerTaxId" {...register('employerTaxId')} />
             </div>
 
             <Button type="submit" size="lg" disabled={mutation.isPending} className="w-full">

@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "newForm": "Bagong Payslip",
+    "signOut": "Mag-sign Out",
+    "admin": "Admin",
+    "profile": "Profile",
+    "companies": "Mga Kumpanya",
+    "employees": "Mga Empleyado",
+    "manual": "Gabay"
+  },
+  "home": {
+    "title": "Payslip Creator",
+    "subtitle": "Sistema para sa paggawa ng mga payslip para sa mga dayuhang empleyado",
+    "signIn": "Mag-sign In",
+    "signUp": "Mag-sign Up"
+  },
+  "dashboard": {
+    "title": "Aking mga Payslip",
+    "noForms": "Wala pang mga payslip",
+    "noFormsDesc": "I-click ang \"Bagong Payslip\" upang lumikha ng iyong unang payslip",
+    "newForm": "Bagong Payslip",
+    "lastUpdated": "Huling na-update",
+    "period": "Panahon",
+    "employee": "Empleyado",
+    "gross": "Gross",
+    "net": "Net",
+    "view": "Tingnan",
+    "edit": "I-edit"
+  },
+  "payslip": {
+    "title": "Payslip",
+    "newTitle": "Lumikha ng Bagong Payslip",
+    "editTitle": "I-edit ang Payslip",
+    "save": "I-save",
+    "duplicate": "Kopyahin",
+    "unsavedChanges": {
+      "title": "Umalis nang hindi sine-save?",
+      "message": "Mayroon mga hindi pa nai-save na pagbabago. Kung aalis ka ngayon, mawawala ang mga pagbabago.",
+      "stay": "Manatili",
+      "leave": "Umalis nang hindi sine-save"
+    },
+    "generatePdf": "Gumawa ng PDF",
+    "downloadPdf": "I-download ang PDF",
+    "saving": "Sine-save...",
+    "saved": "Matagumpay na na-save",
+    "sections": {
+      "period": "Panahon ng Sahod",
+      "employee": "Detalye ng Empleyado",
+      "employer": "Detalye ng Employer",
+      "workDetails": "Breakdown ng Araw ng Trabaho",
+      "pay": "Kalkulasyon ng Sahod",
+      "deductions": "Mga Bawas",
+      "employerContributions": "Kontribusyon ng Employer",
+      "paymentInfo": "Detalye ng Pagbabayad",
+      "summary": "Buod",
+      "customPayItems": "Karagdagang Bayad",
+      "vacationSickAccount": "Account ng Bakasyon at Sakit"
+    },
+    "period": {
+      "month": "Buwan",
+      "year": "Taon",
+      "months": {
+        "1": "Enero",
+        "2": "Pebrero",
+        "3": "Marso",
+        "4": "Abril",
+        "5": "Mayo",
+        "6": "Hunyo",
+        "7": "Hulyo",
+        "8": "Agosto",
+        "9": "Setyembre",
+        "10": "Oktubre",
+        "11": "Nobyembre",
+        "12": "Disyembre"
+      }
+    },
+    "employee": {
+      "fullName": "Buong Pangalan",
+      "idNumber": "ID / Numero ng Pasaporte",
+      "nationality": "Nasyonalidad",
+      "employerName": "Pangalan ng Employer / Kumpanya",
+      "employerTaxId": "Tax ID ng Employer",
+      "taxFileNumber": "Numero ng Tax File",
+      "employerRegistrationNumber": "Numero ng Pagpaparehistro ng Employer",
+      "employerAddress": "Address ng Employer",
+      "employerCity": "Lungsod ng Employer",
+      "employerZip": "Zip Code ng Employer",
+      "employerDetails": "Karagdagang Detalye ng Employer",
+      "employeeNumber": "Numero ng Empleyado",
+      "jobTitle": "Kodigo ng Trabaho",
+      "department": "Departamento",
+      "familyStatus": "Katayuan ng Pamilya",
+      "grade": "Antas",
+      "employmentStartDate": "Petsa ng Simula ng Trabaho",
+      "taxCalcType": "Paraan ng Kalkulasyon ng Buwis",
+      "nationalInsuranceType": "Uri ng Pambansang Seguro",
+      "salaryBasis": "Batayan ng Sahod",
+      "salaryBasisMonthly": "Buwanan",
+      "salaryBasisDaily": "Araw-araw",
+      "salaryBasisHourly": "Bawat Oras",
+      "jobFraction": "Bahagi ng Trabaho",
+      "employeeAddress": "Address ng Empleyado",
+      "employeeCity": "Lungsod ng Empleyado",
+      "employeeZip": "Zip Code ng Empleyado",
+      "employeeDetails": "Karagdagang Detalye ng Empleyado"
+    },
+    "workDetails": {
+      "standardDays": "Pamantayang Araw ng Trabaho sa Buwan",
+      "workedDays": "Aktwal na Araw ng Trabaho",
+      "vacationDays": "Araw ng Bakasyon",
+      "sickDays": "Araw ng Sakit",
+      "holidayDays": "Araw ng Pista",
+      "overtime100h": "Overtime (100%)",
+      "overtime125h": "Overtime (125%)",
+      "overtime150h": "Overtime (150%)"
+    },
+    "pay": {
+      "dailyRate": "Araw-araw na Rate (₪)",
+      "baseSalary": "Base na Sahod",
+      "overtimePay": "Bayad sa Overtime",
+      "vacationPay": "Bayad sa Bakasyon",
+      "grossSalary": "Gross na Sahod",
+      "calculated": "Awtomatikong kinalkula",
+      "override": "Manu-manong halaga"
+    },
+    "deductions": {
+      "title": "Mga Bawas",
+      "incomeTax": "Buwis sa Kita",
+      "nationalInsurance": "Pambansang Seguro (Empleyado)",
+      "healthInsurance": "Segurong Pangkalusugan",
+      "otherDeductions": "Iba pang Bawas",
+      "total": "Kabuuang Bawas",
+      "overrideHint": "Maaari mong baguhin ang kinalkulang halaga"
+    },
+    "employerContributions": {
+      "nationalInsurance": "Pambansang Seguro (Employer)",
+      "pension": "Pensyon",
+      "pensionFund": "Pondo ng Pensyon",
+      "pensionEmployeeRate": "Rate ng Pensyon ng Empleyado (%)",
+      "pensionEmployerRate": "Rate ng Pensyon ng Employer (%)",
+      "severanceFund": "Pondo ng Severance (₪)",
+      "educationFund": "Pondo ng Edukasyon - Employer (₪)",
+      "educationFundEmployee": "Pondo ng Edukasyon - Empleyado (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "Paraan ng Pagbabayad",
+      "bankName": "Pangalan ng Bangko",
+      "accountNumber": "Numero ng Account",
+      "branchNumber": "Numero ng Sangay",
+      "paymentMethods": {
+        "bank": "Bank Transfer",
+        "cash": "Cash",
+        "check": "Tseke"
+      }
+    },
+    "summary": {
+      "grossSalary": "Gross na Sahod",
+      "totalDeductions": "Kabuuang Bawas",
+      "netSalary": "Net na Sahod na Babayaran",
+      "employerSignature": "Lagda ng Employer"
+    },
+    "customPayItems": {
+      "code": "Kodigo",
+      "description": "Paglalarawan",
+      "quantity": "Dami",
+      "rate": "Rate",
+      "amount": "Halaga",
+      "taxPercent": "Rate ng Buwis (%)",
+      "add": "Magdagdag ng Bayad",
+      "empty": "Walang karagdagang bayad"
+    },
+    "vacationAccount": {
+      "title": "Account ng Bakasyon",
+      "previousBalance": "Nakaraang Balanse",
+      "accrued": "Naipon",
+      "used": "Nagamit",
+      "remaining": "Balanse sa Katapusan ng Panahon"
+    },
+    "sickAccount": {
+      "title": "Account ng Sakit",
+      "previousBalance": "Nakaraang Balanse",
+      "accrued": "Naipon",
+      "used": "Nagamit",
+      "remaining": "Balanse sa Katapusan ng Panahon"
+    }
+  },
+  "profile": {
+    "title": "Aking Profile",
+    "fullName": "Buong Pangalan",
+    "phone": "Numero ng Telepono",
+    "employerName": "Pangalan ng Employer",
+    "employerTaxId": "Tax ID ng Employer",
+    "save": "I-save ang mga Pagbabago"
+  },
+  "admin": {
+    "title": "Administrasyon",
+    "users": {
+      "title": "Mga Gumagamit",
+      "fullName": "Buong Pangalan",
+      "email": "Email",
+      "phone": "Telepono",
+      "formCount": "Bilang ng Payslip",
+      "joinedAt": "Petsa ng Pagsali",
+      "viewForms": "Tingnan ang mga Payslip",
+      "noUsers": "Walang mga gumagamit"
+    },
+    "forms": {
+      "title": "Lahat ng Payslip",
+      "employee": "Empleyado",
+      "user": "Gumagamit",
+      "period": "Panahon",
+      "gross": "Gross",
+      "net": "Net",
+      "createdAt": "Petsa ng Paglikha",
+      "updatedAt": "Petsa ng Pag-update",
+      "filterByUser": "I-filter ayon sa Gumagamit",
+      "filterByPeriod": "I-filter ayon sa Panahon",
+      "sortBy": "Ayusin Ayon sa",
+      "groupByPeriod": "Pagsamahin ayon sa Panahon",
+      "allUsers": "Lahat ng Gumagamit",
+      "noForms": "Walang mga payslip",
+      "quickView": "Mabilis na Pagtingin"
+    }
+  },
+  "finalSettlement": {
+    "title": "Final Settlement",
+    "sections": {
+      "employmentPeriod": "Panahon ng Trabaho",
+      "lastSalary": "Huling Sahod",
+      "severance": "Bayad sa Severance",
+      "vacation": "Araw ng Bakasyon",
+      "recuperation": "Bayad sa Pagpapagaling",
+      "notice": "Panahon ng Abiso",
+      "extras": "Karagdagang Allowance",
+      "deductions": "Mga Bawas",
+      "total": "Buod"
+    },
+    "fields": {
+      "employmentStartDate": "Petsa ng Simula ng Trabaho",
+      "employmentEndDate": "Petsa ng Pagtatapos ng Trabaho",
+      "terminationReason": "Dahilan ng Pagwawakas",
+      "dismissal": "Dismissal",
+      "resignation": "Resignation",
+      "mutual": "Mutual na Kasunduan",
+      "lastMonthlySalary": "Huling Buwanang Sahod",
+      "severancePay": "Bayad sa Severance",
+      "severanceEligible": "Karapat-dapat sa Severance",
+      "vacationDaysAccrued": "Naipon na Araw ng Bakasyon",
+      "vacationDaysUsed": "Nagamit na Araw ng Bakasyon",
+      "unusedVacationDays": "Hindi Nagamit na Araw ng Bakasyon",
+      "vacationPayout": "Bayad sa Bakasyon",
+      "recuperationDaysEntitled": "Karapatang Araw ng Pagpapagaling",
+      "recuperationDaysAlreadyPaid": "Bayad na Araw ng Pagpapagaling",
+      "recuperationPayout": "Bayad sa Pagpapagaling",
+      "noticePeriodDays": "Araw ng Panahon ng Abiso",
+      "noticeActuallyGiven": "Aktwal na Ibinigay na Abiso",
+      "noticePeriodPay": "Bayad sa Panahon ng Abiso",
+      "unpaidWages": "Hindi Bayad na Sahod",
+      "otherAdditions": "Iba pang Karagdag",
+      "totalGross": "Kabuuang Gross",
+      "netTotal": "Kabuuang Net na Babayaran"
+    }
+  },
+  "email": {
+    "sendButton": "Ipadala sa Empleyado",
+    "dialogTitle": "Magpadala ng Dokumento sa Empleyado",
+    "defaultRecipient": "Ipadala sa",
+    "language": "Wika ng Dokumento",
+    "remaining": "{{count}} pagpapadala ang natitira ngayon",
+    "limitReached": "Naabot mo na ang limitasyon ng araw-araw na pagpapadala (3)",
+    "success": "Matagumpay na naipadala ang dokumento",
+    "noEmail": "Walang email address ang empleyado. I-edit ang detalye ng empleyado upang magdagdag ng email.",
+    "subscriptionRequired": "Ang pagpapadala ng mga dokumento ay nangangailangan ng aktibong subscription"
+  },
+  "common": {
+    "save": "I-save",
+    "cancel": "Kanselahin",
+    "back": "Bumalik",
+    "loading": "Naglo-load...",
+    "error": "Error",
+    "success": "Tagumpay",
+    "confirm": "Kumpirmahin",
+    "close": "Isara",
+    "search": "Maghanap",
+    "filter": "I-filter",
+    "sort": "Ayusin",
+    "page": "Pahina",
+    "of": "ng",
+    "actions": "Mga Aksyon",
+    "currency": "₪",
+    "required": "Kinakailangang field"
+  },
+  "errors": {
+    "required": "Kinakailangan ang field na ito",
+    "minLength": "Masyadong maikli ang halaga",
+    "invalidId": "Hindi wastong numero ng ID",
+    "generic": "May naganap na error, subukang muli",
+    "unauthorized": "Hindi ka awtorisadong magsagawa ng aksyong ito",
+    "notFound": "Hindi nahanap ang item",
+    "sessionExpired": "Nag-expire ang session, mag-sign in muli"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "Gabay ng Gumagamit",
+    "toc": "Talaan ng Nilalaman",
+    "companies": {
+      "title": "Pamamahala ng mga Kumpanya",
+      "content": "Upang magdagdag ng bagong kumpanya, i-click ang link na 'Mga Kumpanya' sa navigation bar, pagkatapos ay i-click ang 'Magdagdag ng Kumpanya'. Punan ang pangalan ng kumpanya, tax ID, numero ng pagpaparehistro, address, lungsod, at zip code. Ang mga detalye ng kumpanya ay awtomatikong mapupuno sa lahat ng payslip na iyong lilikhain. Maaari mong i-edit ang mga detalye ng kumpanya anumang oras sa pamamagitan ng pag-click dito sa listahan ng mga kumpanya."
+    },
+    "employees": {
+      "title": "Pamamahala ng mga Empleyado",
+      "content": "Upang magdagdag ng bagong empleyado, i-click ang link na 'Mga Empleyado' sa navigation bar, pagkatapos ay i-click ang 'Magdagdag ng Empleyado'. Punan ang personal na impormasyon ng empleyado kabilang ang buong pangalan, numero ng pasaporte o ID, nasyonalidad, titulo ng trabaho, departamento, petsa ng simula ng trabaho, batayan ng sahod, at gustong wika para sa paglikha ng dokumento. Ang gustong wika ng empleyado ay gagamitin bilang default kapag nagpapadala ng mga dokumento sa kanya sa pamamagitan ng email."
+    },
+    "payslip": {
+      "title": "Paglikha ng Payslip",
+      "content": "Upang lumikha ng bagong payslip, i-click ang 'Bagong Payslip' sa navigation bar o mula sa dashboard. Piliin ang panahon ng sahod (buwan at taon), pagkatapos punan ang mga detalye ng empleyado, breakdown ng araw ng trabaho, sahod, mga bawas, at mga kontribusyon ng employer. Awtomatikong kinakalkula ng sistema ang income tax, national insurance, at health insurance batay sa batas ng Israel. Maaari mong i-override ang anumang kinalkulang halaga sa pamamagitan ng pagpapalit sa 'Manu-manong halaga'. I-click ang 'I-save' anumang oras upang i-save ang iyong progreso."
+    },
+    "fields": {
+      "title": "Sanggunian ng Field (Legal na Kahulugan)",
+      "content": "Income Tax: Binabawas batay sa progressive tax brackets ayon sa Income Tax Ordinance. National Insurance (Empleyado): Binabawas mula sa sahod ng empleyado ayon sa National Insurance Law. Health Insurance: Kontribusyon ng empleyado sa national health insurance fund. Pension: Parehong employer at empleyado ay kailangang mag-ambag sa pension fund ayon sa Mandatory Pension Law. Severance Fund: Mga kontribusyon ng employer para sa severance pay entitlement. Education Fund: Boluntaryong savings scheme kung saan nag-aambag parehong employer at empleyado bawat buwan. Recuperation Pay: Taunang bayad sa mga empleyado para sa mga araw ng pagpapagaling."
+    },
+    "export": {
+      "title": "Pag-export sa PDF",
+      "content": "Kapag na-save na ang iyong payslip, i-click ang pindutang 'Gumawa ng PDF'. Lilitaw ang isang dialog kung saan maaari kang pumili ng output language para sa PDF. Ang PDF ay nilikha nang buo sa iyong browser at naka-format ayon sa mga kinakailangan ng batas sa paggawa ng Israel. Upang direktang ipadala ang dokumento sa empleyado sa pamamagitan ng email, i-click ang pindutang 'Ipadala sa Empleyado' (nangangailangan ng aktibong subscription)."
+    },
+    "subscription": {
+      "title": "Mga Benepisyo ng Subscription",
+      "content": "Ang subscription ay nagbubukas ng kakayahang magpadala ng mga payslip at final settlement document nang direkta sa mga empleyado sa pamamagitan ng email. Ang mga libreng account ay limitado sa 3 pagpapadala bawat araw. Sa isang subscription, makakakuha ka ng walang limitasyong araw-araw na pagpapadala at access sa lahat ng advanced na feature ng sistema."
+    }
+  },
+  "languages": {
+    "he": "Hebreo",
+    "en": "Ingles",
+    "ar": "Arabe",
+    "fil": "Filipino",
+    "th": "Thai",
+    "am": "Amharic",
+    "hi": "Hindi"
+  }
+}

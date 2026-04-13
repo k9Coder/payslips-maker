@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "newForm": "قسيمة راتب جديدة",
+    "signOut": "تسجيل الخروج",
+    "admin": "الإدارة",
+    "profile": "الملف الشخصي",
+    "companies": "الشركات",
+    "employees": "الموظفون",
+    "manual": "الدليل"
+  },
+  "home": {
+    "title": "منشئ قسائم الرواتب",
+    "subtitle": "نظام لإنشاء قسائم رواتب للعمال الأجانب",
+    "signIn": "تسجيل الدخول",
+    "signUp": "إنشاء حساب"
+  },
+  "dashboard": {
+    "title": "قسائم راتبي",
+    "noForms": "لا توجد قسائم بعد",
+    "noFormsDesc": "انقر على \"قسيمة راتب جديدة\" لإنشاء أول قسيمة راتب",
+    "newForm": "قسيمة راتب جديدة",
+    "lastUpdated": "آخر تحديث",
+    "period": "الفترة",
+    "employee": "الموظف",
+    "gross": "إجمالي",
+    "net": "صافي",
+    "view": "عرض",
+    "edit": "تعديل"
+  },
+  "payslip": {
+    "title": "قسيمة راتب",
+    "newTitle": "إنشاء قسيمة راتب جديدة",
+    "editTitle": "تعديل قسيمة الراتب",
+    "save": "حفظ",
+    "duplicate": "نسخ",
+    "unsavedChanges": {
+      "title": "الخروج بدون حفظ؟",
+      "message": "توجد تغييرات غير محفوظة. إذا خرجت الآن، ستُفقد التغييرات.",
+      "stay": "البقاء",
+      "leave": "الخروج بدون حفظ"
+    },
+    "generatePdf": "إنشاء PDF",
+    "downloadPdf": "تحميل PDF",
+    "saving": "جارٍ الحفظ...",
+    "saved": "تم الحفظ بنجاح",
+    "sections": {
+      "period": "فترة الراتب",
+      "employee": "بيانات الموظف",
+      "employer": "بيانات صاحب العمل",
+      "workDetails": "تفاصيل أيام العمل",
+      "pay": "حساب الراتب",
+      "deductions": "الاستقطاعات",
+      "employerContributions": "مساهمات صاحب العمل",
+      "paymentInfo": "تفاصيل الدفع",
+      "summary": "ملخص",
+      "customPayItems": "مدفوعات إضافية",
+      "vacationSickAccount": "حساب الإجازة والمرض"
+    },
+    "period": {
+      "month": "الشهر",
+      "year": "السنة",
+      "months": {
+        "1": "يناير",
+        "2": "فبراير",
+        "3": "مارس",
+        "4": "أبريل",
+        "5": "مايو",
+        "6": "يونيو",
+        "7": "يوليو",
+        "8": "أغسطس",
+        "9": "سبتمبر",
+        "10": "أكتوبر",
+        "11": "نوفمبر",
+        "12": "ديسمبر"
+      }
+    },
+    "employee": {
+      "fullName": "الاسم الكامل",
+      "idNumber": "رقم الهوية / جواز السفر",
+      "nationality": "الجنسية",
+      "employerName": "اسم صاحب العمل / الشركة",
+      "employerTaxId": "الرقم الضريبي لصاحب العمل",
+      "taxFileNumber": "رقم ملف الضريبة",
+      "employerRegistrationNumber": "رقم تسجيل صاحب العمل",
+      "employerAddress": "عنوان صاحب العمل",
+      "employerCity": "مدينة صاحب العمل",
+      "employerZip": "الرمز البريدي لصاحب العمل",
+      "employerDetails": "تفاصيل إضافية لصاحب العمل",
+      "employeeNumber": "رقم الموظف",
+      "jobTitle": "رمز الوظيفة",
+      "department": "القسم",
+      "familyStatus": "الحالة الاجتماعية",
+      "grade": "الدرجة",
+      "employmentStartDate": "تاريخ بدء العمل",
+      "taxCalcType": "طريقة حساب الضريبة",
+      "nationalInsuranceType": "نوع التأمين الوطني",
+      "salaryBasis": "أساس الراتب",
+      "salaryBasisMonthly": "شهري",
+      "salaryBasisDaily": "يومي",
+      "salaryBasisHourly": "بالساعة",
+      "jobFraction": "نسبة الوظيفة",
+      "employeeAddress": "عنوان الموظف",
+      "employeeCity": "مدينة الموظف",
+      "employeeZip": "الرمز البريدي للموظف",
+      "employeeDetails": "تفاصيل إضافية للموظف"
+    },
+    "workDetails": {
+      "standardDays": "أيام العمل المعيارية في الشهر",
+      "workedDays": "أيام العمل الفعلية",
+      "vacationDays": "أيام الإجازة",
+      "sickDays": "أيام المرض",
+      "holidayDays": "أيام الأعياد",
+      "overtime100h": "عمل إضافي (100%)",
+      "overtime125h": "عمل إضافي (125%)",
+      "overtime150h": "عمل إضافي (150%)"
+    },
+    "pay": {
+      "dailyRate": "المعدل اليومي (₪)",
+      "baseSalary": "الراتب الأساسي",
+      "overtimePay": "أجر العمل الإضافي",
+      "vacationPay": "تعويض الإجازة",
+      "grossSalary": "الراتب الإجمالي",
+      "calculated": "محسوب تلقائياً",
+      "override": "قيمة يدوية"
+    },
+    "deductions": {
+      "title": "الاستقطاعات",
+      "incomeTax": "ضريبة الدخل",
+      "nationalInsurance": "التأمين الوطني (الموظف)",
+      "healthInsurance": "التأمين الصحي",
+      "otherDeductions": "استقطاعات أخرى",
+      "total": "إجمالي الاستقطاعات",
+      "overrideHint": "يمكنك تغيير المبلغ المحسوب"
+    },
+    "employerContributions": {
+      "nationalInsurance": "التأمين الوطني (صاحب العمل)",
+      "pension": "التقاعد",
+      "pensionFund": "صندوق التقاعد",
+      "pensionEmployeeRate": "نسبة تقاعد الموظف (%)",
+      "pensionEmployerRate": "نسبة تقاعد صاحب العمل (%)",
+      "severanceFund": "صندوق مكافأة نهاية الخدمة (₪)",
+      "educationFund": "صندوق التدريب - صاحب العمل (₪)",
+      "educationFundEmployee": "صندوق التدريب - الموظف (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "طريقة الدفع",
+      "bankName": "اسم البنك",
+      "accountNumber": "رقم الحساب",
+      "branchNumber": "رقم الفرع",
+      "paymentMethods": {
+        "bank": "تحويل بنكي",
+        "cash": "نقداً",
+        "check": "شيك"
+      }
+    },
+    "summary": {
+      "grossSalary": "الراتب الإجمالي",
+      "totalDeductions": "إجمالي الاستقطاعات",
+      "netSalary": "الراتب الصافي للدفع",
+      "employerSignature": "توقيع صاحب العمل"
+    },
+    "customPayItems": {
+      "code": "الرمز",
+      "description": "الوصف",
+      "quantity": "الكمية",
+      "rate": "المعدل",
+      "amount": "المبلغ",
+      "taxPercent": "نسبة الضريبة (%)",
+      "add": "إضافة بند دفع",
+      "empty": "لا توجد مدفوعات إضافية"
+    },
+    "vacationAccount": {
+      "title": "حساب الإجازة",
+      "previousBalance": "الرصيد السابق",
+      "accrued": "المتراكمة",
+      "used": "المستخدمة",
+      "remaining": "الرصيد في نهاية الفترة"
+    },
+    "sickAccount": {
+      "title": "حساب المرض",
+      "previousBalance": "الرصيد السابق",
+      "accrued": "المتراكمة",
+      "used": "المستخدمة",
+      "remaining": "الرصيد في نهاية الفترة"
+    }
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "fullName": "الاسم الكامل",
+    "phone": "رقم الهاتف",
+    "employerName": "اسم صاحب العمل",
+    "employerTaxId": "الرقم الضريبي لصاحب العمل",
+    "save": "حفظ التغييرات"
+  },
+  "admin": {
+    "title": "الإدارة",
+    "users": {
+      "title": "المستخدمون",
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "formCount": "عدد قسائم الرواتب",
+      "joinedAt": "تاريخ الانضمام",
+      "viewForms": "عرض القسائم",
+      "noUsers": "لا يوجد مستخدمون"
+    },
+    "forms": {
+      "title": "جميع القسائم",
+      "employee": "الموظف",
+      "user": "المستخدم",
+      "period": "الفترة",
+      "gross": "إجمالي",
+      "net": "صافي",
+      "createdAt": "تاريخ الإنشاء",
+      "updatedAt": "تاريخ التحديث",
+      "filterByUser": "تصفية حسب المستخدم",
+      "filterByPeriod": "تصفية حسب الفترة",
+      "sortBy": "ترتيب حسب",
+      "groupByPeriod": "تجميع حسب الفترة",
+      "allUsers": "جميع المستخدمين",
+      "noForms": "لا توجد قسائم",
+      "quickView": "عرض سريع"
+    }
+  },
+  "finalSettlement": {
+    "title": "تسوية نهائية",
+    "sections": {
+      "employmentPeriod": "فترة العمل",
+      "lastSalary": "آخر راتب",
+      "severance": "مكافأة نهاية الخدمة",
+      "vacation": "أيام الإجازة",
+      "recuperation": "بدل الاستشفاء",
+      "notice": "فترة الإشعار",
+      "extras": "بدلات إضافية",
+      "deductions": "الاستقطاعات",
+      "total": "الملخص"
+    },
+    "fields": {
+      "employmentStartDate": "تاريخ بدء العمل",
+      "employmentEndDate": "تاريخ انتهاء العمل",
+      "terminationReason": "سبب إنهاء الخدمة",
+      "dismissal": "فصل",
+      "resignation": "استقالة",
+      "mutual": "اتفاق متبادل",
+      "lastMonthlySalary": "آخر راتب شهري",
+      "severancePay": "مكافأة نهاية الخدمة",
+      "severanceEligible": "مستحق للمكافأة",
+      "vacationDaysAccrued": "أيام الإجازة المتراكمة",
+      "vacationDaysUsed": "أيام الإجازة المستخدمة",
+      "unusedVacationDays": "أيام الإجازة غير المستخدمة",
+      "vacationPayout": "تعويض الإجازة",
+      "recuperationDaysEntitled": "أيام الاستشفاء المستحقة",
+      "recuperationDaysAlreadyPaid": "أيام الاستشفاء المدفوعة",
+      "recuperationPayout": "مدفوعات الاستشفاء",
+      "noticePeriodDays": "أيام فترة الإشعار",
+      "noticeActuallyGiven": "تم إعطاء الإشعار فعلياً",
+      "noticePeriodPay": "أجر فترة الإشعار",
+      "unpaidWages": "أجور غير مدفوعة",
+      "otherAdditions": "إضافات أخرى",
+      "totalGross": "الإجمالي قبل الاستقطاع",
+      "netTotal": "إجمالي صافي الدفع"
+    }
+  },
+  "email": {
+    "sendButton": "إرسال إلى الموظف",
+    "dialogTitle": "إرسال مستند إلى الموظف",
+    "defaultRecipient": "إرسال إلى",
+    "language": "لغة المستند",
+    "remaining": "متبقي {{count}} إرسالات اليوم",
+    "limitReached": "لقد وصلت إلى الحد اليومي للإرسال (3)",
+    "success": "تم إرسال المستند بنجاح",
+    "noEmail": "لا يوجد بريد إلكتروني للموظف. عدّل بيانات الموظف لإضافة بريد إلكتروني.",
+    "subscriptionRequired": "إرسال المستندات يتطلب اشتراكاً نشطاً"
+  },
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "back": "رجوع",
+    "loading": "جارٍ التحميل...",
+    "error": "خطأ",
+    "success": "نجاح",
+    "confirm": "تأكيد",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "sort": "ترتيب",
+    "page": "صفحة",
+    "of": "من",
+    "actions": "إجراءات",
+    "currency": "₪",
+    "required": "حقل إلزامي"
+  },
+  "errors": {
+    "required": "هذا الحقل إلزامي",
+    "minLength": "القيمة قصيرة جداً",
+    "invalidId": "رقم هوية غير صالح",
+    "generic": "حدث خطأ، يرجى المحاولة مرة أخرى",
+    "unauthorized": "غير مصرح لك بتنفيذ هذا الإجراء",
+    "notFound": "العنصر غير موجود",
+    "sessionExpired": "انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "دليل المستخدم",
+    "toc": "جدول المحتويات",
+    "companies": {
+      "title": "إدارة الشركات",
+      "content": "لإضافة شركة جديدة، انقر على رابط 'الشركات' في شريط التنقل، ثم انقر على 'إضافة شركة'. أدخل اسم الشركة والرقم الضريبي ورقم التسجيل والعنوان والمدينة والرمز البريدي. سيتم تعبئة بيانات الشركة تلقائياً في جميع قسائم الرواتب التي تنشئها. يمكنك تعديل بيانات الشركة في أي وقت بالنقر عليها في قائمة الشركات."
+    },
+    "employees": {
+      "title": "إدارة الموظفين",
+      "content": "لإضافة موظف جديد، انقر على رابط 'الموظفون' في شريط التنقل، ثم انقر على 'إضافة موظف'. أدخل البيانات الشخصية للموظف بما في ذلك الاسم الكامل ورقم جواز السفر أو الهوية والجنسية والمسمى الوظيفي والقسم وتاريخ بدء العمل وأساس الراتب واللغة المفضلة لإنشاء المستندات. ستُستخدم اللغة المفضلة للموظف كلغة افتراضية عند إرسال المستندات إليه بالبريد الإلكتروني."
+    },
+    "payslip": {
+      "title": "إنشاء قسيمة راتب",
+      "content": "لإنشاء قسيمة راتب جديدة، انقر على 'قسيمة راتب جديدة' في شريط التنقل أو من لوحة التحكم. حدد فترة الراتب (الشهر والسنة)، ثم أدخل بيانات الموظف وتفاصيل أيام العمل والراتب والاستقطاعات ومساهمات صاحب العمل. يحسب النظام تلقائياً ضريبة الدخل والتأمين الوطني والتأمين الصحي وفقاً للقانون الإسرائيلي. يمكنك تجاوز أي قيمة محسوبة بالتبديل إلى 'قيمة يدوية'. انقر على 'حفظ' في أي وقت لحفظ تقدمك."
+    },
+    "fields": {
+      "title": "مرجع الحقول (المعنى القانوني)",
+      "content": "ضريبة الدخل: تُخصم بناءً على شرائح الضريبة التصاعدية وفق قانون ضريبة الدخل. التأمين الوطني (الموظف): يُخصم من راتب الموظف وفق قانون التأمين الوطني. التأمين الصحي: مساهمة الموظف في صندوق التأمين الصحي الوطني. التقاعد: يُلزم كل من صاحب العمل والموظف بالمساهمة في صندوق تقاعد وفق قانون التقاعد الإلزامي. صندوق مكافأة نهاية الخدمة: مساهمات صاحب العمل لصالح مكافأة نهاية الخدمة. صندوق التدريب: مخطط ادخار طوعي يساهم فيه كل من صاحب العمل والموظف شهرياً. بدل الاستشفاء: استحقاق سنوي يُدفع للموظفين."
+    },
+    "export": {
+      "title": "التصدير إلى PDF",
+      "content": "بعد حفظ قسيمة الراتب، انقر على زر 'إنشاء PDF'. ستظهر نافذة يمكنك من خلالها اختيار لغة الإخراج للملف. يتم إنشاء الملف بالكامل في متصفحك ويُنسَّق وفق متطلبات قانون العمل الإسرائيلي. لإرسال المستند مباشرة إلى الموظف عبر البريد الإلكتروني، انقر على زر 'إرسال إلى الموظف' (يتطلب اشتراكاً نشطاً)."
+    },
+    "subscription": {
+      "title": "مزايا الاشتراك",
+      "content": "يفتح الاشتراك إمكانية إرسال قسائم الرواتب ومستندات التسوية النهائية مباشرة إلى الموظفين عبر البريد الإلكتروني. الحسابات المجانية محدودة بـ 3 إرسالات يومياً. مع الاشتراك، تحصل على إرسالات يومية غير محدودة والوصول إلى جميع الميزات المتقدمة."
+    }
+  },
+  "languages": {
+    "he": "عبري",
+    "en": "إنجليزي",
+    "ar": "عربي",
+    "fil": "فلبيني",
+    "th": "تايلاندي",
+    "am": "أمهرية",
+    "hi": "هندي"
+  }
+}
