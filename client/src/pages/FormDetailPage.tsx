@@ -1,26 +1,24 @@
-import { useState, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, FileText, Pencil } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ChevronRight } from 'lucide-react';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { useApiClient } from '@/lib/useApiClient';
+import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import type { ApiResponse, IForm } from '@payslips-maker/shared';
 
-const PayslipForm = lazy(() =>
-  import('@/domains/payslip/components/PayslipForm').then((m) => ({ default: m.PayslipForm }))
-);
-const PayslipPreview = lazy(() =>
-  import('@/domains/payslip/components/PayslipPreview').then((m) => ({ default: m.PayslipPreview }))
+const FormContainer = lazy(() =>
+  import('@/domains/forms/components/FormContainer').then((m) => ({ default: m.FormContainer }))
 );
 
 export function FormDetailPage() {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const { get } = useApiClient();
-  const [showPdf, setShowPdf] = useState(false);
+  const resolve = useResolveMultiLang();
 
+  // Load form metadata for breadcrumb + to resolve formType/employeeId
   const { data: form, isLoading } = useQuery({
     queryKey: ['form', id, 'detail'],
     queryFn: () => get<ApiResponse<IForm>>(`/api/forms/${id}`),
@@ -29,6 +27,7 @@ export function FormDetailPage() {
   });
 
   if (isLoading) return <PageLoading />;
+  if (!form) return <p className="text-center text-muted-foreground">טופס לא נמצא</p>;
 
   return (
     <div className="space-y-6">
@@ -37,42 +36,18 @@ export function FormDetailPage() {
         <Link to="/dashboard" className="hover:text-foreground">{t('nav.dashboard')}</Link>
         <ChevronRight className="h-4 w-4" />
         <span className="text-foreground">
-          {form ? `${form.employeeInfo.fullName} - ${form.period.month}/${form.period.year}` : '...'}
+          {resolve(form.employeeInfo.fullName)} — {form.period.month}/{form.period.year}
         </span>
       </nav>
 
-      {/* Header with toggle */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">{t('payslip.editTitle')}</h1>
-        <Button
-          variant={showPdf ? 'outline' : 'default'}
-          onClick={() => setShowPdf((v) => !v)}
-          className="flex items-center gap-2"
-        >
-          {showPdf ? (
-            <>
-              <Pencil className="h-4 w-4" />
-              {t('dashboard.edit')}
-            </>
-          ) : (
-            <>
-              <FileText className="h-4 w-4" />
-              {t('payslip.generatePdf')}
-            </>
-          )}
-        </Button>
-      </div>
+      <h1 className="text-3xl font-bold">{t('payslip.editTitle')}</h1>
 
-      {/* Form or PDF view */}
       <Suspense fallback={<PageLoading />}>
-        {showPdf && form ? (
-          <PayslipPreview form={form} />
-        ) : (
-          <PayslipForm
-            formId={id}
-            onPdfRequested={() => setShowPdf(true)}
-          />
-        )}
+        <FormContainer
+          formType={form.formType}
+          employeeId={form.employeeId}
+          formId={id}
+        />
       </Suspense>
     </div>
   );

@@ -115,7 +115,7 @@ interface CalculationResult {
   employerPension: number;
 }
 
-export function usePayslipCalculations({ grossSalary, overrides }: CalculationInputs): CalculationResult {
+export function usePayslipCalculations({ grossSalary, overrides = {} }: CalculationInputs): CalculationResult {
   return useMemo(() => {
     const calculated: IDeductions = {
       incomeTax: Math.round(calculateIncomeTax(grossSalary) * 100) / 100,

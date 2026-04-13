@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "ዳሽቦርድ",
+    "newForm": "አዲስ የደሞዝ ቅጽ",
+    "signOut": "ውጣ",
+    "admin": "አስተዳዳሪ",
+    "profile": "መገለጫ",
+    "companies": "ኩባንያዎች",
+    "employees": "ሠራተኞች",
+    "manual": "መመሪያ"
+  },
+  "home": {
+    "title": "የደሞዝ ቅጽ ፈጣሪ",
+    "subtitle": "ለውጭ ሠራተኞች የደሞዝ ቅጽ ለመፍጠር ስርዓት",
+    "signIn": "ግባ",
+    "signUp": "ይመዝገቡ"
+  },
+  "dashboard": {
+    "title": "የደሞዝ ቅጾቼ",
+    "noForms": "እስካሁን ምንም ቅጾች የሉም",
+    "noFormsDesc": "የመጀመሪያ የደሞዝ ቅጽ ለመፍጠር \"አዲስ የደሞዝ ቅጽ\" ን ጠቅ ያድርጉ",
+    "newForm": "አዲስ የደሞዝ ቅጽ",
+    "lastUpdated": "በመጨረሻ ተዘምኗል",
+    "period": "ጊዜ",
+    "employee": "ሠራተኛ",
+    "gross": "ጠቅላላ",
+    "net": "ተጣራ",
+    "view": "ይመልከቱ",
+    "edit": "አርትዕ"
+  },
+  "payslip": {
+    "title": "የደሞዝ ቅጽ",
+    "newTitle": "አዲስ የደሞዝ ቅጽ ፍጠር",
+    "editTitle": "የደሞዝ ቅጽ አርትዕ",
+    "save": "አስቀምጥ",
+    "duplicate": "ቅዳ",
+    "unsavedChanges": {
+      "title": "ሳታስቀምጥ ትወጣለህ?",
+      "message": "ያልተቀመጡ ለውጦች አሉ። አሁን ከወጣህ ለውጦቹ ይጠፋሉ።",
+      "stay": "ቆይ",
+      "leave": "ሳታስቀምጥ ውጣ"
+    },
+    "generatePdf": "PDF ፍጠር",
+    "downloadPdf": "PDF አውርድ",
+    "saving": "በማስቀመጥ ላይ...",
+    "saved": "በተሳካ ሁኔታ ተቀምጧል",
+    "sections": {
+      "period": "የደሞዝ ጊዜ",
+      "employee": "የሠራተኛ ዝርዝሮች",
+      "employer": "የቀጣሪ ዝርዝሮች",
+      "workDetails": "የሥራ ቀናት ዝርዝር",
+      "pay": "የደሞዝ ስሌት",
+      "deductions": "ቅናሾች",
+      "employerContributions": "የቀጣሪ መዋጮ",
+      "paymentInfo": "የክፍያ ዝርዝሮች",
+      "summary": "ማጠቃለያ",
+      "customPayItems": "ተጨማሪ ክፍያዎች",
+      "vacationSickAccount": "የዕረፍትና የሕመም ሒሳብ"
+    },
+    "period": {
+      "month": "ወር",
+      "year": "ዓመት",
+      "months": {
+        "1": "ጃንዋሪ",
+        "2": "ፌብሩዋሪ",
+        "3": "ማርች",
+        "4": "ኤፕሪል",
+        "5": "ሜይ",
+        "6": "ጁን",
+        "7": "ጁላይ",
+        "8": "ኦገስት",
+        "9": "ሴፕቴምበር",
+        "10": "ኦክቶበር",
+        "11": "ኖቬምበር",
+        "12": "ዲሴምበር"
+      }
+    },
+    "employee": {
+      "fullName": "ሙሉ ስም",
+      "idNumber": "መታወቂያ / የፓስፖርት ቁጥር",
+      "nationality": "ዜግነት",
+      "employerName": "የቀጣሪ / ኩባንያ ስም",
+      "employerTaxId": "የቀጣሪ የግብር መታወቂያ",
+      "taxFileNumber": "የግብር ፋይል ቁጥር",
+      "employerRegistrationNumber": "የቀጣሪ ምዝገባ ቁጥር",
+      "employerAddress": "የቀጣሪ አድራሻ",
+      "employerCity": "የቀጣሪ ከተማ",
+      "employerZip": "የቀጣሪ የፖስታ ኮድ",
+      "employerDetails": "ተጨማሪ የቀጣሪ ዝርዝሮች",
+      "employeeNumber": "የሠራተኛ ቁጥር",
+      "jobTitle": "የሥራ ኮድ",
+      "department": "ክፍል",
+      "familyStatus": "የቤተሰብ ሁኔታ",
+      "grade": "ደረጃ",
+      "employmentStartDate": "የሥራ መጀመሪያ ቀን",
+      "taxCalcType": "የግብር ስሌት ዘዴ",
+      "nationalInsuranceType": "የብሔራዊ መድህን ዓይነት",
+      "salaryBasis": "የደሞዝ መሠረት",
+      "salaryBasisMonthly": "ወርሃዊ",
+      "salaryBasisDaily": "ዕለታዊ",
+      "salaryBasisHourly": "በሰዓት",
+      "jobFraction": "የሥራ ክፍልፋይ",
+      "employeeAddress": "የሠራተኛ አድራሻ",
+      "employeeCity": "የሠራተኛ ከተማ",
+      "employeeZip": "የሠራተኛ የፖስታ ኮድ",
+      "employeeDetails": "ተጨማሪ የሠራተኛ ዝርዝሮች"
+    },
+    "workDetails": {
+      "standardDays": "መደበኛ የሥራ ቀናት በወር",
+      "workedDays": "ትክክለኛ የሠሩ ቀናት",
+      "vacationDays": "የዕረፍት ቀናት",
+      "sickDays": "የሕመም ቀናት",
+      "holidayDays": "የዓለ ቀናት",
+      "overtime100h": "ትርፍ ሰዓት (100%)",
+      "overtime125h": "ትርፍ ሰዓት (125%)",
+      "overtime150h": "ትርፍ ሰዓት (150%)"
+    },
+    "pay": {
+      "dailyRate": "የዕለት ታሪፍ (₪)",
+      "baseSalary": "መሠረታዊ ደሞዝ",
+      "overtimePay": "የትርፍ ሰዓት ክፍያ",
+      "vacationPay": "የዕረፍት ቤዛ",
+      "grossSalary": "ጠቅላላ ደሞዝ",
+      "calculated": "በራስ ሰር ተሰልቷል",
+      "override": "በእጅ ያስገቡ ዋጋ"
+    },
+    "deductions": {
+      "title": "ቅናሾች",
+      "incomeTax": "የገቢ ግብር",
+      "nationalInsurance": "ብሔራዊ መድህን (ሠራተኛ)",
+      "healthInsurance": "የጤና መድህን",
+      "otherDeductions": "ሌሎች ቅናሾች",
+      "total": "ጠቅላላ ቅናሾች",
+      "overrideHint": "የተሰለቱ መጠኑን መቀየር ይችላሉ"
+    },
+    "employerContributions": {
+      "nationalInsurance": "ብሔራዊ መድህን (ቀጣሪ)",
+      "pension": "ጡረታ",
+      "pensionFund": "የጡረታ ፈንድ",
+      "pensionEmployeeRate": "የሠራተኛ ጡረታ መጠን (%)",
+      "pensionEmployerRate": "የቀጣሪ ጡረታ መጠን (%)",
+      "severanceFund": "የካሳ ፈንድ (₪)",
+      "educationFund": "የትምህርት ፈንድ - ቀጣሪ (₪)",
+      "educationFundEmployee": "የትምህርት ፈንድ - ሠራተኛ (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "የክፍያ ዘዴ",
+      "bankName": "የባንክ ስም",
+      "accountNumber": "የሒሳብ ቁጥር",
+      "branchNumber": "የቅርንጫፍ ቁጥር",
+      "paymentMethods": {
+        "bank": "የባንክ ዝውውር",
+        "cash": "ጥሬ ገንዘብ",
+        "check": "ቼክ"
+      }
+    },
+    "summary": {
+      "grossSalary": "ጠቅላላ ደሞዝ",
+      "totalDeductions": "ጠቅላላ ቅናሾች",
+      "netSalary": "ተጣራ ደሞዝ ለመክፈል",
+      "employerSignature": "የቀጣሪ ፊርማ"
+    },
+    "customPayItems": {
+      "code": "ኮድ",
+      "description": "መግለጫ",
+      "quantity": "ብዛት",
+      "rate": "ታሪፍ",
+      "amount": "መጠን",
+      "taxPercent": "የግብር መጠን (%)",
+      "add": "የክፍያ ረድፍ ጨምር",
+      "empty": "ምንም ተጨማሪ ክፍያዎች የሉም"
+    },
+    "vacationAccount": {
+      "title": "የዕረፍት ሒሳብ",
+      "previousBalance": "ቀዳሚ ቀሪ",
+      "accrued": "የተጠራቀሙ",
+      "used": "የተጠቀሙ",
+      "remaining": "ቀሪ በጊዜ መጨረሻ"
+    },
+    "sickAccount": {
+      "title": "የሕመም ሒሳብ",
+      "previousBalance": "ቀዳሚ ቀሪ",
+      "accrued": "የተጠራቀሙ",
+      "used": "የተጠቀሙ",
+      "remaining": "ቀሪ በጊዜ መጨረሻ"
+    }
+  },
+  "profile": {
+    "title": "የእኔ መገለጫ",
+    "fullName": "ሙሉ ስም",
+    "phone": "ስልክ ቁጥር",
+    "employerName": "የቀጣሪ ስም",
+    "employerTaxId": "የቀጣሪ የግብር መታወቂያ",
+    "save": "ለውጦችን አስቀምጥ"
+  },
+  "admin": {
+    "title": "አስተዳደር",
+    "users": {
+      "title": "ተጠቃሚዎች",
+      "fullName": "ሙሉ ስም",
+      "email": "ኢሜይል",
+      "phone": "ስልክ",
+      "formCount": "የቅጽ ብዛት",
+      "joinedAt": "የተቀላቀሉበት ቀን",
+      "viewForms": "ቅጾችን ይመልከቱ",
+      "noUsers": "ምንም ተጠቃሚዎች የሉም"
+    },
+    "forms": {
+      "title": "ሁሉም ቅጾች",
+      "employee": "ሠራተኛ",
+      "user": "ተጠቃሚ",
+      "period": "ጊዜ",
+      "gross": "ጠቅላላ",
+      "net": "ተጣራ",
+      "createdAt": "የተፈጠረበት ቀን",
+      "updatedAt": "የተዘመነበት ቀን",
+      "filterByUser": "በተጠቃሚ ያጣሩ",
+      "filterByPeriod": "በጊዜ ያጣሩ",
+      "sortBy": "ደርድር በ",
+      "groupByPeriod": "በጊዜ ይቧደኑ",
+      "allUsers": "ሁሉም ተጠቃሚዎች",
+      "noForms": "ምንም ቅጾች የሉም",
+      "quickView": "ፈጣን እይታ"
+    }
+  },
+  "finalSettlement": {
+    "title": "የመጨረሻ ሒሳብ ወረቀት",
+    "sections": {
+      "employmentPeriod": "የሥራ ጊዜ",
+      "lastSalary": "የመጨረሻ ደሞዝ",
+      "severance": "ካሳ",
+      "vacation": "የዕረፍት ቀናት",
+      "recuperation": "የማገገሚያ ክፍያ",
+      "notice": "የማስጠንቀቂያ ጊዜ",
+      "extras": "ተጨማሪ አበሎች",
+      "deductions": "ቅናሾች",
+      "total": "ማጠቃለያ"
+    },
+    "fields": {
+      "employmentStartDate": "የሥራ መጀመሪያ ቀን",
+      "employmentEndDate": "የሥራ መጨረሻ ቀን",
+      "terminationReason": "የሥራ መቋረጥ ምክንያት",
+      "dismissal": "ከሥራ ማሰናበት",
+      "resignation": "ስንብት",
+      "mutual": "የጋራ ስምምነት",
+      "lastMonthlySalary": "የመጨረሻ ወርሃዊ ደሞዝ",
+      "severancePay": "ካሳ",
+      "severanceEligible": "ለካሳ ብቁ",
+      "vacationDaysAccrued": "የተጠራቀሙ የዕረፍት ቀናት",
+      "vacationDaysUsed": "የተጠቀሙ የዕረፍት ቀናት",
+      "unusedVacationDays": "ያልተጠቀሙ የዕረፍት ቀናት",
+      "vacationPayout": "የዕረፍት ቤዛ",
+      "recuperationDaysEntitled": "የሚገቡ የማገገሚያ ቀናት",
+      "recuperationDaysAlreadyPaid": "ቀድሞ የተከፈሉ የማገገሚያ ቀናት",
+      "recuperationPayout": "የማገገሚያ ክፍያ",
+      "noticePeriodDays": "የማስጠንቀቂያ ጊዜ ቀናት",
+      "noticeActuallyGiven": "ማስጠንቀቂያ ተሰጥቷል",
+      "noticePeriodPay": "የማስጠንቀቂያ ጊዜ ክፍያ",
+      "unpaidWages": "ያልተከፈለ ደሞዝ",
+      "otherAdditions": "ሌሎች ጭማሬዎች",
+      "totalGross": "ጠቅላላ ጠቅላላ",
+      "netTotal": "ጠቅላላ ተጣራ ለመክፈል"
+    }
+  },
+  "email": {
+    "sendButton": "ለሠራተኛ ላክ",
+    "dialogTitle": "ለሠራተኛ ሰነድ ላክ",
+    "defaultRecipient": "ወደ ላክ",
+    "language": "የሰነዱ ቋንቋ",
+    "remaining": "ዛሬ {{count}} ላኮዎች ቀርተዋል",
+    "limitReached": "የዕለቱን የላኮ ገደብ ደርሰዋል (3)",
+    "success": "ሰነዱ በተሳካ ሁኔታ ተልኳል",
+    "noEmail": "ሠራተኛው ምንም ኢሜይል አድራሻ የለውም። ኢሜይል ለመጨምር የሠራተኛ ዝርዝሮችን ያርትዑ።",
+    "subscriptionRequired": "ሰነዶችን መላክ ንቁ ደምበኝነት ይፈልጋል"
+  },
+  "common": {
+    "save": "አስቀምጥ",
+    "cancel": "ሰርዝ",
+    "back": "ተመለስ",
+    "loading": "በመጫን ላይ...",
+    "error": "ስህተት",
+    "success": "ተሳክቷል",
+    "confirm": "አረጋግጥ",
+    "close": "ዝጋ",
+    "search": "ፈልግ",
+    "filter": "አጣራ",
+    "sort": "ደርድር",
+    "page": "ገጽ",
+    "of": "ከ",
+    "actions": "ድርጊቶች",
+    "currency": "₪",
+    "required": "አስፈላጊ መስክ"
+  },
+  "errors": {
+    "required": "ይህ መስክ አስፈላጊ ነው",
+    "minLength": "ዋጋው አጭር ነው",
+    "invalidId": "ልክ ያልሆነ መታወቂያ ቁጥር",
+    "generic": "ስህተት ተከስቷል፣ እባክዎ እንደገና ይሞክሩ",
+    "unauthorized": "ይህን ድርጊት ለማከናወን ፈቃድ የለዎትም",
+    "notFound": "ንጥሉ አልተገኘም",
+    "sessionExpired": "ክፍለ ጊዜ ጊዜው አልፏል፣ እባክዎ እንደገና ይግቡ"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "የተጠቃሚ መመሪያ",
+    "toc": "ማውጫ",
+    "companies": {
+      "title": "ኩባንያዎችን ማስተዳደር",
+      "content": "አዲስ ኩባንያ ለመጨምር፣ የናቪጌሽን አሞሌ ላይ ያለውን 'ኩባንያዎች' ሊንክ ጠቅ ያድርጉ፣ ከዚያ 'ኩባንያ ጨምር' ን ጠቅ ያድርጉ። የኩባንያ ስም፣ Tax ID፣ የምዝገባ ቁጥር፣ አድራሻ፣ ከተማ እና የፖስታ ኮድ ያስገቡ። የኩባንያ ዝርዝሮች በሁሉም የሚፈጥሩት ቅጾች ላይ በራስ ሰር ይሞላሉ። ኩባንያን በዝርዝሩ ጠቅ በማድረግ ዝርዝሮቹን ማናቸውም ጊዜ ማርትዕ ይችላሉ።"
+    },
+    "employees": {
+      "title": "ሠራተኞችን ማስተዳደር",
+      "content": "አዲስ ሠራተኛ ለመጨምር፣ 'ሠራተኞች' ሊንክ ጠቅ ያድርጉ፣ ከዚያ 'ሠራተኛ ጨምር' ን ጠቅ ያድርጉ። ሙሉ ስም፣ ፓስፖርት ወይም ID ቁጥር፣ ዜግነት፣ የሥራ ርዕስ፣ ክፍል፣ የሥራ ጅምር ቀን፣ የደሞዝ መሠረት እና ለሰነዶች የሚፈለግ ቋንቋ ጨምሮ የሠራተኛ ዝርዝሮችን ያስገቡ። የሠራተኛው የሚፈለግ ቋንቋ ሰነዶችን ለእሱ በኢሜይል ሲላኩ እንደ ነባሪ ይጠቅማል።"
+    },
+    "payslip": {
+      "title": "የደሞዝ ቅጽ መፍጠር",
+      "content": "አዲስ የደሞዝ ቅጽ ለመፍጠር፣ 'አዲስ የደሞዝ ቅጽ' ን ጠቅ ያድርጉ። የደሞዝ ጊዜ (ወር እና ዓመት) ይምረጡ፣ ከዚያ የሠራተኛ ዝርዝሮችን፣ የሥራ ቀናት ዝርዝሮችን፣ ደሞዝ፣ ቅናሾችን እና የቀጣሪ መዋጮ ያስገቡ። ስርዓቱ የእስራኤል ሕግ መሠረት የገቢ ግብርን፣ ብሔራዊ መድህንን እና የጤና መድህንን በራስ ሰር ያሰላል። ማናቸውም የተሰለቱ ዋጋ ወደ 'በእጅ ያስገቡ ዋጋ' በመቀየር መሻር ይችላሉ።"
+    },
+    "fields": {
+      "title": "የመስክ ማጣቀሻ (ህጋዊ ትርጉም)",
+      "content": "የገቢ ግብር: በITOsraeli ሕግ መሠረት ቀስ በቀስ እየጨመሩ በሚሄዱ ግብር ደረጃዎች ይቆረጣል። ብሔራዊ መድህን (ሠራተኛ): ከሠራተኛ ደሞዝ ይቆረጣል። የጤና መድህን: ሠራተኛ ለብሔራዊ ጤና መድህን ፈንድ የሚከፍለው መዋጮ። ጡረታ: ሁለቱም ቀጣሪ እና ሠራተኛ ለጡረታ ፈንድ ማዋጣት ይጠይቃሉ። ካሳ ፈንድ: ቀጣሪ ለካሳ ክፍያ መብት የሚያዋጣ። የትምህርት ፈንድ: ሁለቱም ቀጣሪ እና ሠራተኛ ወርሃዊ ፍቃደኛ ቁጠባ ስርዓት። የማገገሚያ ክፍያ: ለሠራተኞች ዓመታዊ መብት።"
+    },
+    "export": {
+      "title": "ወደ PDF መላክ",
+      "content": "የደሞዝ ቅጽዎ ከተቀመጠ በኋላ 'PDF ፍጠር' ቁልፍ ጠቅ ያድርጉ። ለPDFው የውጤት ቋንቋ ለመምረጥ የሚያስችሎ መገናኛ ይታያል። PDF ሙሉ ለሙሉ በእርስዎ ቡድን ውስጥ ይፈጠርና የእስራኤልን የሠራተኛ ሕግ ፍላጎቶች ያሟላል። ሰነዱን ቀጥታ ለሠራተኛ በኢሜይል ለመላክ 'ለሠራተኛ ላክ' ቁልፍ ጠቅ ያድርጉ (ንቁ ደምበኝነት ይፈልጋል)።"
+    },
+    "subscription": {
+      "title": "የደምበኝነት ጥቅሞች",
+      "content": "ደምበኝነት የደሞዝ ቅጾችን እና የመጨረሻ ሒሳብ ወረቀቶችን ቀጥታ ለሠራተኞች በኢሜይል የመላክ ችሎታ ይከፍታል። ነጻ ሂሳቦች ወደ 3 ላኮዎች ዕለቱ ይወሰናሉ። ደምበኝነት ካለዎት፣ ያልተወሰነ ዕለታዊ ላኮዎችን እና ሁሉም የስርዓቱ ላቅ ያሉ ምክሮዎች ያገኛሉ።"
+    }
+  },
+  "languages": {
+    "he": "ዕብራይስጥ",
+    "en": "እንግሊዝኛ",
+    "ar": "አረብኛ",
+    "fil": "ፊሊፒኖ",
+    "th": "ታይ",
+    "am": "አማርኛ",
+    "hi": "ሂንዲ"
+  }
+}

@@ -6,3 +6,8 @@ dist/
 .DS_Store
 *.log
 .claude/
+
+# Compiled JS output — source files are .ts/.tsx; JS files in src/ are not source
+client/src/**/*.js
+
+plans/

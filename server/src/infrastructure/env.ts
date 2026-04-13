@@ -8,6 +8,9 @@ const envSchema = z.object({
   CLERK_SECRET_KEY: z.string().min(1, 'CLERK_SECRET_KEY is required'),
   CLERK_WEBHOOK_SECRET: z.string().min(1, 'CLERK_WEBHOOK_SECRET is required'),
   CLIENT_ORIGIN: z.string().default('http://localhost:5173'),
+  SENDGRID_API_KEY: z.string().default(''),
+  EMAIL_FROM: z.string().default('noreply@yourdomain.com'),
+  INTERNAL_API_SECRET: z.string().default('dev-internal-secret'),
 });
 
 const parsed = envSchema.safeParse(process.env);

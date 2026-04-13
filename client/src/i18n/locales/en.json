@@ -1,0 +1,377 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "newForm": "New Payslip",
+    "signOut": "Sign Out",
+    "admin": "Admin",
+    "profile": "Profile",
+    "companies": "Companies",
+    "employees": "Employees",
+    "manual": "Guide"
+  },
+  "home": {
+    "title": "Payslip Creator",
+    "subtitle": "System for generating payslips for foreign employees",
+    "signIn": "Sign In",
+    "signUp": "Sign Up"
+  },
+  "dashboard": {
+    "title": "My Payslips",
+    "noForms": "No payslips yet",
+    "noFormsDesc": "Click \"New Payslip\" to create your first payslip",
+    "newForm": "New Payslip",
+    "lastUpdated": "Last updated",
+    "period": "Period",
+    "employee": "Employee",
+    "gross": "Gross",
+    "net": "Net",
+    "view": "View",
+    "edit": "Edit"
+  },
+  "payslip": {
+    "title": "Payslip",
+    "newTitle": "Create New Payslip",
+    "editTitle": "Edit Payslip",
+    "save": "Save",
+    "duplicate": "Duplicate",
+    "unsavedChanges": {
+      "title": "Leave without saving?",
+      "message": "There are unsaved changes. If you leave now, the changes will be lost.",
+      "stay": "Stay",
+      "leave": "Leave without saving"
+    },
+    "generatePdf": "Generate PDF",
+    "downloadPdf": "Download PDF",
+    "saving": "Saving...",
+    "saved": "Saved successfully",
+    "sections": {
+      "period": "Pay Period",
+      "employee": "Employee Details",
+      "employer": "Employer Details",
+      "workDetails": "Work Days Breakdown",
+      "pay": "Salary Calculation",
+      "deductions": "Deductions",
+      "employerContributions": "Employer Contributions",
+      "paymentInfo": "Payment Details",
+      "summary": "Summary",
+      "customPayItems": "Additional Payments",
+      "vacationSickAccount": "Vacation & Sick Account"
+    },
+    "period": {
+      "month": "Month",
+      "year": "Year",
+      "months": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+      }
+    },
+    "employee": {
+      "fullName": "Full Name",
+      "idNumber": "ID / Passport Number",
+      "nationality": "Nationality",
+      "employerName": "Employer / Company Name",
+      "employerTaxId": "Employer Tax ID / Company No.",
+      "taxFileNumber": "Tax File Number",
+      "employerRegistrationNumber": "Employer Registration Number",
+      "employerAddress": "Employer Address",
+      "employerCity": "Employer City",
+      "employerZip": "Employer Zip Code",
+      "employerDetails": "Additional Employer Details",
+      "employeeNumber": "Employee Number",
+      "jobTitle": "Job Code",
+      "department": "Department",
+      "familyStatus": "Family Status",
+      "grade": "Grade",
+      "employmentStartDate": "Employment Start Date",
+      "taxCalcType": "Tax Calculation Method",
+      "nationalInsuranceType": "National Insurance Type",
+      "salaryBasis": "Salary Basis",
+      "salaryBasisMonthly": "Monthly",
+      "salaryBasisDaily": "Daily",
+      "salaryBasisHourly": "Hourly",
+      "jobFraction": "Job Fraction",
+      "employeeAddress": "Employee Address",
+      "employeeCity": "Employee City",
+      "employeeZip": "Employee Zip Code",
+      "employeeDetails": "Additional Employee Details"
+    },
+    "workDetails": {
+      "standardDays": "Standard Work Days in Month",
+      "workedDays": "Actual Days Worked",
+      "vacationDays": "Vacation Days",
+      "sickDays": "Sick Days",
+      "holidayDays": "Holiday Days",
+      "overtime100h": "Overtime (100%)",
+      "overtime125h": "Overtime (125%)",
+      "overtime150h": "Overtime (150%)"
+    },
+    "pay": {
+      "dailyRate": "Daily Rate (₪)",
+      "baseSalary": "Base Salary",
+      "overtimePay": "Overtime Pay",
+      "vacationPay": "Vacation Payout",
+      "grossSalary": "Gross Salary",
+      "calculated": "Auto-calculated",
+      "override": "Manual value"
+    },
+    "deductions": {
+      "title": "Deductions",
+      "incomeTax": "Income Tax",
+      "nationalInsurance": "National Insurance (Employee)",
+      "healthInsurance": "Health Insurance",
+      "otherDeductions": "Other Deductions",
+      "total": "Total Deductions",
+      "overrideHint": "You can override the calculated amount"
+    },
+    "employerContributions": {
+      "nationalInsurance": "National Insurance (Employer)",
+      "pension": "Pension",
+      "pensionFund": "Pension Fund",
+      "pensionEmployeeRate": "Employee Pension Rate (%)",
+      "pensionEmployerRate": "Employer Pension Rate (%)",
+      "severanceFund": "Severance Fund (₪)",
+      "educationFund": "Education Fund Employer (₪)",
+      "educationFundEmployee": "Education Fund Employee (₪)"
+    },
+    "paymentInfo": {
+      "paymentMethod": "Payment Method",
+      "bankName": "Bank Name",
+      "accountNumber": "Account Number",
+      "branchNumber": "Branch Number",
+      "paymentMethods": {
+        "bank": "Bank Transfer",
+        "cash": "Cash",
+        "check": "Check"
+      }
+    },
+    "summary": {
+      "grossSalary": "Gross Salary",
+      "totalDeductions": "Total Deductions",
+      "netSalary": "Net Salary to Pay",
+      "employerSignature": "Employer Signature"
+    },
+    "customPayItems": {
+      "code": "Code",
+      "description": "Description",
+      "quantity": "Quantity",
+      "rate": "Rate",
+      "amount": "Amount",
+      "taxPercent": "Tax Rate (%)",
+      "add": "Add Payment Row",
+      "empty": "No additional payments"
+    },
+    "vacationAccount": {
+      "title": "Vacation Account",
+      "previousBalance": "Previous Balance",
+      "accrued": "Accrued",
+      "used": "Used",
+      "remaining": "Balance at End of Period"
+    },
+    "sickAccount": {
+      "title": "Sick Account",
+      "previousBalance": "Previous Balance",
+      "accrued": "Accrued",
+      "used": "Used",
+      "remaining": "Balance at End of Period"
+    }
+  },
+  "profile": {
+    "title": "My Profile",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "employerName": "Employer Name",
+    "employerTaxId": "Employer Tax ID",
+    "save": "Save Changes"
+  },
+  "admin": {
+    "title": "Administration",
+    "users": {
+      "title": "Users",
+      "fullName": "Full Name",
+      "email": "Email",
+      "phone": "Phone",
+      "formCount": "Payslip Count",
+      "joinedAt": "Joined Date",
+      "viewForms": "View Payslips",
+      "noUsers": "No users"
+    },
+    "forms": {
+      "title": "All Payslips",
+      "employee": "Employee",
+      "user": "User",
+      "period": "Period",
+      "gross": "Gross",
+      "net": "Net",
+      "createdAt": "Created Date",
+      "updatedAt": "Updated Date",
+      "filterByUser": "Filter by User",
+      "filterByPeriod": "Filter by Period",
+      "sortBy": "Sort By",
+      "groupByPeriod": "Group by Period",
+      "allUsers": "All Users",
+      "noForms": "No payslips",
+      "quickView": "Quick View"
+    }
+  },
+  "finalSettlement": {
+    "title": "Final Settlement",
+    "sections": {
+      "employmentPeriod": "Employment Period",
+      "lastSalary": "Last Salary",
+      "severance": "Severance Pay",
+      "vacation": "Vacation Days",
+      "recuperation": "Recuperation Pay",
+      "notice": "Notice Period",
+      "extras": "Additional Allowances",
+      "deductions": "Deductions",
+      "total": "Summary"
+    },
+    "fields": {
+      "employmentStartDate": "Employment Start Date",
+      "employmentEndDate": "Employment End Date",
+      "terminationReason": "Termination Reason",
+      "dismissal": "Dismissal",
+      "resignation": "Resignation",
+      "mutual": "Mutual Agreement",
+      "lastMonthlySalary": "Last Monthly Salary",
+      "severancePay": "Severance Pay",
+      "severanceEligible": "Eligible for Severance",
+      "vacationDaysAccrued": "Vacation Days Accrued",
+      "vacationDaysUsed": "Vacation Days Used",
+      "unusedVacationDays": "Unused Vacation Days",
+      "vacationPayout": "Vacation Payout",
+      "recuperationDaysEntitled": "Recuperation Days Entitled",
+      "recuperationDaysAlreadyPaid": "Recuperation Days Already Paid",
+      "recuperationPayout": "Recuperation Payout",
+      "noticePeriodDays": "Notice Period Days",
+      "noticeActuallyGiven": "Notice Actually Given",
+      "noticePeriodPay": "Notice Period Pay",
+      "unpaidWages": "Unpaid Wages",
+      "otherAdditions": "Other Additions",
+      "totalGross": "Total Gross",
+      "netTotal": "Total Net to Pay"
+    }
+  },
+  "email": {
+    "sendButton": "Send to Employee",
+    "dialogTitle": "Send Document to Employee",
+    "defaultRecipient": "Send to",
+    "language": "Document Language",
+    "remaining": "{{count}} sends remaining today",
+    "limitReached": "You have reached the daily send limit (3)",
+    "success": "Document sent successfully",
+    "noEmail": "Employee has no email address. Edit the employee details to add one.",
+    "subscriptionRequired": "Sending documents requires an active subscription"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "page": "Page",
+    "of": "of",
+    "actions": "Actions",
+    "currency": "₪",
+    "required": "Required field"
+  },
+  "errors": {
+    "required": "This field is required",
+    "minLength": "Value is too short",
+    "invalidId": "Invalid ID number",
+    "generic": "An error occurred, please try again",
+    "unauthorized": "You are not authorized to perform this action",
+    "notFound": "Item not found",
+    "sessionExpired": "Session expired, please sign in again"
+  },
+  "employees": {
+    "pageTitle": "My Employees",
+    "newEmployee": "New Employee",
+    "editEmployee": "Edit Employee",
+    "addNewEmployee": "Add New Employee",
+    "addEmployee": "Add Employee",
+    "saveChanges": "Save Changes",
+    "fields": {
+      "company": "Company",
+      "fullName": "Full Name",
+      "passport": "Passport Number",
+      "nationality": "Nationality",
+      "startDate": "Employment Start Date",
+      "email": "Email (for document delivery)",
+      "phone": "Phone",
+      "preferredLanguage": "Preferred language for documents"
+    },
+    "nationalities": {
+      "philippines": "Philippines",
+      "thailand": "Thailand",
+      "india": "India",
+      "nigeria": "Nigeria",
+      "sri_lanka": "Sri Lanka",
+      "moldova": "Moldova",
+      "ukraine": "Ukraine",
+      "other": "Other"
+    },
+    "placeholders": {
+      "selectCompany": "Select a company",
+      "selectNationality": "Select nationality",
+      "otherNationality": "Specify nationality"
+    },
+    "hints": {
+      "addCompanyFirst": "before adding employees",
+      "addCompanyLink": "Add a company"
+    }
+  },
+  "manual": {
+    "title": "User Guide",
+    "toc": "Table of Contents",
+    "companies": {
+      "title": "Managing Companies",
+      "content": "To add a new company, click the 'Companies' link in the navigation bar, then click 'Add Company'. Fill in the company name, tax ID (Employer Tax ID / Company No.), registration number, address, city, and zip code. Company details are automatically populated in all payslips you create under that company. You can edit a company's details at any time by clicking on it in the companies list."
+    },
+    "employees": {
+      "title": "Managing Employees",
+      "content": "To add a new employee, click the 'Employees' link in the navigation bar, then click 'Add Employee'. Fill in the employee's personal details including full name, passport or ID number, nationality, job title, department, employment start date, salary basis (monthly, daily, or hourly), and preferred language for document generation. The employee's preferred language will be used as the default when sending email documents to them."
+    },
+    "payslip": {
+      "title": "Creating a Payslip",
+      "content": "To create a new payslip, click 'New Payslip' in the navigation bar or from the dashboard. Select the pay period (month and year), then fill in the employee details, work days breakdown, salary, deductions, and employer contributions. The system automatically calculates income tax, national insurance, and health insurance based on Israeli law. You can override any calculated value by toggling to 'Manual value'. Click 'Save' at any time to save your progress."
+    },
+    "fields": {
+      "title": "Field Reference (Legal Meaning)",
+      "content": "Income Tax: Deducted based on progressive tax brackets under the Income Tax Ordinance. National Insurance (Employee): Deducted from the employee's salary under the National Insurance Law. Health Insurance: The employee's contribution to the national health insurance fund. Pension: Both employer and employee are required to contribute to a pension fund per the Mandatory Pension Law (2008). Severance Fund: Employer contributions toward severance pay entitlement. Education Fund: A voluntary savings scheme where both employer and employee contribute monthly. Recuperation Pay: Annual entitlement paid to employees for recuperation days."
+    },
+    "export": {
+      "title": "Exporting to PDF",
+      "content": "Once your payslip is saved, click the 'Generate PDF' button. A dialog will appear where you can select the output language for the PDF. The PDF is generated entirely in your browser and formatted according to Israeli labor law requirements. To send the document directly to the employee by email, click the 'Send to Employee' button (requires an active subscription)."
+    },
+    "subscription": {
+      "title": "Subscription Benefits",
+      "content": "A subscription unlocks the ability to send payslips and final settlement documents directly to employees by email. Free accounts are limited to 3 email sends per day. With a subscription, you get unlimited daily sends. Subscriptions also unlock access to the archive for viewing older documents and any future premium features added to the platform."
+    }
+  },
+  "languages": {
+    "he": "Hebrew",
+    "en": "English",
+    "ar": "Arabic",
+    "fil": "Filipino",
+    "th": "Thai",
+    "am": "Amharic",
+    "hi": "Hindi"
+  }
+}

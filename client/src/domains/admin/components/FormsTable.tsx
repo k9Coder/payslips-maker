@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { Filter, ArrowUpDown } from 'lucide-react';
 import {
   Table,
@@ -33,7 +34,7 @@ import type { AdminFormsQuery } from '@payslips-maker/shared';
 const MONTH_NAMES = ['', 'ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
 
 interface QuickViewForm {
-  employeeInfo: { fullName: string; idNumber: string; nationality: string };
+  employeeInfo: { fullName: import('@payslips-maker/shared').MultiLangString | string; idNumber: string; nationality: string };
   period: { month: number; year: number };
   payCalculation: { grossSalary: number };
   netSalary: number;
@@ -43,6 +44,7 @@ interface QuickViewForm {
 
 function QuickViewDialog({ form }: { form: QuickViewForm }) {
   const { t } = useTranslation();
+  const resolve = useResolveMultiLang();
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -51,7 +53,7 @@ function QuickViewDialog({ form }: { form: QuickViewForm }) {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {form.employeeInfo.fullName} - {formatPeriod(form.period.month, form.period.year)}
+            {resolve(form.employeeInfo.fullName)} - {formatPeriod(form.period.month, form.period.year)}
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-3 text-base">
@@ -82,6 +84,7 @@ function QuickViewDialog({ form }: { form: QuickViewForm }) {
 
 export function FormsTable() {
   const { t } = useTranslation();
+  const resolve = useResolveMultiLang();
   const [query, setQuery] = useState<AdminFormsQuery>({
     sortBy: 'updatedAt',
     sortOrder: 'desc',
@@ -195,7 +198,7 @@ export function FormsTable() {
                     </TableRow>
                     {periodForms.map((form, i) => (
                       <TableRow key={`${period}-${i}`}>
-                        <TableCell className="font-medium">{form.employeeInfo.fullName}</TableCell>
+                        <TableCell className="font-medium">{resolve(form.employeeInfo.fullName)}</TableCell>
                         <TableCell>
                           <Badge variant="secondary">{formatPeriod(form.period.month, form.period.year)}</Badge>
                         </TableCell>
@@ -211,7 +214,7 @@ export function FormsTable() {
                 ))
               : forms.map((form, i) => (
                   <TableRow key={i}>
-                    <TableCell className="font-medium">{form.employeeInfo.fullName}</TableCell>
+                    <TableCell className="font-medium">{resolve(form.employeeInfo.fullName)}</TableCell>
                     <TableCell>
                       <Badge variant="secondary">{formatPeriod(form.period.month, form.period.year)}</Badge>
                     </TableCell>

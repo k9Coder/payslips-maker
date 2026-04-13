@@ -4,7 +4,10 @@
     "newForm": "תלוש חדש",
     "signOut": "התנתק",
     "admin": "ניהול",
-    "profile": "פרופיל"
+    "profile": "פרופיל",
+    "companies": "חברות",
+    "employees": "עובדים",
+    "manual": "מדריך"
   },
   "home": {
     "title": "יוצר תלושי שכר",
@@ -50,7 +53,9 @@
       "deductions": "ניכויים",
       "employerContributions": "תשלומי מעסיק",
       "paymentInfo": "פרטי תשלום",
-      "summary": "סיכום"
+      "summary": "סיכום",
+      "customPayItems": "תשלומים נוספים",
+      "vacationSickAccount": "חשבון חופשה ומחלה"
     },
     "period": {
       "month": "חודש",
@@ -75,7 +80,30 @@
       "idNumber": "מספר זהות / דרכון",
       "nationality": "לאום",
       "employerName": "שם המעסיק / חברה",
-      "employerTaxId": "מספר עוסק / ח.פ"
+      "employerTaxId": "מספר עוסק / ח.פ",
+      "taxFileNumber": "תיק ניכויים",
+      "employerRegistrationNumber": "מספר האגיד",
+      "employerAddress": "כתובת מעסיק",
+      "employerCity": "עיר (מעסיק)",
+      "employerZip": "מיקוד (מעסיק)",
+      "employerDetails": "פרטי המעסיק הנוספים",
+      "employeeNumber": "מספר העובד",
+      "jobTitle": "קוד משרה",
+      "department": "מחלקה",
+      "familyStatus": "מצב משפחתי",
+      "grade": "דרגה",
+      "employmentStartDate": "תאריך תחילת עסקה",
+      "taxCalcType": "שיטת חישוב מס",
+      "nationalInsuranceType": "סוג ביטוח לאומי",
+      "salaryBasis": "בסיס שכר",
+      "salaryBasisMonthly": "חודשי",
+      "salaryBasisDaily": "יומי",
+      "salaryBasisHourly": "שעתי",
+      "jobFraction": "חלקיות משרה",
+      "employeeAddress": "כתובת עובד",
+      "employeeCity": "עיר (עובד)",
+      "employeeZip": "מיקוד (עובד)",
+      "employeeDetails": "פרטי העובד הנוספים"
     },
     "workDetails": {
       "standardDays": "ימי עבודה תקניים בחודש",
@@ -107,7 +135,13 @@
     },
     "employerContributions": {
       "nationalInsurance": "ביטוח לאומי (מעסיק)",
-      "pension": "פנסיה"
+      "pension": "פנסיה",
+      "pensionFund": "קרן פנסיה",
+      "pensionEmployeeRate": "שיעור פנסיה עובד (%)",
+      "pensionEmployerRate": "שיעור פנסיה מעסיק (%)",
+      "severanceFund": "קרן פיצויים (₪)",
+      "educationFund": "קרן השתלמות מעסיק (₪)",
+      "educationFundEmployee": "קרן השתלמות עובד (₪)"
     },
     "paymentInfo": {
       "paymentMethod": "אמצעי תשלום",
@@ -125,6 +159,30 @@
       "totalDeductions": "סה\"כ ניכויים",
       "netSalary": "שכר נטו לתשלום",
       "employerSignature": "חתימת המעסיק"
+    },
+    "customPayItems": {
+      "code": "קוד",
+      "description": "תיאור",
+      "quantity": "כמות",
+      "rate": "תעריף",
+      "amount": "סכום",
+      "taxPercent": "שיעור למס (%)",
+      "add": "הוסף שורת תשלום",
+      "empty": "אין תשלומים נוספים"
+    },
+    "vacationAccount": {
+      "title": "חשבון חופשה",
+      "previousBalance": "יתרת קודמת",
+      "accrued": "שנצברו",
+      "used": "שנוצלו",
+      "remaining": "יתרה לסוף תקופה"
+    },
+    "sickAccount": {
+      "title": "חשבון מחלה",
+      "previousBalance": "יתרת קודמת",
+      "accrued": "שנצברו",
+      "used": "שנוצלו",
+      "remaining": "יתרה לסוף תקופה"
     }
   },
   "profile": {
@@ -165,6 +223,56 @@
       "quickView": "צפייה מהירה"
     }
   },
+  "finalSettlement": {
+    "title": "גמר חשבון",
+    "sections": {
+      "employmentPeriod": "תקופת העסקה",
+      "lastSalary": "שכר אחרון",
+      "severance": "פיצויי פיטורין",
+      "vacation": "ימי חופשה",
+      "recuperation": "דמי הבראה",
+      "notice": "הודעה מוקדמת",
+      "extras": "תוספות נוספות",
+      "deductions": "ניכויים",
+      "total": "סיכום"
+    },
+    "fields": {
+      "employmentStartDate": "תאריך תחילת עבודה",
+      "employmentEndDate": "תאריך סיום עבודה",
+      "terminationReason": "סיבת סיום",
+      "dismissal": "פיטורים",
+      "resignation": "התפטרות",
+      "mutual": "הסכמה הדדית",
+      "lastMonthlySalary": "שכר חודשי אחרון",
+      "severancePay": "פיצויי פיטורין",
+      "severanceEligible": "זכאי לפיצויים",
+      "vacationDaysAccrued": "ימי חופשה שנצברו",
+      "vacationDaysUsed": "ימי חופשה שנוצלו",
+      "unusedVacationDays": "יתרת ימי חופשה",
+      "vacationPayout": "פדיון חופשה",
+      "recuperationDaysEntitled": "ימי הבראה מגיעים",
+      "recuperationDaysAlreadyPaid": "ימי הבראה ששולמו",
+      "recuperationPayout": "דמי הבראה לתשלום",
+      "noticePeriodDays": "ימי הודעה מוקדמת",
+      "noticeActuallyGiven": "ניתנה הודעה מוקדמת בפועל",
+      "noticePeriodPay": "תמורת הודעה מוקדמת",
+      "unpaidWages": "שכר שלא שולם",
+      "otherAdditions": "תוספות אחרות",
+      "totalGross": "סה\"כ ברוטו",
+      "netTotal": "סה\"כ לתשלום נטו"
+    }
+  },
+  "email": {
+    "sendButton": "שלח לעובד",
+    "dialogTitle": "שלח מסמך לעובד",
+    "defaultRecipient": "נשלח אל",
+    "language": "שפת המסמך",
+    "remaining": "נותרו {{count}} שליחות היום",
+    "limitReached": "הגעת למגבלת השליחות היומית (3)",
+    "success": "המסמך נשלח בהצלחה",
+    "noEmail": "לעובד אין כתובת דוא\"ל. ערוך את פרטי העובד כדי להוסיף.",
+    "subscriptionRequired": "שליחת מסמכים דורשת מנוי פעיל"
+  },
   "common": {
     "save": "שמור",
     "cancel": "ביטול",
@@ -191,5 +299,79 @@
     "unauthorized": "אין הרשאה לביצוע פעולה זו",
     "notFound": "הפריט לא נמצא",
     "sessionExpired": "פג תוקף ההתחברות, אנא התחבר מחדש"
+  },
+  "employees": {
+    "pageTitle": "העובדים שלי",
+    "newEmployee": "עובד חדש",
+    "editEmployee": "עריכת עובד",
+    "addNewEmployee": "הוסף עובד חדש",
+    "addEmployee": "הוסף עובד",
+    "saveChanges": "שמור שינויים",
+    "fields": {
+      "company": "חברה",
+      "fullName": "שם מלא",
+      "passport": "מספר דרכון",
+      "nationality": "לאום",
+      "startDate": "תאריך תחילת עבודה",
+      "email": "דוא\"ל (לשליחת מסמכים)",
+      "phone": "טלפון",
+      "preferredLanguage": "שפה מועדפת לתיעוד"
+    },
+    "nationalities": {
+      "philippines": "פיליפינים",
+      "thailand": "תאילנד",
+      "india": "הודו",
+      "nigeria": "ניגריה",
+      "sri_lanka": "סרי לנקה",
+      "moldova": "מולדובה",
+      "ukraine": "אוקראינה",
+      "other": "אחר"
+    },
+    "placeholders": {
+      "selectCompany": "בחר חברה",
+      "selectNationality": "בחר לאום",
+      "otherNationality": "ציין לאום"
+    },
+    "hints": {
+      "addCompanyFirst": "לפני הוספת עובד",
+      "addCompanyLink": "הוסף חברה"
+    }
+  },
+  "manual": {
+    "title": "מדריך למשתמש",
+    "toc": "תוכן עניינים",
+    "companies": {
+      "title": "ניהול חברות",
+      "content": "כדי להוסיף חברה חדשה, לחץ על הקישור 'חברות' בסרגל הניווט, ואז לחץ על 'הוסף חברה'. מלא את שם החברה, מספר עוסק / ח.פ, מספר האגיד, כתובת, עיר ומיקוד. פרטי החברה יוכנסו אוטומטית לכל תלושי השכר שתיצור. ניתן לערוך את פרטי החברה בכל עת על ידי לחיצה עליה ברשימת החברות."
+    },
+    "employees": {
+      "title": "ניהול עובדים",
+      "content": "כדי להוסיף עובד חדש, לחץ על הקישור 'עובדים' בסרגל הניווט, ואז לחץ על 'הוסף עובד'. מלא את פרטיו האישיים של העובד, כולל שם מלא, מספר דרכון / זהות, לאום, קוד משרה, מחלקה, תאריך תחילת עסקה, בסיס שכר ושפה מועדפת ליצירת מסמכים. השפה המועדפת של העובד תשמש כברירת מחדל בעת שליחת מסמכים אליו בדוא\"ל."
+    },
+    "payslip": {
+      "title": "יצירת תלוש שכר",
+      "content": "כדי ליצור תלוש שכר חדש, לחץ על 'תלוש חדש' בסרגל הניווט או מלוח הבקרה. בחר את תקופת השכר (חודש ושנה), ולאחר מכן מלא את פרטי העובד, פירוט ימי עבודה, שכר, ניכויים ותשלומי מעסיק. המערכת מחשבת אוטומטית מס הכנסה, ביטוח לאומי וביטוח בריאות לפי חוקי מדינת ישראל. ניתן לעקוף כל ערך מחושב על ידי מעבר ל'ערך ידני'. לחץ 'שמור' בכל עת כדי לשמור את ההתקדמות."
+    },
+    "fields": {
+      "title": "מילון שדות (משמעות משפטית)",
+      "content": "מס הכנסה: מנוכה לפי מדרגות המס הפרוגרסיביות בהתאם לפקודת מס הכנסה. ביטוח לאומי (עובד): מנוכה משכרו של העובד לפי חוק הביטוח הלאומי. ביטוח בריאות: חלקו של העובד בדמי הביטוח הרפואי הלאומי. פנסיה: הן המעסיק והן העובד מחויבים להפריש לקרן פנסיה לפי חוק פנסיית חובה (2008). קרן פיצויים: הפרשות המעסיק לצורך זכאות לפיצויי פיטורים. קרן השתלמות: תוכנית חיסכון וולונטרית שבה תורמים הן המעסיק והן העובד מדי חודש. דמי הבראה: זכאות שנתית המשולמת לעובדים עבור ימי הבראה."
+    },
+    "export": {
+      "title": "ייצוא ל-PDF",
+      "content": "לאחר שמירת התלוש, לחץ על כפתור 'צור PDF'. יופיע חלון שבו ניתן לבחור את שפת הפלט של ה-PDF. ה-PDF נוצר כולו בדפדפן שלך ומעוצב לפי דרישות חוקי העבודה הישראלי. לשליחת המסמך ישירות לעובד בדוא\"ל, לחץ על הכפתור 'שלח לעובד' (דורש מנוי פעיל)."
+    },
+    "subscription": {
+      "title": "יתרונות המנוי",
+      "content": "מנוי פעיל מאפשר שליחת תלושי שכר ומסמכי גמר חשבון ישירות לעובדים בדוא\"ל. חשבונות חינמיים מוגבלים ל-3 שליחות ביום. עם מנוי, מקבלים שליחות יומיות ללא הגבלה וגישה לכל הפיצ'רים המתקדמים של המערכת."
+    }
+  },
+  "languages": {
+    "he": "עברית",
+    "en": "אנגלית",
+    "ar": "ערבית",
+    "fil": "פיליפינית",
+    "th": "תאילנדית",
+    "am": "אמהרית",
+    "hi": "הינדי"
   }
 }

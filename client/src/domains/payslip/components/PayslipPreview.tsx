@@ -5,6 +5,7 @@ import { Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import type { IForm } from '@payslips-maker/shared';
+import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { formatPeriod } from '@/lib/utils';
 
 import { PayslipPDF } from './PayslipPDF';
@@ -15,8 +16,9 @@ interface PayslipPreviewProps {
 
 export function PayslipPreview({ form }: PayslipPreviewProps) {
   const { t } = useTranslation();
+  const resolve = useResolveMultiLang();
 
-  const fileName = `תלוש-שכר-${form.employeeInfo.fullName}-${formatPeriod(form.period.month, form.period.year)}.pdf`;
+  const fileName = `תלוש-שכר-${resolve(form.employeeInfo.fullName)}-${formatPeriod(form.period.month, form.period.year)}.pdf`;
 
   return (
     <div className="space-y-4">

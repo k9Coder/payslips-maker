@@ -66,7 +66,7 @@ export function DeductionsSection() {
   const { setValue } = useFormContext<PayslipFormValues>();
 
   const grossSalary = useWatch({ name: 'payCalculation.grossSalary' }) as number;
-  const currentDeductions = useWatch({ name: 'deductions' }) as PayslipFormValues['deductions'];
+  const currentDeductions = (useWatch({ name: 'deductions' }) ?? {}) as PayslipFormValues['deductions'];
   const netSalary = useWatch({ name: 'netSalary' }) as number;
 
   // Detect manual overrides (non-zero values that differ from calculated)

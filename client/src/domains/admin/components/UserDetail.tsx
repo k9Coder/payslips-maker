@@ -1,19 +1,186 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, Mail, Phone, FileText } from 'lucide-react';
+import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, Building2, UserCog } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { useApiClient } from '@/lib/useApiClient';
 import { formatCurrency, formatDate, formatPeriod } from '@/lib/utils';
-import type { IUser, FormListItem } from '@payslips-maker/shared';
+import type { IUser, ICompany, IEmployee, FormListItem, ApiResponse } from '@payslips-maker/shared';
+import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
+import { useToggleSubscription } from '../hooks/useToggleSubscription';
+import { useAdminCompanyEmployees, useAdminEmployeeArchive } from '@/domains/archive/hooks/useEmployeeArchive';
+
+function FormTypeBadge({ formType }: { formType: string }) {
+  if (formType === 'final_settlement') {
+    return (
+      <Badge className="text-xs bg-orange-100 text-orange-800 border-orange-200 hover:bg-orange-100">
+        גמר חשבון
+      </Badge>
+    );
+  }
+  return (
+    <Badge className="text-xs bg-teal-100 text-teal-800 border-teal-200 hover:bg-teal-100">
+      תלוש שכר
+    </Badge>
+  );
+}
+
+function AdminEmployeeSection({
+  companyId,
+  employee,
+  defaultOpen,
+  userId,
+}: {
+  companyId: string;
+  employee: IEmployee;
+  defaultOpen: boolean;
+  userId: string;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const resolve = useResolveMultiLang();
+  const { data: forms, isLoading } = useAdminEmployeeArchive(open ? companyId : '', open ? employee._id : '');
+
+  return (
+    <>
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => e.key === 'Enter' && setOpen((v) => !v)}
+        className="flex min-h-[52px] cursor-pointer items-center justify-between rounded-lg border bg-card px-4 py-3 transition-colors hover:bg-accent"
+      >
+        <div className="flex items-center gap-3">
+          {open ? (
+            <ChevronUp className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+          )}
+          <span className="font-semibold">{resolve(employee.fullName)}</span>
+          <span className="text-sm text-muted-foreground">({employee.nationality})</span>
+        </div>
+        {forms && (
+          <span className="text-sm text-muted-foreground">
+            {forms.length} {forms.length === 1 ? 'טופס' : 'טפסים'}
+          </span>
+        )}
+      </div>
+
+      {open && (
+        <div className="ms-4 border-s ps-4 space-y-1 pb-2">
+          {isLoading ? (
+            <p className="py-3 text-sm text-muted-foreground">טוען...</p>
+          ) : !forms || forms.length === 0 ? (
+            <p className="py-3 text-sm text-muted-foreground">אין טפסים</p>
+          ) : (
+            forms.map((form: FormListItem) => (
+              <div
+                key={form._id}
+                className="flex min-h-[48px] items-center justify-between rounded-md border bg-background px-3 py-2 text-sm"
+              >
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <FormTypeBadge formType={form.formType} />
+                  <span className="font-medium shrink-0">
+                    {formatPeriod(form.period.month, form.period.year)}
+                  </span>
+                  <span className="text-muted-foreground hidden sm:inline shrink-0">
+                    {formatDate(form.updatedAt)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 shrink-0 ms-3">
+                  <span className="font-semibold text-primary">
+                    {formatCurrency(form.netSalary)} נטו
+                  </span>
+                  <Link
+                    to={`/forms/${form._id}`}
+                    className="flex h-9 w-9 items-center justify-center rounded-md border bg-primary/10 text-primary hover:bg-primary/20 transition-colors"
+                    title="פתח"
+                  >
+                    <ExternalLink className="h-4 w-4" />
+                  </Link>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      )}
+    </>
+  );
+}
+
+function AdminCompanySection({
+  company,
+  defaultOpen,
+  userId,
+}: {
+  company: ICompany;
+  defaultOpen: boolean;
+  userId: string;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+  const resolve = useResolveMultiLang();
+  const { data: employees, isLoading } = useAdminCompanyEmployees(open ? company._id : '');
+
+  return (
+    <div className="space-y-2">
+      <div
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => e.key === 'Enter' && setOpen((v) => !v)}
+        className="flex min-h-[52px] cursor-pointer items-center justify-between rounded-lg border-2 bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50"
+      >
+        <div className="flex items-center gap-3">
+          {open ? (
+            <ChevronUp className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <ChevronDown className="h-5 w-5 text-muted-foreground" />
+          )}
+          <Building2 className="h-5 w-5 text-primary" />
+          <span className="font-bold">{resolve(company.name)}</span>
+          {company.ein && (
+            <span className="text-sm text-muted-foreground">({company.ein})</span>
+          )}
+        </div>
+        {employees && (
+          <span className="text-sm text-muted-foreground">
+            {employees.length} {employees.length === 1 ? 'עובד' : 'עובדים'}
+          </span>
+        )}
+      </div>
+
+      {open && (
+        <div className="ms-4 border-s ps-4 space-y-2 pb-2">
+          {isLoading ? (
+            <p className="py-3 text-sm text-muted-foreground">טוען...</p>
+          ) : !employees || employees.length === 0 ? (
+            <p className="py-3 text-sm text-muted-foreground">אין עובדים בחברה זו</p>
+          ) : (
+            employees.map((employee, index) => (
+              <AdminEmployeeSection
+                key={employee._id}
+                companyId={company._id}
+                employee={employee}
+                defaultOpen={index === 0 && defaultOpen}
+                userId={userId}
+              />
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
   const { get } = useApiClient();
+
+  const toggleSubscription = useToggleSubscription(id!);
 
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'user', id],
@@ -23,10 +190,17 @@ export function UserDetail() {
     select: (res) => res.data,
   });
 
+  const { data: companies } = useQuery({
+    queryKey: ['admin', 'users', id, 'companies'],
+    queryFn: () =>
+      get<ApiResponse<ICompany[]>>(`/api/admin/users/${id}/companies`).then((r) => r.data),
+    enabled: !!id,
+  });
+
   if (isLoading) return <PageLoading />;
   if (!data) return <p className="text-center text-muted-foreground">משתמש לא נמצא</p>;
 
-  const { user, forms } = data;
+  const { user } = data;
 
   return (
     <div className="space-y-6">
@@ -42,7 +216,26 @@ export function UserDetail() {
         <CardHeader>
           <div className="flex items-start justify-between">
             <CardTitle className="text-2xl">{user.fullName}</CardTitle>
-            {user.isAdmin && <Badge variant="secondary">מנהל</Badge>}
+            <div className="flex items-center gap-2">
+              {user.isAdmin && <Badge variant="secondary">מנהל</Badge>}
+              {user.hasSubscription && <Badge variant="default">מנוי פעיל</Badge>}
+              <Button variant="outline" size="sm" className="gap-1" asChild>
+                <Link to={`/${user._id}/dashboard`}>
+                  <UserCog className="h-4 w-4" />
+                  נהל עבור משתמש
+                </Link>
+              </Button>
+              <Button
+                variant={user.hasSubscription ? 'default' : 'outline'}
+                size="sm"
+                className="gap-1"
+                disabled={toggleSubscription.isPending}
+                onClick={() => toggleSubscription.mutate(!user.hasSubscription)}
+              >
+                <Crown className="h-4 w-4" />
+                {user.hasSubscription ? 'בטל מנוי' : 'הפעל מנוי'}
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent>
@@ -57,12 +250,6 @@ export function UserDetail() {
                 <span>{user.phone}</span>
               </div>
             )}
-            {user.employerName && (
-              <div className="text-base">
-                <span className="text-muted-foreground">מעסיק: </span>
-                <span>{user.employerName}</span>
-              </div>
-            )}
             <div className="text-base text-muted-foreground">
               הצטרף: {formatDate(user.createdAt)}
             </div>
@@ -70,35 +257,24 @@ export function UserDetail() {
         </CardContent>
       </Card>
 
-      {/* Forms */}
+      {/* Company → Employee → Form hierarchy */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <FileText className="h-5 w-5 text-muted-foreground" />
-          <h2 className="text-xl font-semibold">תלושי שכר ({forms.length})</h2>
-        </div>
+        <h2 className="text-xl font-semibold">
+          חברות
+          {companies && <span className="ms-2 text-base font-normal text-muted-foreground">({companies.length} חברות)</span>}
+        </h2>
 
-        {forms.length === 0 ? (
-          <p className="text-muted-foreground">{t('dashboard.noForms')}</p>
+        {!companies || companies.length === 0 ? (
+          <p className="text-muted-foreground">אין חברות</p>
         ) : (
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {forms.map((form) => (
-              <Card key={form._id} className="p-4">
-                <Badge variant="secondary" className="mb-2">
-                  {formatPeriod(form.period.month, form.period.year)}
-                </Badge>
-                <p className="font-medium">{form.employeeName}</p>
-                <div className="mt-2 flex justify-between text-sm">
-                  <span className="text-muted-foreground">ברוטו:</span>
-                  <span>{formatCurrency(form.grossSalary)}</span>
-                </div>
-                <div className="flex justify-between text-sm font-semibold text-primary">
-                  <span>נטו:</span>
-                  <span>{formatCurrency(form.netSalary)}</span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">{formatDate(form.updatedAt)}</p>
-              </Card>
-            ))}
-          </div>
+          companies.map((company, index) => (
+            <AdminCompanySection
+              key={company._id}
+              company={company}
+              defaultOpen={index === 0}
+              userId={id!}
+            />
+          ))
         )}
       </div>
 

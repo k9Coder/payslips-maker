@@ -5,8 +5,8 @@ export interface IUser {
   fullName: string;
   phone?: string;
   isAdmin: boolean;
-  employerName?: string;
-  employerTaxId?: string;
+  hasSubscription: boolean;
+  companyIds: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
 }
@@ -14,8 +14,6 @@ export interface IUser {
 export interface UpdateUserDto {
   fullName?: string;
   phone?: string;
-  employerName?: string;
-  employerTaxId?: string;
 }
 
 export interface AdminUserView extends IUser {
