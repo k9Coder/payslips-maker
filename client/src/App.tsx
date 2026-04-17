@@ -11,6 +11,7 @@ import { HomePage } from '@/pages/HomePage';
 import { SignInPage } from '@/pages/SignInPage';
 import { SignUpPage } from '@/pages/SignUpPage';
 import { ManualPage } from '@/pages/ManualPage';
+import { UnderDevelopmentPage } from '@/pages/UnderDevelopmentPage';
 
 // Lazy load heavier pages
 const DashboardPage = lazy(() =>
@@ -68,6 +69,7 @@ function AppRoutes() {
         <Route path="sign-in/*" element={<SignInPage />} />
         <Route path="sign-up/*" element={<SignUpPage />} />
         <Route path="manual" element={<ManualPage />} />
+        <Route path="under-development" element={<UnderDevelopmentPage />} />
 
         {/* Protected user routes */}
         <Route element={<ProtectedRoute />}>

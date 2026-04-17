@@ -4,6 +4,8 @@ import { User } from '../domains/users/user.model';
 import { env } from '../infrastructure/env';
 import { logger } from '../infrastructure/logger/logger';
 
+const ALLOWED_EMAILS = ['yarin0600@gmail.com', 'omermfla@gmail.com'];
+
 export async function authMiddleware(
   req: Request,
   res: Response,
@@ -31,6 +33,11 @@ export async function authMiddleware(
       // User authenticated with Clerk but not yet synced to DB
       // Return 202 so client can call /api/users/sync and retry
       res.status(202).json({ success: false, error: 'USER_SYNC_REQUIRED' });
+      return;
+    }
+
+    if (!ALLOWED_EMAILS.includes(user.email)) {
+      res.status(403).json({ success: false, error: 'ACCESS_RESTRICTED' });
       return;
     }
 
