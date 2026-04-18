@@ -20,7 +20,7 @@ export function resolveMultiLangString(
 
 export interface IEmployee {
   _id: string;
-  companyId: string;
+  userId: string;
   fullName: MultiLangString;
   passportNumber: string;
   nationality: string;
@@ -32,5 +32,5 @@ export interface IEmployee {
   updatedAt: Date | string;
 }
 
-export type CreateEmployeeDto = Omit<IEmployee, '_id' | 'companyId' | 'createdAt' | 'updatedAt'>;
+export type CreateEmployeeDto = Omit<IEmployee, '_id' | 'userId' | 'createdAt' | 'updatedAt'>;
 export type UpdateEmployeeDto = Partial<CreateEmployeeDto>;
