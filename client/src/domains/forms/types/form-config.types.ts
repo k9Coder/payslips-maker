@@ -1,13 +1,11 @@
 import type { ZodType, ZodTypeDef } from 'zod';
 import type { DefaultValues } from 'react-hook-form';
-import type { IEmployee, ICompany, IForm, SupportedLanguage, FormType } from '@payslips-maker/shared';
+import type { IEmployee, IForm, SupportedLanguage, FormType } from '@payslips-maker/shared';
 import type { ReactElement } from 'react';
 
 export interface ToApiPayloadCtx {
   formType: FormType;
   employeeId: string;
-  companyId: string;
-  company: ICompany | null;
 }
 
 export interface FormConfig<TData extends Record<string, unknown>> {
@@ -19,8 +17,8 @@ export interface FormConfig<TData extends Record<string, unknown>> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   schema: ZodType<TData, ZodTypeDef, any>;
 
-  /** Initial form values for a new form, seeded from the employee and company records */
-  defaultValues: (employee: IEmployee, company: ICompany | null) => DefaultValues<TData>;
+  /** Initial form values for a new form, seeded from the employee record */
+  defaultValues: (employee: IEmployee) => DefaultValues<TData>;
 
   /**
    * Convert a saved IForm (from the API) into form values for editing.
@@ -31,7 +29,7 @@ export interface FormConfig<TData extends Record<string, unknown>> {
   /**
    * Optional: build the full CreateFormDto from form data.
    * Use when the DTO shape differs from TData (e.g. final settlement wraps data in finalSettlementData).
-   * When absent, FormContainer defaults to: { ...data, formType, employeeId, companyId }
+   * When absent, FormContainer defaults to: { ...data, formType, employeeId }
    */
   toApiPayload?: (
     data: TData,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
@@ -18,9 +18,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { MultiLangInput } from '@/shared/components/MultiLangInput';
-import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { useEmployee, useCreateEmployee, useUpdateEmployee } from '../hooks/useEmployees';
-import { useCompanies } from '@/domains/companies/hooks/useCompanies';
 import type { SupportedLanguage, MultiLangString } from '@payslips-maker/shared';
 
 const supportedLanguages = ['he', 'en', 'fil', 'th', 'am', 'hi', 'ar'] as const;
@@ -66,14 +64,10 @@ export function EmployeeFormPage({ mode }: Props) {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const resolve = useResolveMultiLang();
 
   const { data: existing, isLoading } = useEmployee(id ?? '');
   const createEmployee = useCreateEmployee();
   const updateEmployee = useUpdateEmployee(id ?? '');
-  const { data: companies } = useCompanies();
-
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>('');
 
   const {
     register,
@@ -87,13 +81,6 @@ export function EmployeeFormPage({ mode }: Props) {
     resolver: zodResolver(schema),
     defaultValues: { preferredLanguage: 'he' },
   });
-
-  // Pre-select first company when companies load (create mode only)
-  useEffect(() => {
-    if (mode === 'create' && companies && companies.length > 0 && !selectedCompanyId) {
-      setSelectedCompanyId(companies[0]._id);
-    }
-  }, [companies, mode, selectedCompanyId]);
 
   useEffect(() => {
     if (mode === 'edit' && existing) {
@@ -111,7 +98,7 @@ export function EmployeeFormPage({ mode }: Props) {
 
   const onSubmit = async (values: FormValues) => {
     if (mode === 'create') {
-      await createEmployee.mutateAsync({ companyId: selectedCompanyId, ...values });
+      await createEmployee.mutateAsync(values);
     } else {
       await updateEmployee.mutateAsync(values);
     }
@@ -147,34 +134,6 @@ export function EmployeeFormPage({ mode }: Props) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-            {/* Company picker — create mode only */}
-            {mode === 'create' && (
-              <div className="space-y-1.5">
-                <Label>{t('employees.fields.company')} *</Label>
-                <Select
-                  value={selectedCompanyId}
-                  onValueChange={setSelectedCompanyId}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('employees.placeholders.selectCompany')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {(companies ?? []).map((company) => (
-                      <SelectItem key={company._id} value={company._id}>
-                        {resolve(company.name)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                {!selectedCompanyId && (
-                  <p className="text-sm text-muted-foreground">
-                    <a href="/companies/new" className="underline">{t('employees.hints.addCompanyLink')}</a>{' '}
-                    {t('employees.hints.addCompanyFirst')}
-                  </p>
-                )}
-              </div>
-            )}
-
             {/* Full name */}
             <div className="space-y-1.5">
               <Label>{t('employees.fields.fullName')} *</Label>
@@ -285,7 +244,7 @@ export function EmployeeFormPage({ mode }: Props) {
             <div className="flex gap-3 pt-2">
               <Button
                 type="submit"
-                disabled={isSubmitting || (mode === 'create' && !selectedCompanyId)}
+                disabled={isSubmitting}
                 className="flex-1"
               >
                 {mode === 'create' ? t('employees.addEmployee') : t('employees.saveChanges')}

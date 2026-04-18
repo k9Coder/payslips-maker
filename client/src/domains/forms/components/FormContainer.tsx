@@ -10,7 +10,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { useApiClient } from '@/lib/useApiClient';
 import { useEmployee } from '@/domains/employees/hooks/useEmployees';
-import { useCompany } from '@/domains/companies/hooks/useCompanies';
 import { getFormConfig } from '../form-registry';
 import { PDFDownloadDialog } from './PDFDownloadDialog';
 import { SendEmailDialog } from './SendEmailDialog';
@@ -42,9 +41,6 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
   // Load employee
   const { data: employee, isLoading: isEmployeeLoading } = useEmployee(employeeId);
 
-  // Load company (needed for defaultValues on new forms)
-  const { data: company = null, isLoading: isCompanyLoading } = useCompany(employee?.companyId ?? '');
-
   // Load existing form when editing
   const { data: existingForm, isLoading: isFormLoading } = useQuery({
     queryKey: ['form', formId],
@@ -53,10 +49,7 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     staleTime: 0,
   });
 
-  const isLoading =
-    isEmployeeLoading ||
-    (!!formId && isFormLoading) ||
-    (!formId && !!employee?.companyId && isCompanyLoading);
+  const isLoading = isEmployeeLoading || (!!formId && isFormLoading);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const form = useForm<any>({
@@ -70,11 +63,11 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     if (!employee) return;
     if (formId && existingForm) {
       form.reset(config.fromApiForm(existingForm));
-    } else if (!formId && company !== undefined) {
-      form.reset(config.defaultValues(employee, company));
+    } else if (!formId) {
+      form.reset(config.defaultValues(employee));
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee, existingForm, formId, company]);
+  }, [employee, existingForm, formId]);
 
   const createMutation = useMutation({
     mutationFn: (dto: CreateFormDto) =>
@@ -126,11 +119,10 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
       toast({ title: 'מצב הדגמה', description: 'שינויים לא נשמרים במצב הדגמה' });
       return;
     }
-    const companyId = employee?.companyId ?? '';
     const baseDto = config.toApiPayload
-      ? config.toApiPayload(data, { formType, employeeId, companyId, company })
+      ? config.toApiPayload(data, { formType, employeeId })
       : { ...data, formType, employeeId };
-    const dto: CreateFormDto = { ...baseDto, companyId } as CreateFormDto;
+    const dto: CreateFormDto = { ...baseDto } as CreateFormDto;
     if (formId) {
       updateMutation.mutate(dto);
     } else {
@@ -258,4 +250,3 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     </FormProvider>
   );
 }
-

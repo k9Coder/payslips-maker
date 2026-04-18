@@ -2,17 +2,16 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, Building2, UserCog } from 'lucide-react';
+import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, UserCog } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { useApiClient } from '@/lib/useApiClient';
 import { formatCurrency, formatDate, formatPeriod } from '@/lib/utils';
-import type { IUser, ICompany, IEmployee, FormListItem, ApiResponse } from '@payslips-maker/shared';
+import type { IUser, IEmployee, FormListItem } from '@payslips-maker/shared';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { useToggleSubscription } from '../hooks/useToggleSubscription';
-import { useAdminCompanyEmployees, useAdminEmployeeArchive } from '@/domains/archive/hooks/useEmployeeArchive';
 
 function FormTypeBadge({ formType }: { formType: string }) {
   if (formType === 'final_settlement') {
@@ -30,19 +29,18 @@ function FormTypeBadge({ formType }: { formType: string }) {
 }
 
 function AdminEmployeeSection({
-  companyId,
   employee,
   defaultOpen,
-  userId,
+  allForms,
 }: {
-  companyId: string;
   employee: IEmployee;
   defaultOpen: boolean;
-  userId: string;
+  allForms: FormListItem[];
 }) {
   const [open, setOpen] = useState(defaultOpen);
   const resolve = useResolveMultiLang();
-  const { data: forms, isLoading } = useAdminEmployeeArchive(open ? companyId : '', open ? employee._id : '');
+  const forms = allForms.filter((f) => f.employeeId === employee._id);
+  const isLoading = false;
 
   return (
     <>
@@ -111,70 +109,6 @@ function AdminEmployeeSection({
   );
 }
 
-function AdminCompanySection({
-  company,
-  defaultOpen,
-  userId,
-}: {
-  company: ICompany;
-  defaultOpen: boolean;
-  userId: string;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  const resolve = useResolveMultiLang();
-  const { data: employees, isLoading } = useAdminCompanyEmployees(open ? company._id : '');
-
-  return (
-    <div className="space-y-2">
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => setOpen((v) => !v)}
-        onKeyDown={(e) => e.key === 'Enter' && setOpen((v) => !v)}
-        className="flex min-h-[52px] cursor-pointer items-center justify-between rounded-lg border-2 bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50"
-      >
-        <div className="flex items-center gap-3">
-          {open ? (
-            <ChevronUp className="h-5 w-5 text-muted-foreground" />
-          ) : (
-            <ChevronDown className="h-5 w-5 text-muted-foreground" />
-          )}
-          <Building2 className="h-5 w-5 text-primary" />
-          <span className="font-bold">{resolve(company.name)}</span>
-          {company.ein && (
-            <span className="text-sm text-muted-foreground">({company.ein})</span>
-          )}
-        </div>
-        {employees && (
-          <span className="text-sm text-muted-foreground">
-            {employees.length} {employees.length === 1 ? 'עובד' : 'עובדים'}
-          </span>
-        )}
-      </div>
-
-      {open && (
-        <div className="ms-4 border-s ps-4 space-y-2 pb-2">
-          {isLoading ? (
-            <p className="py-3 text-sm text-muted-foreground">טוען...</p>
-          ) : !employees || employees.length === 0 ? (
-            <p className="py-3 text-sm text-muted-foreground">אין עובדים בחברה זו</p>
-          ) : (
-            employees.map((employee, index) => (
-              <AdminEmployeeSection
-                key={employee._id}
-                companyId={company._id}
-                employee={employee}
-                defaultOpen={index === 0 && defaultOpen}
-                userId={userId}
-              />
-            ))
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function UserDetail() {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
@@ -185,22 +119,15 @@ export function UserDetail() {
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'user', id],
     queryFn: () =>
-      get<{ success: boolean; data: { user: IUser; forms: FormListItem[] } }>(`/api/admin/users/${id}`),
+      get<{ success: boolean; data: { user: IUser; forms: FormListItem[]; employees?: IEmployee[] } }>(`/api/admin/users/${id}`),
     enabled: !!id,
     select: (res) => res.data,
-  });
-
-  const { data: companies } = useQuery({
-    queryKey: ['admin', 'users', id, 'companies'],
-    queryFn: () =>
-      get<ApiResponse<ICompany[]>>(`/api/admin/users/${id}/companies`).then((r) => r.data),
-    enabled: !!id,
   });
 
   if (isLoading) return <PageLoading />;
   if (!data) return <p className="text-center text-muted-foreground">משתמש לא נמצא</p>;
 
-  const { user } = data;
+  const { user, forms: allForms, employees } = data;
 
   return (
     <div className="space-y-6">
@@ -257,22 +184,22 @@ export function UserDetail() {
         </CardContent>
       </Card>
 
-      {/* Company → Employee → Form hierarchy */}
+      {/* Employee list */}
       <div className="space-y-3">
         <h2 className="text-xl font-semibold">
-          חברות
-          {companies && <span className="ms-2 text-base font-normal text-muted-foreground">({companies.length} חברות)</span>}
+          עובדים
+          {employees && <span className="ms-2 text-base font-normal text-muted-foreground">({employees.length} עובדים)</span>}
         </h2>
 
-        {!companies || companies.length === 0 ? (
-          <p className="text-muted-foreground">אין חברות</p>
+        {!employees || employees.length === 0 ? (
+          <p className="text-muted-foreground">אין עובדים</p>
         ) : (
-          companies.map((company, index) => (
-            <AdminCompanySection
-              key={company._id}
-              company={company}
+          employees.map((employee, index) => (
+            <AdminEmployeeSection
+              key={employee._id}
+              employee={employee}
               defaultOpen={index === 0}
-              userId={id!}
+              allForms={allForms ?? []}
             />
           ))
         )}

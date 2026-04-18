@@ -1,5 +1,5 @@
 import type { FormConfig, ToApiPayloadCtx } from '../forms/types/form-config.types';
-import type { IEmployee, ICompany, IForm, CreateFormDto } from '@payslips-maker/shared';
+import type { IEmployee, IForm, CreateFormDto } from '@payslips-maker/shared';
 import { finalSettlementFormSchema, type FinalSettlementFormValues } from './final-settlement.schema';
 import { FinalSettlementFormSections } from './components/FinalSettlementFormSections';
 import { FinalSettlementPDF } from './components/FinalSettlementPDF';
@@ -9,7 +9,7 @@ export const finalSettlementFormConfig: FormConfig<FinalSettlementFormValues> = 
   formType: 'final_settlement',
   schema: finalSettlementFormSchema,
 
-  defaultValues: (employee: IEmployee, _company: ICompany | null) => ({
+  defaultValues: (employee: IEmployee) => ({
     employmentStartDate: employee.startDate,
     employmentEndDate: new Date().toISOString().slice(0, 10),
     terminationReason: 'dismissal' as const,
@@ -66,13 +66,13 @@ export const finalSettlementFormConfig: FormConfig<FinalSettlementFormValues> = 
 
   toApiPayload: (
     data: FinalSettlementFormValues,
-    { formType, employeeId, company }: ToApiPayloadCtx
+    { formType, employeeId }: ToApiPayloadCtx
   ): Partial<CreateFormDto> => ({
     formType: formType as CreateFormDto['formType'],
     employeeId,
-    // Dummy payslip fields required by the shared schema; employerName/ein from company
+    // Dummy payslip fields required by the shared schema
     period: { month: new Date().getMonth() + 1, year: new Date().getFullYear() },
-    employeeInfo: { fullName: {}, idNumber: '', nationality: '', employerName: company?.name ?? {}, employerTaxId: company?.ein ?? '' },
+    employeeInfo: { fullName: {}, idNumber: '', nationality: '', employerName: {}, employerTaxId: '' },
     workDetails: {
       standardDays: 0, workedDays: 0, vacationDays: 0,
       sickDays: 0, holidayDays: 0, overtime100h: 0, overtime125h: 0, overtime150h: 0,

@@ -44,12 +44,6 @@ const EmployeesPage = lazy(() =>
 const EmployeeFormPage = lazy(() =>
   import('@/domains/employees/components/EmployeeFormPage').then((m) => ({ default: m.EmployeeFormPage }))
 );
-const CompaniesPage = lazy(() =>
-  import('@/domains/companies/components/CompaniesPage').then((m) => ({ default: m.CompaniesPage }))
-);
-const CompanyFormPage = lazy(() =>
-  import('@/domains/companies/components/CompanyFormPage').then((m) => ({ default: m.CompanyFormPage }))
-);
 
 function ImpersonationLayout() {
   return (
@@ -102,30 +96,6 @@ function AppRoutes() {
             element={
               <Suspense fallback={<PageLoading />}>
                 <ProfilePage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="companies"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <CompaniesPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="companies/new"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <CompanyFormPage mode="create" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="companies/:id/edit"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <CompanyFormPage mode="edit" />
               </Suspense>
             }
           />
@@ -192,30 +162,6 @@ function AppRoutes() {
 
           {/* Impersonation routes — admin managing another user's data */}
           <Route path=":userId" element={<ImpersonationLayout />}>
-            <Route
-              path="companies"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompaniesPage />
-                </Suspense>
-              }
-            />
-            <Route
-              path="companies/new"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompanyFormPage mode="create" />
-                </Suspense>
-              }
-            />
-            <Route
-              path="companies/:id/edit"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompanyFormPage mode="edit" />
-                </Suspense>
-              }
-            />
             <Route
               path="employees"
               element={
