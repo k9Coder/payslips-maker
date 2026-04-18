@@ -3,8 +3,6 @@ import { authMiddleware } from '../../middleware/auth.middleware';
 import { adminMiddleware } from '../../middleware/admin.middleware';
 import { UserService } from '../users/user.service';
 import { FormService } from '../forms/form.service';
-import { CompanyService } from '../companies/company.service';
-import { EmployeeService } from '../employees/employee.service';
 import { routeHandler } from '../../middleware/routeHandler';
 import type { AdminFormsQuery } from '@payslips-maker/shared';
 
@@ -45,36 +43,6 @@ router.patch('/users/:id/subscription', routeHandler(async (req: Request, res: R
   }
   res.json({ success: true, data: user });
 }));
-
-// GET /api/admin/users/:id/companies
-router.get('/users/:id/companies', routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const companies = await CompanyService.getCompaniesByUserId(req.params.id);
-  res.json({ success: true, data: companies });
-}));
-
-// GET /api/admin/companies
-router.get('/companies', routeHandler(async (_req: Request, res: Response): Promise<void> => {
-  const companies = await CompanyService.getAllCompanies();
-  res.json({ success: true, data: companies });
-}));
-
-// GET /api/admin/companies/:companyId/employees
-router.get('/companies/:companyId/employees', routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const employees = await EmployeeService.getEmployeesByCompanyId(req.params.companyId);
-  res.json({ success: true, data: employees });
-}));
-
-// GET /api/admin/companies/:companyId/employees/:employeeId/forms
-router.get(
-  '/companies/:companyId/employees/:employeeId/forms',
-  routeHandler(async (req: Request, res: Response): Promise<void> => {
-    const forms = await FormService.getFormsByCompanyAndEmployee(
-      req.params.companyId,
-      req.params.employeeId
-    );
-    res.json({ success: true, data: forms });
-  })
-);
 
 // GET /api/admin/forms
 router.get('/forms', routeHandler(async (req: Request, res: Response): Promise<void> => {

@@ -4,7 +4,6 @@ declare namespace Express {
     userId?: string;
     isAdmin?: boolean;
     hasSubscription?: boolean;
-    companyIds?: string[];
     impersonating?: boolean;
     impersonatedUserId?: string;
     requestId?: string;
