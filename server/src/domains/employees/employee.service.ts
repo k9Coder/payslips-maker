@@ -1,80 +1,37 @@
-import { Types } from 'mongoose';
+import mongoose from 'mongoose';
 import { Employee } from './employee.model';
-import type { IEmployee, CreateEmployeeDto, UpdateEmployeeDto } from '@payslips-maker/shared';
 
-export const EmployeeService = {
-  // companyIds = all companies the current user manages (for auth + limit checks)
-  async createEmployee(
-    companyId: string,
-    companyIds: string[],
-    dto: CreateEmployeeDto,
-    hasSubscription: boolean
-  ): Promise<IEmployee> {
-    if (!hasSubscription) {
-      const count = await Employee.countDocuments({
-        companyId: { $in: companyIds.map((id) => new Types.ObjectId(id)) },
-      });
-      if (count >= 1) throw new Error('EMPLOYEE_LIMIT_REACHED');
-    }
-    const emp = await Employee.create({ companyId: new Types.ObjectId(companyId), ...dto });
-    return { ...emp.toObject(), _id: emp._id.toString(), companyId } as IEmployee;
-  },
+export async function getEmployeesByUser(userId: string) {
+  return Employee.find({ userId: new mongoose.Types.ObjectId(userId) }).lean();
+}
 
-  async getEmployeesByCompanyIds(companyIds: string[]): Promise<IEmployee[]> {
-    const employees = await Employee.find({
-      companyId: { $in: companyIds.map((id) => new Types.ObjectId(id)) },
-    })
-      .sort({ createdAt: -1 })
-      .lean();
-    return employees.map((e) => ({
-      ...e,
-      _id: e._id.toString(),
-      companyId: e.companyId.toString(),
-    })) as IEmployee[];
-  },
+export async function getEmployeeById(id: string, userId: string) {
+  return Employee.findOne({
+    _id: new mongoose.Types.ObjectId(id),
+    userId: new mongoose.Types.ObjectId(userId),
+  }).lean();
+}
 
-  async getEmployeesByCompanyId(companyId: string): Promise<IEmployee[]> {
-    const employees = await Employee.find({ companyId: new Types.ObjectId(companyId) })
-      .sort({ createdAt: -1 })
-      .lean();
-    return employees.map((e) => ({
-      ...e,
-      _id: e._id.toString(),
-      companyId,
-    })) as IEmployee[];
-  },
+export async function createEmployee(userId: string, data: Record<string, unknown>) {
+  const employee = new Employee({ ...data, userId: new mongoose.Types.ObjectId(userId) });
+  return employee.save();
+}
 
-  async getEmployeeById(employeeId: string, companyIds: string[]): Promise<IEmployee | null> {
-    const emp = await Employee.findOne({
-      _id: employeeId,
-      companyId: { $in: companyIds.map((id) => new Types.ObjectId(id)) },
-    }).lean();
-    if (!emp) return null;
-    return { ...emp, _id: emp._id.toString(), companyId: emp.companyId.toString() } as IEmployee;
-  },
+export async function updateEmployee(id: string, userId: string, data: Record<string, unknown>) {
+  return Employee.findOneAndUpdate(
+    { _id: id, userId: new mongoose.Types.ObjectId(userId) },
+    data,
+    { new: true }
+  ).lean();
+}
 
-  async updateEmployee(
-    employeeId: string,
-    companyIds: string[],
-    dto: UpdateEmployeeDto
-  ): Promise<IEmployee | null> {
-    const emp = await Employee.findOneAndUpdate(
-      {
-        _id: employeeId,
-        companyId: { $in: companyIds.map((id) => new Types.ObjectId(id)) },
-      },
-      { $set: dto },
-      { new: true }
-    ).lean();
-    if (!emp) return null;
-    return { ...emp, _id: emp._id.toString(), companyId: emp.companyId.toString() } as IEmployee;
-  },
+export async function deleteEmployee(id: string, userId: string) {
+  return Employee.findOneAndDelete({
+    _id: id,
+    userId: new mongoose.Types.ObjectId(userId),
+  });
+}
 
-  async deleteEmployee(employeeId: string, companyIds: string[]): Promise<boolean> {
-    const result = await Employee.deleteOne({
-      _id: employeeId,
-      companyId: { $in: companyIds.map((id) => new Types.ObjectId(id)) },
-    });
-    return result.deletedCount === 1;
-  },
-};
+export async function countEmployeesByUser(userId: string) {
+  return Employee.countDocuments({ userId: new mongoose.Types.ObjectId(userId) });
+}

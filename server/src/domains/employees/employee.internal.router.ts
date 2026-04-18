@@ -1,18 +1,17 @@
 import { Router, Request, Response } from 'express';
-import { EmployeeService } from './employee.service';
+import { Employee } from './employee.model';
 import { routeHandler } from '../../middleware/routeHandler';
 
 const router = Router();
 
-// GET /api/internal/employees?companyId=X
-router.get('/', routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const { companyId } = req.query as { companyId?: string };
-  if (!companyId) {
-    res.status(400).json({ success: false, error: 'companyId query param required' });
+// GET /api/internal/employees/:id
+router.get('/:id', routeHandler(async (req: Request, res: Response): Promise<void> => {
+  const employee = await Employee.findById(req.params.id).lean();
+  if (!employee) {
+    res.status(404).json({ success: false, error: 'Employee not found' });
     return;
   }
-  const employees = await EmployeeService.getEmployeesByCompanyId(companyId);
-  res.json(employees);
+  res.json(employee);
 }));
 
 export { router as employeeInternalRouter };

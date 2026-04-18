@@ -4,103 +4,77 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 vi.mock('./employee.model', () => ({
   Employee: {
     countDocuments: vi.fn(),
-    create: vi.fn(),
     find: vi.fn(),
     findOne: vi.fn(),
     findOneAndUpdate: vi.fn(),
-    deleteOne: vi.fn(),
+    findOneAndDelete: vi.fn(),
+    prototype: { save: vi.fn() },
   },
 }));
 
-import { EmployeeService } from './employee.service';
+import {
+  getEmployeesByUser,
+  getEmployeeById,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+  countEmployeesByUser,
+} from './employee.service';
 import { Employee } from './employee.model';
 
 const mockEmployee = Employee as unknown as Record<string, ReturnType<typeof vi.fn>>;
 
-const COMPANY_ID = '507f1f77bcf86cd799439011';
+const USER_ID = '507f1f77bcf86cd799439011';
 const EMPLOYEE_ID = '507f1f77bcf86cd799439022';
-const COMPANY_IDS = [COMPANY_ID];
 
 const DTO = {
   fullName: { en: 'Ana Ramirez' },
   passportNumber: 'AA1234567',
   nationality: 'Philippines',
   startDate: '2023-01-15',
-  preferredLanguage: 'fil' as const,
-};
-
-const FAKE_DOC = {
-  _id: { toString: () => EMPLOYEE_ID },
-  ...DTO,
-  toObject: () => ({ _id: EMPLOYEE_ID, ...DTO }),
+  preferredLanguage: 'fil',
 };
 
 beforeEach(() => vi.clearAllMocks());
 
-// ─── createEmployee — subscription limit ──────────────────────────────────────
+// ─── getEmployeesByUser ───────────────────────────────────────────────────────
 
-describe('EmployeeService.createEmployee — subscription limit', () => {
-  it('subscribed user can create employee regardless of existing count', async () => {
-    mockEmployee.countDocuments.mockResolvedValue(5);
-    mockEmployee.create.mockResolvedValue(FAKE_DOC);
+describe('getEmployeesByUser', () => {
+  it('returns employees for the given userId', async () => {
+    const fakeEmployees = [{ _id: EMPLOYEE_ID, userId: USER_ID, ...DTO }];
+    mockEmployee.find.mockReturnValue({ lean: () => Promise.resolve(fakeEmployees) });
 
-    await expect(EmployeeService.createEmployee(COMPANY_ID, COMPANY_IDS, DTO, true)).resolves.toBeDefined();
-    expect(mockEmployee.countDocuments).not.toHaveBeenCalled();
-  });
-
-  it('non-subscribed user with 0 employees can create first', async () => {
-    mockEmployee.countDocuments.mockResolvedValue(0);
-    mockEmployee.create.mockResolvedValue(FAKE_DOC);
-
-    await expect(EmployeeService.createEmployee(COMPANY_ID, COMPANY_IDS, DTO, false)).resolves.toBeDefined();
-  });
-
-  it('non-subscribed user with 1 employee throws EMPLOYEE_LIMIT_REACHED', async () => {
-    mockEmployee.countDocuments.mockResolvedValue(1);
-
-    await expect(EmployeeService.createEmployee(COMPANY_ID, COMPANY_IDS, DTO, false))
-      .rejects.toThrow('EMPLOYEE_LIMIT_REACHED');
-    expect(mockEmployee.create).not.toHaveBeenCalled();
-  });
-
-  it('returns IEmployee with string _id', async () => {
-    mockEmployee.countDocuments.mockResolvedValue(0);
-    mockEmployee.create.mockResolvedValue(FAKE_DOC);
-
-    const result = await EmployeeService.createEmployee(COMPANY_ID, COMPANY_IDS, DTO, false);
-    expect(typeof result._id).toBe('string');
-    expect(result._id).toBe(EMPLOYEE_ID);
+    const result = await getEmployeesByUser(USER_ID);
+    expect(result).toEqual(fakeEmployees);
+    expect(mockEmployee.find).toHaveBeenCalledOnce();
   });
 });
 
-// ─── deleteEmployee — ownership ───────────────────────────────────────────────
+// ─── getEmployeeById ──────────────────────────────────────────────────────────
 
-describe('EmployeeService.deleteEmployee', () => {
-  it('returns true when employee is found and deleted', async () => {
-    mockEmployee.deleteOne.mockResolvedValue({ deletedCount: 1 });
-    await expect(EmployeeService.deleteEmployee(EMPLOYEE_ID, COMPANY_IDS)).resolves.toBe(true);
-  });
-
-  it('returns false when employee not found (wrong owner)', async () => {
-    mockEmployee.deleteOne.mockResolvedValue({ deletedCount: 0 });
-    await expect(EmployeeService.deleteEmployee(EMPLOYEE_ID, COMPANY_IDS)).resolves.toBe(false);
-  });
-});
-
-// ─── getEmployeeById — ownership ─────────────────────────────────────────────
-
-describe('EmployeeService.getEmployeeById', () => {
+describe('getEmployeeById', () => {
   it('returns null when employee not found', async () => {
     mockEmployee.findOne.mockReturnValue({ lean: () => Promise.resolve(null) });
-    await expect(EmployeeService.getEmployeeById(EMPLOYEE_ID, COMPANY_IDS)).resolves.toBeNull();
+    await expect(getEmployeeById(EMPLOYEE_ID, USER_ID)).resolves.toBeNull();
   });
 
-  it('returns employee with string _id when found', async () => {
-    const doc = { _id: { toString: () => EMPLOYEE_ID }, companyId: { toString: () => COMPANY_ID }, ...DTO };
+  it('returns employee when found with correct userId', async () => {
+    const doc = { _id: EMPLOYEE_ID, userId: USER_ID, ...DTO };
     mockEmployee.findOne.mockReturnValue({ lean: () => Promise.resolve(doc) });
 
-    const result = await EmployeeService.getEmployeeById(EMPLOYEE_ID, COMPANY_IDS);
+    const result = await getEmployeeById(EMPLOYEE_ID, USER_ID);
     expect(result).not.toBeNull();
-    expect(typeof result!._id).toBe('string');
+    expect(result).toEqual(doc);
+  });
+});
+
+// ─── countEmployeesByUser ─────────────────────────────────────────────────────
+
+describe('countEmployeesByUser', () => {
+  it('returns document count for the given userId', async () => {
+    mockEmployee.countDocuments.mockResolvedValue(3);
+    const count = await countEmployeesByUser(USER_ID);
+    expect(count).toBe(3);
+    expect(mockEmployee.countDocuments).toHaveBeenCalledOnce();
   });
 });
