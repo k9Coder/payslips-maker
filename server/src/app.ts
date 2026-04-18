@@ -10,6 +10,7 @@ import { userRouter } from './domains/users/user.router';
 import { formRouter } from './domains/forms/form.router';
 import { adminRouter } from './domains/admin/admin.router';
 import { employeeRouter } from './domains/employees/employee.router';
+import worklogRouter from './domains/worklog/worklog.router';
 import { internalMiddleware } from './middleware/internal.middleware';
 import { userInternalRouter } from './domains/users/user.internal.router';
 import { employeeInternalRouter } from './domains/employees/employee.internal.router';
@@ -47,6 +48,7 @@ app.use('/api/users', userRouter);
 app.use('/api/forms', formRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/employees', employeeRouter);
+app.use('/api/worklog', worklogRouter);
 
 // Internal M2M routes (service-to-service only)
 app.use('/api/internal/users', internalMiddleware, userInternalRouter);
