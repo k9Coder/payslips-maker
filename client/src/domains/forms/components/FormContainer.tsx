@@ -16,7 +16,7 @@ import { SendEmailDialog } from './SendEmailDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { toast } from '@/hooks/use-toast';
-import type { ApiResponse, IForm, FormType, CreateFormDto } from '@payslips-maker/shared';
+import type { ApiResponse, IForm, FormType, CreateFormDto, WorkLogMonthSummary } from '@payslips-maker/shared';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
@@ -24,9 +24,10 @@ interface FormContainerProps {
   formType: FormType;
   employeeId: string;
   formId?: string;
+  workLogOverride?: WorkLogMonthSummary;
 }
 
-export function FormContainer({ formType, employeeId, formId }: FormContainerProps) {
+export function FormContainer({ formType, employeeId, formId, workLogOverride }: FormContainerProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const resolve = useResolveMultiLang();
@@ -64,10 +65,34 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     if (formId && existingForm) {
       form.reset(config.fromApiForm(existingForm));
     } else if (!formId) {
-      form.reset(config.defaultValues(employee));
+      const defaults = config.defaultValues(employee);
+      if (workLogOverride && formType === 'payslip') {
+        // Merge worklog summary into workDetails
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const d = defaults as any;
+        const merged = {
+          ...d,
+          workDetails: {
+            ...(d.workDetails ?? {}),
+            workedDays: workLogOverride.workDays,
+            vacationDays: workLogOverride.vacationDays,
+            sickDays: workLogOverride.sickDays,
+            holidayDays: workLogOverride.holidayDays,
+            // Place all overtime hours into overtime100h as default bucket
+            overtime100h: workLogOverride.overtimeHours,
+          },
+          period: {
+            month: workLogOverride.month,
+            year: workLogOverride.year,
+          },
+        };
+        form.reset(merged);
+      } else {
+        form.reset(defaults);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee, existingForm, formId]);
+  }, [employee, existingForm, formId, workLogOverride]);
 
   const createMutation = useMutation({
     mutationFn: (dto: CreateFormDto) =>

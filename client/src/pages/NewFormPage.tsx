@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { lazy, Suspense, useEffect } from 'react';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import type { FormType } from '@payslips-maker/shared';
+import { useWorkLogMonth } from '@/domains/worklog/hooks/useWorkLog';
 
 const FormContainer = lazy(() =>
   import('@/domains/forms/components/FormContainer').then((m) => ({ default: m.FormContainer }))
@@ -21,6 +22,19 @@ export function NewFormPage() {
   const formType = VALID_FORM_TYPES.includes(formTypeParam as FormType)
     ? (formTypeParam as FormType)
     : 'payslip';
+
+  const yearParam = searchParams.get('year');
+  const monthParam = searchParams.get('month');
+  const year = yearParam ? parseInt(yearParam, 10) : 0;
+  const month = monthParam ? parseInt(monthParam, 10) : 0;
+  const hasWorklogParams = !!employeeId && year > 0 && month > 0;
+
+  // Fetch worklog summary only when all three params are present
+  const { data: workLogSummary } = useWorkLogMonth(
+    hasWorklogParams ? employeeId : '',
+    year,
+    month
+  );
 
   // Redirect to employees page if no employee selected
   useEffect(() => {
@@ -45,7 +59,11 @@ export function NewFormPage() {
       <h1 className="text-3xl font-bold">{t('payslip.newTitle')}</h1>
 
       <Suspense fallback={<PageLoading />}>
-        <FormContainer formType={formType} employeeId={employeeId} />
+        <FormContainer
+          formType={formType}
+          employeeId={employeeId}
+          workLogOverride={hasWorklogParams ? workLogSummary : undefined}
+        />
       </Suspense>
     </div>
   );
