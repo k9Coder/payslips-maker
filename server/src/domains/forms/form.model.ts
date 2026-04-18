@@ -1,8 +1,7 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 import type { IForm } from '@payslips-maker/shared';
 
-export interface FormDocument extends Omit<IForm, '_id' | 'companyId' | 'userId' | 'employeeId'>, Document {
-  companyId: Types.ObjectId;
+export interface FormDocument extends Omit<IForm, '_id' | 'userId' | 'employeeId'>, Document {
   userId: Types.ObjectId;
   employeeId: Types.ObjectId;
 }
@@ -138,7 +137,6 @@ const FinalSettlementDataSchema = new Schema(
 
 const FormSchema = new Schema<FormDocument>(
   {
-    companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true, index: true },
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     clerkId: { type: String, required: true, index: true },
     producedByName: { type: String, required: true, default: '' },
@@ -168,6 +166,6 @@ const FormSchema = new Schema<FormDocument>(
   { timestamps: true }
 );
 
-FormSchema.index({ companyId: 1, 'period.year': 1, 'period.month': 1 });
+FormSchema.index({ userId: 1, 'period.year': 1, 'period.month': 1 });
 
 export const Form = mongoose.model<FormDocument>('Form', FormSchema);

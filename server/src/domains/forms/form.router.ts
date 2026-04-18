@@ -1,9 +1,11 @@
 import { Router, Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { authMiddleware } from '../../middleware/auth.middleware';
 import { subscriptionMiddleware } from '../../middleware/subscription.middleware';
 import { FormService } from './form.service';
+import { Form } from './form.model';
 import { EmailService } from '../email/email.service';
-import { EmployeeService } from '../employees/employee.service';
+import { getEmployeeById } from '../employees/employee.service';
 import { UserService } from '../users/user.service';
 import { createFormSchema, updateFormSchema } from './form.schema';
 import { sendEmailSchema } from '../email/email.schema';
@@ -13,14 +15,29 @@ import type { FormType } from '@payslips-maker/shared';
 
 const router = Router();
 
-// GET /api/forms?companyId=&employeeId=&formType=
+// GET /api/forms/summary — must be before /:id route
+router.get('/summary', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
+  const now = new Date();
+  const [count, thisMonth] = await Promise.all([
+    Form.countDocuments({ userId: new mongoose.Types.ObjectId(req.userId!) }),
+    Form.countDocuments({
+      userId: new mongoose.Types.ObjectId(req.userId!),
+      'period.year': now.getFullYear(),
+      'period.month': now.getMonth() + 1,
+    }),
+  ]);
+  res.json({ data: { count, thisMonth } });
+}));
+
+// GET /api/forms?employeeId=&formType=&month=&year=
 router.get('/', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
   const filters = {
-    companyId: req.query.companyId as string | undefined,
     employeeId: req.query.employeeId as string | undefined,
     formType: req.query.formType as FormType | undefined,
+    month: req.query.month ? Number(req.query.month) : undefined,
+    year: req.query.year ? Number(req.query.year) : undefined,
   };
-  const forms = await FormService.getCompanyForms(req.companyIds ?? [], filters);
+  const forms = await FormService.getUserForms(req.userId!, filters);
   res.json({ success: true, data: forms });
 }));
 
@@ -40,7 +57,6 @@ router.post('/', authMiddleware, routeHandler(async (req: Request, res: Response
       req.userId!,
       producedByName,
       parsed.data,
-      req.companyIds ?? [],
       req.hasSubscription
     );
     res.status(201).json({ success: true, data: form });
@@ -54,7 +70,7 @@ router.post('/', authMiddleware, routeHandler(async (req: Request, res: Response
 
 // GET /api/forms/:id
 router.get('/:id', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const form = await FormService.getFormById(req.params.id, req.companyIds ?? []);
+  const form = await FormService.getFormById(req.params.id, req.userId!);
   if (!form) {
     res.status(404).json({ success: false, error: 'Form not found' });
     return;
@@ -70,7 +86,7 @@ router.put('/:id', authMiddleware, routeHandler(async (req: Request, res: Respon
     return;
   }
 
-  const form = await FormService.updateForm(req.params.id, req.companyIds ?? [], parsed.data);
+  const form = await FormService.updateForm(req.params.id, req.userId!, parsed.data);
   if (!form) {
     res.status(404).json({ success: false, error: 'Form not found' });
     return;
@@ -80,7 +96,7 @@ router.put('/:id', authMiddleware, routeHandler(async (req: Request, res: Respon
 
 // DELETE /api/forms/:id
 router.delete('/:id', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const deleted = await FormService.deleteForm(req.params.id, req.companyIds ?? []);
+  const deleted = await FormService.deleteForm(req.params.id, req.userId!);
   if (!deleted) {
     res.status(404).json({ success: false, error: 'Form not found' });
     return;
@@ -102,13 +118,13 @@ router.post('/:id/send-email', authMiddleware, subscriptionMiddleware, routeHand
     return;
   }
 
-  const form = await FormService.getFormById(req.params.id, req.companyIds ?? []);
+  const form = await FormService.getFormById(req.params.id, req.userId!);
   if (!form) {
     res.status(404).json({ success: false, error: 'Form not found' });
     return;
   }
 
-  const employee = await EmployeeService.getEmployeeById(form.employeeId.toString(), req.companyIds ?? []);
+  const employee = await getEmployeeById(form.employeeId.toString(), req.userId!);
   if (!employee) {
     res.status(404).json({ success: false, error: 'Employee not found' });
     return;

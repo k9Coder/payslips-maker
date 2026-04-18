@@ -20,13 +20,10 @@ const USER_ID = '507f1f77bcf86cd799439011';
 const CLERK_ID = 'clerk_abc123';
 const FORM_ID = '507f1f77bcf86cd799439033';
 const EMPLOYEE_ID = '507f1f77bcf86cd799439044';
-const COMPANY_ID = '507f1f77bcf86cd799439055';
-const COMPANY_IDS = [COMPANY_ID];
 const PRODUCED_BY_NAME = 'Test Producer';
 
 const BASE_DTO = {
   employeeId: EMPLOYEE_ID,
-  companyId: COMPANY_ID,
   formType: 'payslip' as const,
   period: { month: 3, year: 2025 },
   employeeInfo: {
@@ -53,7 +50,7 @@ describe('FormService.createForm — subscription limit', () => {
     const fakeForm = { _id: FORM_ID, toObject: () => ({ ...BASE_DTO, _id: FORM_ID }) };
     mockForm.create.mockResolvedValue(fakeForm);
 
-    await FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, COMPANY_IDS, true);
+    await FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, true);
     expect(mockForm.countDocuments).not.toHaveBeenCalled();
   });
 
@@ -62,13 +59,13 @@ describe('FormService.createForm — subscription limit', () => {
     const fakeForm = { _id: FORM_ID, toObject: () => ({ ...BASE_DTO, _id: FORM_ID }) };
     mockForm.create.mockResolvedValue(fakeForm);
 
-    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, COMPANY_IDS, false)).resolves.toBeDefined();
+    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, false)).resolves.toBeDefined();
   });
 
   it('non-subscribed user with 10 forms throws FORM_LIMIT_REACHED', async () => {
     mockForm.countDocuments.mockResolvedValue(10);
 
-    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, COMPANY_IDS, false))
+    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, false))
       .rejects.toThrow('FORM_LIMIT_REACHED');
     expect(mockForm.create).not.toHaveBeenCalled();
   });
@@ -76,7 +73,7 @@ describe('FormService.createForm — subscription limit', () => {
   it('non-subscribed user with 11 forms throws FORM_LIMIT_REACHED', async () => {
     mockForm.countDocuments.mockResolvedValue(11);
 
-    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, COMPANY_IDS, false))
+    await expect(FormService.createForm(CLERK_ID, USER_ID, PRODUCED_BY_NAME, BASE_DTO, false))
       .rejects.toThrow('FORM_LIMIT_REACHED');
   });
 });
@@ -86,22 +83,21 @@ describe('FormService.createForm — subscription limit', () => {
 describe('FormService.deleteForm', () => {
   it('returns true when form deleted successfully', async () => {
     mockForm.deleteOne.mockResolvedValue({ deletedCount: 1 });
-    await expect(FormService.deleteForm(FORM_ID, COMPANY_IDS)).resolves.toBe(true);
+    await expect(FormService.deleteForm(FORM_ID, USER_ID)).resolves.toBe(true);
   });
 
   it('returns false when form not found or belongs to another user', async () => {
     mockForm.deleteOne.mockResolvedValue({ deletedCount: 0 });
-    await expect(FormService.deleteForm(FORM_ID, COMPANY_IDS)).resolves.toBe(false);
+    await expect(FormService.deleteForm(FORM_ID, USER_ID)).resolves.toBe(false);
   });
 });
 
-// ─── getCompanyForms — filters ────────────────────────────────────────────────
+// ─── getUserForms — filters ────────────────────────────────────────────────────
 
-describe('FormService.getCompanyForms', () => {
+describe('FormService.getUserForms', () => {
   const makeDoc = (overrides = {}) => ({
     _id: { toString: () => FORM_ID },
     formType: 'payslip',
-    companyId: { toString: () => COMPANY_ID },
     employeeId: { toString: () => EMPLOYEE_ID },
     period: { month: 3, year: 2025 },
     employeeInfo: { fullName: 'Ana Ramirez' },
@@ -112,17 +108,17 @@ describe('FormService.getCompanyForms', () => {
     ...overrides,
   });
 
-  it('queries with companyId filter', async () => {
+  it('queries with userId filter', async () => {
     mockForm.find.mockReturnValue({
       sort: vi.fn().mockReturnThis(),
       select: vi.fn().mockReturnThis(),
       lean: vi.fn().mockResolvedValue([makeDoc()]),
     });
 
-    await FormService.getCompanyForms(COMPANY_IDS);
+    await FormService.getUserForms(USER_ID);
 
     const findArg = mockForm.find.mock.calls[0][0];
-    expect(findArg).toHaveProperty('companyId');
+    expect(findArg).toHaveProperty('userId');
   });
 
   it('adds employeeId filter when provided', async () => {
@@ -132,7 +128,7 @@ describe('FormService.getCompanyForms', () => {
       lean: vi.fn().mockResolvedValue([]),
     });
 
-    await FormService.getCompanyForms(COMPANY_IDS, { employeeId: EMPLOYEE_ID });
+    await FormService.getUserForms(USER_ID, { employeeId: EMPLOYEE_ID });
 
     const findArg = mockForm.find.mock.calls[0][0];
     expect(findArg).toHaveProperty('employeeId');
@@ -145,7 +141,7 @@ describe('FormService.getCompanyForms', () => {
       lean: vi.fn().mockResolvedValue([]),
     });
 
-    await FormService.getCompanyForms(COMPANY_IDS, { formType: 'final_settlement' });
+    await FormService.getUserForms(USER_ID, { formType: 'final_settlement' });
 
     const findArg = mockForm.find.mock.calls[0][0];
     expect(findArg.formType).toBe('final_settlement');
@@ -158,7 +154,7 @@ describe('FormService.getCompanyForms', () => {
       lean: vi.fn().mockResolvedValue([makeDoc()]),
     });
 
-    const result = await FormService.getCompanyForms(COMPANY_IDS);
+    const result = await FormService.getUserForms(USER_ID);
     expect(result).toHaveLength(1);
     expect(typeof result[0]._id).toBe('string');
     expect(typeof result[0].employeeId).toBe('string');
