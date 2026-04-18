@@ -3,6 +3,7 @@ import { useAuth } from '@clerk/clerk-react';
 import { Sidebar } from './Sidebar';
 import { ImpersonationBanner } from '../../domains/admin/components/ImpersonationBanner';
 import { Toaster } from '@/components/ui/toaster';
+import { MobileBottomNav } from './MobileBottomNav';
 
 export function Layout() {
   const { isSignedIn } = useAuth();
@@ -36,6 +37,7 @@ export function Layout() {
           </main>
         </div>
       </div>
+      <MobileBottomNav />
       <Toaster />
     </>
   );
