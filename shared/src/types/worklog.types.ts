@@ -13,8 +13,8 @@ export interface IWorkLogEntry {
   type: WorkLogEntryType;
   hours?: number;
   notes?: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 
 export interface CreateWorkLogEntryDto {
@@ -33,6 +33,7 @@ export interface UpdateWorkLogEntryDto {
 
 export interface WorkLogMonthSummary {
   employeeId: string;
+  userId: string;
   year: number;
   month: number;
   workDays: number;
