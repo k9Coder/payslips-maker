@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import {
   LayoutDashboard, Users, CalendarDays, FileText,
-  Settings, HelpCircle, ChevronRight, ChevronLeft, X,
+  Settings, HelpCircle, ChevronRight, ChevronLeft, X, ShieldCheck,
 } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from '../context/SidebarContext';
 import { cn } from '../../lib/utils';
 import { BRAND_NAME } from './brand/brand';
 import { CareIcon } from './brand/CareIcon';
+import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 const NAV_ITEMS = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'ראשי' },
@@ -18,6 +19,8 @@ const NAV_ITEMS = [
   { to: '/help', icon: HelpCircle, label: 'עזרה' },
 ] as const;
 
+const ADMIN_NAV_ITEM = { to: '/admin', icon: ShieldCheck, label: 'ניהול' } as const;
+
 interface SidebarProps {
   className?: string;
 }
@@ -25,6 +28,8 @@ interface SidebarProps {
 export function Sidebar({ className }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const { mobileOpen, closeMobile } = useSidebar();
+  const { data: currentUser } = useCurrentUser();
+  const isAdmin = currentUser?.isAdmin ?? false;
 
   const navItems = (
     <nav className="flex-1 space-y-1 p-2 overflow-y-auto">
@@ -38,6 +43,18 @@ export function Sidebar({ className }: SidebarProps) {
           onNavigate={closeMobile}
         />
       ))}
+      {isAdmin && (
+        <>
+          <div className={cn('my-1 border-t border-gray-100', collapsed && 'mx-2')} />
+          <SidebarItem
+            to={ADMIN_NAV_ITEM.to}
+            icon={ADMIN_NAV_ITEM.icon}
+            label={ADMIN_NAV_ITEM.label}
+            collapsed={collapsed}
+            onNavigate={closeMobile}
+          />
+        </>
+      )}
     </nav>
   );
 

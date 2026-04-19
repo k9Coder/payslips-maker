@@ -12,7 +12,7 @@ function FooterBrand() {
           accentColor="#93c5fd"
           valueOpacity={0.5}
         />
-        <span className="text-[#f1f5f9] font-bold text-base">{BRAND_NAME}</span>
+        <span className="text-[#f1f5f9] font-bold text-base" dir="ltr">{BRAND_NAME}</span>
       </div>
       <p className="text-sm text-[#64748b] max-w-[260px] leading-relaxed">{BRAND_TAGLINE}</p>
     </div>
