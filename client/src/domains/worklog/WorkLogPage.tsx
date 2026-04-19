@@ -78,7 +78,7 @@ export function WorkLogPage() {
       {loadingSummary ? (
         <div className="flex items-center justify-center h-32 text-gray-400">טוען...</div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-3 sm:p-5">
           <WorkLogCalendar
             year={year}
             month={month}
