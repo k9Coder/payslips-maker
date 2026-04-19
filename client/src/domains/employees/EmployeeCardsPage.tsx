@@ -25,12 +25,12 @@ export function EmployeeCardsPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
         <div className="flex items-center gap-2">
           <Users className="h-6 w-6 text-[#1B2A4A]" />
           <h1 className="text-2xl font-bold text-[#1B2A4A]">כרטיסי עובדים</h1>
         </div>
-        <Button onClick={() => navigate('/employees/new')}>
+        <Button className="w-full sm:w-auto" onClick={() => navigate('/employees/new')}>
           <Plus className="h-4 w-4 ms-2" />
           עובד חדש
         </Button>
