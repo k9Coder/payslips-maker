@@ -151,7 +151,6 @@ export interface IFinalSettlementData {
 
 export interface IForm {
   _id: string;
-  companyId: string;
   userId: string;       // producer — who generated this form
   clerkId: string;
   employeeId: string;
@@ -179,7 +178,6 @@ export type UpdateFormDto = CreateFormDto;
 export interface FormListItem {
   _id: string;
   formType: FormType;
-  companyId: string;
   employeeId: string;
   period: IPeriod;
   employeeName: MultiLangString;

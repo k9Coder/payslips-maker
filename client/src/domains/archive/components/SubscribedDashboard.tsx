@@ -1,16 +1,15 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { ChevronDown, ChevronUp, Plus, FileText, Trash2, ExternalLink, Users, Building2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Plus, FileText, Trash2, ExternalLink, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { formatCurrency, formatDate, formatPeriod } from '@/lib/utils';
 import { useEmployees } from '@/domains/employees/hooks/useEmployees';
-import { useCompanies } from '@/domains/companies/hooks/useCompanies';
 import { useEmployeeArchive, useDeleteForm } from '../hooks/useEmployeeArchive';
 import { toast } from '@/hooks/use-toast';
-import type { IEmployee, ICompany, FormListItem } from '@payslips-maker/shared';
+import type { IEmployee, FormListItem } from '@payslips-maker/shared';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
@@ -183,77 +182,12 @@ function EmployeeSection({
   );
 }
 
-function CompanySection({
-  company,
-  employees,
-  defaultOpen,
-}: {
-  company: ICompany;
-  employees: IEmployee[];
-  defaultOpen: boolean;
-}) {
-  const [open, setOpen] = useState(defaultOpen);
-  const resolve = useResolveMultiLang();
-
-  return (
-    <div className="space-y-2">
-      {/* Company header */}
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => setOpen((v) => !v)}
-        onKeyDown={(e) => e.key === 'Enter' && setOpen((v) => !v)}
-        className="flex min-h-[52px] cursor-pointer items-center justify-between rounded-lg border-2 bg-muted/30 px-4 py-3 transition-colors hover:bg-muted/50"
-      >
-        <div className="flex items-center gap-3">
-          {open ? (
-            <ChevronUp className="h-5 w-5 text-muted-foreground" />
-          ) : (
-            <ChevronDown className="h-5 w-5 text-muted-foreground" />
-          )}
-          <Building2 className="h-5 w-5 text-primary" />
-          <span className="font-bold text-lg">{resolve(company.name)}</span>
-        </div>
-        <span className="text-sm text-muted-foreground">
-          {employees.length} {employees.length === 1 ? 'עובד' : 'עובדים'}
-        </span>
-      </div>
-
-      {/* Employees under this company */}
-      {open && (
-        <div className="ms-4 border-s ps-4 space-y-2 pb-2">
-          {employees.length === 0 ? (
-            <p className="py-3 text-sm text-muted-foreground">אין עובדים בחברה זו</p>
-          ) : (
-            employees.map((employee, index) => (
-              <EmployeeSection
-                key={employee._id}
-                employee={employee}
-                defaultOpen={index === 0 && defaultOpen}
-              />
-            ))
-          )}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export function SubscribedDashboard() {
-  const { data: companies, isLoading: companiesLoading } = useCompanies();
   const { data: employees, isLoading: employeesLoading } = useEmployees();
   const { userId } = useParams<{ userId?: string }>();
   const p = (path: string) => userId ? `/${userId}${path}` : path;
 
-  const grouped = useMemo(() => {
-    if (!companies || !employees) return [];
-    return companies.map((company) => ({
-      company,
-      employees: employees.filter((e) => e.companyId === company._id),
-    }));
-  }, [companies, employees]);
-
-  if (companiesLoading || employeesLoading) return <PageLoading />;
+  if (employeesLoading) return <PageLoading />;
 
   return (
     <div className="space-y-6">
@@ -267,24 +201,23 @@ export function SubscribedDashboard() {
         </Button>
       </div>
 
-      {!companies || companies.length === 0 ? (
+      {!employees || employees.length === 0 ? (
         <div className="flex min-h-[300px] flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed p-8 text-center">
           <FileText className="h-12 w-12 text-muted-foreground" />
           <div>
-            <h3 className="text-xl font-medium">אין חברות עדיין</h3>
-            <p className="mt-1 text-muted-foreground">הוסף חברה ועובד כדי להתחיל ליצור תלושי שכר</p>
+            <h3 className="text-xl font-medium">אין עובדים עדיין</h3>
+            <p className="mt-1 text-muted-foreground">הוסף עובד כדי להתחיל ליצור תלושי שכר</p>
           </div>
           <Button asChild>
-            <Link to={p('/companies/new')}>הוסף חברה ראשונה</Link>
+            <Link to={p('/employees/new')}>הוסף עובד ראשון</Link>
           </Button>
         </div>
       ) : (
-        <div className="space-y-4">
-          {grouped.map(({ company, employees: companyEmployees }, index) => (
-            <CompanySection
-              key={company._id}
-              company={company}
-              employees={companyEmployees}
+        <div className="space-y-2">
+          {employees.map((employee, index) => (
+            <EmployeeSection
+              key={employee._id}
+              employee={employee}
               defaultOpen={index === 0}
             />
           ))}

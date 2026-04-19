@@ -1,4 +1,3 @@
-import { Types } from 'mongoose';
 import { User } from './user.model';
 import type { UpdateUserDto, AdminUserView, IUser } from '@payslips-maker/shared';
 import { logger } from '../../infrastructure/logger/logger';
@@ -37,7 +36,6 @@ export const UserService = {
     return {
       ...user,
       _id: user._id.toString(),
-      companyIds: user.companyIds.map(String),
     } as unknown as IUser;
   },
 
@@ -94,7 +92,6 @@ export const UserService = {
       user: {
         ...user,
         _id: user._id.toString(),
-        companyIds: user.companyIds.map(String),
       } as unknown as IUser,
       forms,
     };
@@ -106,22 +103,6 @@ export const UserService = {
     return {
       ...user,
       _id: user._id.toString(),
-      companyIds: user.companyIds.map(String),
     } as unknown as IUser;
-  },
-
-  async addCompanyToUser(userId: string, companyId: string): Promise<void> {
-    await User.updateOne(
-      { _id: new Types.ObjectId(userId) },
-      { $push: { companyIds: new Types.ObjectId(companyId) } }
-    );
-  },
-
-  async removeCompanyFromUser(userId: string, companyId: string): Promise<boolean> {
-    const result = await User.updateOne(
-      { _id: new Types.ObjectId(userId) },
-      { $pull: { companyIds: new Types.ObjectId(companyId) } }
-    );
-    return result.modifiedCount === 1;
   },
 };

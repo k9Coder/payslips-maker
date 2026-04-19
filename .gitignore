@@ -11,3 +11,4 @@ dist/
 client/src/**/*.js
 
 plans/
+.worktrees/

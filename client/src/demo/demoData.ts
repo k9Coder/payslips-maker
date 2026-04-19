@@ -1,4 +1,4 @@
-import type { IUser, IForm, FormListItem, AdminUserView, IEmployee, ICompany } from '@payslips-maker/shared';
+import type { IUser, IForm, FormListItem, AdminUserView, IEmployee } from '@payslips-maker/shared';
 
 // ─── Demo Users ────────────────────────────────────────────────────────────────
 
@@ -9,7 +9,6 @@ export const DEMO_USER: IUser = {
   fullName: 'ישראל האדמין',
   isAdmin: true,
   hasSubscription: true,
-  companyIds: ['demo-company-admin'],
   createdAt: '2024-01-15T08:00:00.000Z',
   updatedAt: '2024-01-15T08:00:00.000Z',
 };
@@ -21,7 +20,6 @@ const DAVID_COHEN: IUser = {
   fullName: 'דוד כהן',
   isAdmin: false,
   hasSubscription: false,
-  companyIds: ['demo-company-1'],
   createdAt: '2024-02-01T08:00:00.000Z',
   updatedAt: '2024-02-01T08:00:00.000Z',
 };
@@ -33,7 +31,6 @@ const SARAH_LEVI: IUser = {
   fullName: 'שרה לוי',
   isAdmin: false,
   hasSubscription: false,
-  companyIds: ['demo-company-2'],
   createdAt: '2024-03-10T08:00:00.000Z',
   updatedAt: '2024-03-10T08:00:00.000Z',
 };
@@ -45,7 +42,6 @@ const YOSEF_MIZRAHI: IUser = {
   fullName: 'יוסף מזרחי',
   isAdmin: false,
   hasSubscription: false,
-  companyIds: ['demo-company-3'],
   createdAt: '2024-04-05T08:00:00.000Z',
   updatedAt: '2024-04-05T08:00:00.000Z',
 };
@@ -57,7 +53,6 @@ const RACHEL_ABRAHAM: IUser = {
   fullName: 'רחל אברהם',
   isAdmin: false,
   hasSubscription: false,
-  companyIds: ['demo-company-4'],
   createdAt: '2024-05-20T08:00:00.000Z',
   updatedAt: '2024-05-20T08:00:00.000Z',
 };
@@ -76,7 +71,6 @@ const FORM_ADMIN_1: IForm = {
   _id: 'demo-form-admin-1',
   userId: 'demo-user-admin',
   clerkId: 'demo-clerk-admin',
-  companyId: 'demo-company-admin',
   producedByName: 'ישראל האדמין',
   employeeId: 'demo-employee-admin-1',
   formType: 'payslip' as const,
@@ -130,7 +124,6 @@ const FORM_ADMIN_2: IForm = {
   _id: 'demo-form-admin-2',
   userId: 'demo-user-admin',
   clerkId: 'demo-clerk-admin',
-  companyId: 'demo-company-admin',
   producedByName: 'ישראל האדמין',
   employeeId: 'demo-employee-admin-2',
   formType: 'payslip' as const,
@@ -184,7 +177,6 @@ const FORM_ADMIN_3: IForm = {
   _id: 'demo-form-admin-3',
   userId: 'demo-user-admin',
   clerkId: 'demo-clerk-admin',
-  companyId: 'demo-company-admin',
   producedByName: 'ישראל האדמין',
   employeeId: 'demo-employee-admin-1',
   formType: 'payslip' as const,
@@ -240,7 +232,6 @@ const FORM_DAVID_1: IForm = {
   _id: 'demo-form-david-1',
   userId: 'demo-user-1',
   clerkId: 'demo-clerk-1',
-  companyId: 'demo-company-1',
   producedByName: 'דוד כהן',
   employeeId: 'demo-employee-david-1',
   formType: 'payslip' as const,
@@ -294,7 +285,6 @@ const FORM_DAVID_2: IForm = {
   _id: 'demo-form-david-2',
   userId: 'demo-user-1',
   clerkId: 'demo-clerk-1',
-  companyId: 'demo-company-1',
   producedByName: 'דוד כהן',
   employeeId: 'demo-employee-david-2',
   formType: 'payslip' as const,
@@ -348,7 +338,6 @@ const FORM_SARAH_1: IForm = {
   _id: 'demo-form-sarah-1',
   userId: 'demo-user-2',
   clerkId: 'demo-clerk-2',
-  companyId: 'demo-company-2',
   producedByName: 'שרה לוי',
   employeeId: 'demo-employee-sarah-1',
   formType: 'payslip' as const,
@@ -402,7 +391,6 @@ const FORM_SARAH_2: IForm = {
   _id: 'demo-form-sarah-2',
   userId: 'demo-user-2',
   clerkId: 'demo-clerk-2',
-  companyId: 'demo-company-2',
   producedByName: 'שרה לוי',
   employeeId: 'demo-employee-sarah-2',
   formType: 'payslip' as const,
@@ -456,7 +444,6 @@ const FORM_YOSEF_1: IForm = {
   _id: 'demo-form-yosef-1',
   userId: 'demo-user-3',
   clerkId: 'demo-clerk-3',
-  companyId: 'demo-company-3',
   producedByName: 'יוסף מזרחי',
   employeeId: 'demo-employee-yosef-1',
   formType: 'payslip' as const,
@@ -510,7 +497,6 @@ const FORM_YOSEF_2: IForm = {
   _id: 'demo-form-yosef-2',
   userId: 'demo-user-3',
   clerkId: 'demo-clerk-3',
-  companyId: 'demo-company-3',
   producedByName: 'יוסף מזרחי',
   employeeId: 'demo-employee-yosef-2',
   formType: 'payslip' as const,
@@ -564,7 +550,6 @@ const FORM_RACHEL_1: IForm = {
   _id: 'demo-form-rachel-1',
   userId: 'demo-user-4',
   clerkId: 'demo-clerk-4',
-  companyId: 'demo-company-4',
   producedByName: 'רחל אברהם',
   employeeId: 'demo-employee-rachel-1',
   formType: 'payslip' as const,
@@ -618,7 +603,6 @@ const FORM_RACHEL_2: IForm = {
   _id: 'demo-form-rachel-2',
   userId: 'demo-user-4',
   clerkId: 'demo-clerk-4',
-  companyId: 'demo-company-4',
   producedByName: 'רחל אברהם',
   employeeId: 'demo-employee-rachel-2',
   formType: 'payslip' as const,
@@ -683,7 +667,6 @@ export const ALL_DEMO_FORMS: IForm[] = [
 export const DEMO_USER_FORMS_LIST: FormListItem[] = DEMO_USER_FORMS.map((f) => ({
   _id: f._id,
   formType: f.formType,
-  companyId: f.companyId,
   employeeId: f.employeeId,
   period: f.period,
   employeeName: f.employeeInfo.fullName,
@@ -697,17 +680,12 @@ function formCountFor(userId: string): number {
   return ALL_DEMO_FORMS.filter((f) => f.userId === userId).length;
 }
 
-export const DEMO_ADMIN_USERS: AdminUserView[] = ALL_DEMO_USERS.map((u) => ({
-  ...u,
-  formCount: formCountFor(u._id),
-}));
-
 // ─── Demo Employees ─────────────────────────────────────────────────────────────
 
 export const DEMO_EMPLOYEES: IEmployee[] = [
   {
     _id: 'demo-employee-admin-1',
-    companyId: 'demo-company-admin',
+    userId: 'demo-user-admin',
     fullName: { he: 'סומחאי לרצ׳אי' },
     passportNumber: 'P12345678',
     nationality: 'thailand',
@@ -720,7 +698,7 @@ export const DEMO_EMPLOYEES: IEmployee[] = [
   },
   {
     _id: 'demo-employee-admin-2',
-    companyId: 'demo-company-admin',
+    userId: 'demo-user-admin',
     fullName: { he: 'אנה רמירז' },
     passportNumber: 'AA1234567',
     nationality: 'philippines',
@@ -734,10 +712,10 @@ export const DEMO_EMPLOYEES: IEmployee[] = [
 ];
 
 const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
-  // David Cohen's employees (כהן קבלנות בנין)
+  // David Cohen's employees
   {
     _id: 'demo-employee-david-1',
-    companyId: 'demo-company-1',
+    userId: 'demo-user-1',
     fullName: { he: 'קרלוס מנדוזה' },
     passportNumber: 'M33322211',
     nationality: 'mexico',
@@ -750,7 +728,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
   },
   {
     _id: 'demo-employee-david-2',
-    companyId: 'demo-company-1',
+    userId: 'demo-user-1',
     fullName: { he: 'פריה שארמה' },
     passportNumber: 'I77788899',
     nationality: 'india',
@@ -761,10 +739,10 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     createdAt: '2023-09-01T08:00:00.000Z',
     updatedAt: '2023-09-01T08:00:00.000Z',
   },
-  // Sarah Levi's employees (לוי ניקיון ושמירה)
+  // Sarah Levi's employees
   {
     _id: 'demo-employee-sarah-1',
-    companyId: 'demo-company-2',
+    userId: 'demo-user-2',
     fullName: { he: 'מוחמד חסן' },
     passportNumber: 'E22233344',
     nationality: 'egypt',
@@ -777,7 +755,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
   },
   {
     _id: 'demo-employee-sarah-2',
-    companyId: 'demo-company-2',
+    userId: 'demo-user-2',
     fullName: { he: 'פאטמה אל-זהרה' },
     passportNumber: 'M55566677',
     nationality: 'morocco',
@@ -788,10 +766,10 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     createdAt: '2023-07-15T08:00:00.000Z',
     updatedAt: '2023-07-15T08:00:00.000Z',
   },
-  // Yosef Mizrahi's employees (מזרחי חקלאות)
+  // Yosef Mizrahi's employees
   {
     _id: 'demo-employee-yosef-1',
-    companyId: 'demo-company-3',
+    userId: 'demo-user-3',
     fullName: { he: 'אנדריי פופסקו' },
     passportNumber: 'R88877766',
     nationality: 'romania',
@@ -804,7 +782,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
   },
   {
     _id: 'demo-employee-yosef-2',
-    companyId: 'demo-company-3',
+    userId: 'demo-user-3',
     fullName: { he: 'סבטלנה איבנובה' },
     passportNumber: 'R11122233',
     nationality: 'russia',
@@ -815,10 +793,10 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     createdAt: '2023-02-01T08:00:00.000Z',
     updatedAt: '2023-02-01T08:00:00.000Z',
   },
-  // Rachel Abraham's employees (אברהם מסעדות)
+  // Rachel Abraham's employees
   {
     _id: 'demo-employee-rachel-1',
-    companyId: 'demo-company-4',
+    userId: 'demo-user-4',
     fullName: { he: 'ז׳אן-פייר דובואה' },
     passportNumber: 'F99900011',
     nationality: 'france',
@@ -831,7 +809,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
   },
   {
     _id: 'demo-employee-rachel-2',
-    companyId: 'demo-company-4',
+    userId: 'demo-user-4',
     fullName: { he: 'אנה קובלסקי' },
     passportNumber: 'P44455566',
     nationality: 'poland',
@@ -846,45 +824,10 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
 
 const ALL_DEMO_EMPLOYEES: IEmployee[] = [...DEMO_EMPLOYEES, ...OTHER_DEMO_EMPLOYEES];
 
-// ─── Demo Companies ─────────────────────────────────────────────────────────────
-
-export const DEMO_COMPANIES: ICompany[] = [
-  {
-    _id: 'demo-company-admin',
-    name: { he: 'חברת הדמו בע"מ' },
-    ein: '512345678',
-    createdAt: '2023-01-01T08:00:00.000Z',
-    updatedAt: '2023-01-01T08:00:00.000Z',
-  },
-  {
-    _id: 'demo-company-1',
-    name: { he: 'כהן קבלנות בנין בע"מ' },
-    ein: '523456789',
-    createdAt: '2024-02-01T08:00:00.000Z',
-    updatedAt: '2024-02-01T08:00:00.000Z',
-  },
-  {
-    _id: 'demo-company-2',
-    name: { he: 'לוי ניקיון ושמירה בע"מ' },
-    ein: '534567890',
-    createdAt: '2024-03-10T08:00:00.000Z',
-    updatedAt: '2024-03-10T08:00:00.000Z',
-  },
-  {
-    _id: 'demo-company-3',
-    name: { he: 'מזרחי חקלאות בע"מ' },
-    ein: '545678901',
-    createdAt: '2024-04-05T08:00:00.000Z',
-    updatedAt: '2024-04-05T08:00:00.000Z',
-  },
-  {
-    _id: 'demo-company-4',
-    name: { he: 'אברהם מסעדות בע"מ' },
-    ein: '556789012',
-    createdAt: '2024-05-20T08:00:00.000Z',
-    updatedAt: '2024-05-20T08:00:00.000Z',
-  },
-];
+export const DEMO_ADMIN_USERS: AdminUserView[] = ALL_DEMO_USERS.map((u) => ({
+  ...u,
+  formCount: formCountFor(u._id),
+}));
 
 // ─── Mock API Router ────────────────────────────────────────────────────────────
 
@@ -895,8 +838,7 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
   const activeUser = impersonateUserId
     ? (ALL_DEMO_USERS.find((u) => u._id === impersonateUserId) ?? DEMO_USER)
     : DEMO_USER;
-  const activeCompanyIds: string[] = activeUser.companyIds ?? [];
-  const activeEmployees = ALL_DEMO_EMPLOYEES.filter((e) => activeCompanyIds.includes(e.companyId));
+  const activeEmployees = ALL_DEMO_EMPLOYEES.filter((e) => e.userId === activeUser._id);
 
   // GET /api/users/me
   if (cleanUrl === '/api/users/me' && method === 'GET') {
@@ -916,7 +858,6 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
       .map((f) => ({
         _id: f._id,
         formType: f.formType,
-        companyId: f.companyId,
         employeeId: f.employeeId,
         period: f.period,
         employeeName: f.employeeInfo.fullName,
@@ -953,66 +894,6 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
     return { success: true, data: emp ?? null } as T;
   }
 
-  // POST /api/companies/:id/employees
-  const companyEmployeePostMatch = cleanUrl.match(/^\/api\/companies\/([^/]+)\/employees$/);
-  if (companyEmployeePostMatch && method === 'POST') {
-    return { success: true, data: activeEmployees[0] ?? DEMO_EMPLOYEES[0] } as T;
-  }
-
-  // GET /api/companies  (active user's companies)
-  if (cleanUrl === '/api/companies' && method === 'GET') {
-    const userCompanies = DEMO_COMPANIES.filter((c) => activeCompanyIds.includes(c._id));
-    return { success: true, data: userCompanies } as T;
-  }
-
-  // POST /api/companies
-  if (cleanUrl === '/api/companies' && method === 'POST') {
-    return { success: true, data: DEMO_COMPANIES.find((c) => activeCompanyIds.includes(c._id)) ?? DEMO_COMPANIES[0] } as T;
-  }
-
-  // GET|PATCH|DELETE /api/companies/:id
-  const companyMatch2 = cleanUrl.match(/^\/api\/companies\/([^/]+)$/);
-  if (companyMatch2) {
-    const company = DEMO_COMPANIES.find((c) => c._id === companyMatch2[1]);
-    if (method === 'DELETE') return { success: true, data: null } as T;
-    return { success: true, data: company ?? null } as T;
-  }
-
-  // GET /api/admin/users/:id/companies
-  const adminUserCompaniesMatch = cleanUrl.match(/^\/api\/admin\/users\/([^/]+)\/companies$/);
-  if (adminUserCompaniesMatch && method === 'GET') {
-    const user = ALL_DEMO_USERS.find((u) => u._id === adminUserCompaniesMatch[1]);
-    const userCompanies = DEMO_COMPANIES.filter((c) => user?.companyIds?.includes(c._id));
-    return { success: true, data: userCompanies } as T;
-  }
-
-  // GET /api/admin/companies/:id/employees
-  const adminCompanyEmployeesMatch = cleanUrl.match(/^\/api\/admin\/companies\/([^/]+)\/employees$/);
-  if (adminCompanyEmployeesMatch && method === 'GET') {
-    const emps = ALL_DEMO_EMPLOYEES.filter((e) => e.companyId === adminCompanyEmployeesMatch[1]);
-    return { success: true, data: emps } as T;
-  }
-
-  // GET /api/admin/companies/:id/employees/:eid/forms
-  const adminEmployeeFormsMatch = cleanUrl.match(/^\/api\/admin\/companies\/([^/]+)\/employees\/([^/]+)\/forms$/);
-  if (adminEmployeeFormsMatch && method === 'GET') {
-    const forms: FormListItem[] = ALL_DEMO_FORMS
-      .filter((f) => f.employeeId === adminEmployeeFormsMatch[2])
-      .map((f) => ({
-        _id: f._id,
-        formType: f.formType,
-        companyId: f.companyId,
-        employeeId: f.employeeId,
-        period: f.period,
-        employeeName: f.employeeInfo.fullName,
-        grossSalary: f.payCalculation.grossSalary,
-        netSalary: f.netSalary,
-        producedByName: f.producedByName,
-        updatedAt: f.updatedAt,
-      }));
-    return { success: true, data: forms } as T;
-  }
-
   // PATCH /api/admin/users/:id/subscription
   const subscriptionMatch = cleanUrl.match(/^\/api\/admin\/users\/([^/]+)\/subscription$/);
   if (subscriptionMatch && method === 'PATCH') {
@@ -1029,7 +910,6 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
       .map((f) => ({
         _id: f._id,
         formType: f.formType,
-        companyId: f.companyId,
         employeeId: f.employeeId,
         period: f.period,
         employeeName: f.employeeInfo.fullName,

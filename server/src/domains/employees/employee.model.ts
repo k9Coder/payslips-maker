@@ -1,14 +1,20 @@
 import mongoose, { Schema, Document } from 'mongoose';
-import type { IEmployee } from '@payslips-maker/shared';
 
-export interface EmployeeDocument extends Omit<IEmployee, '_id' | 'companyId'>, Document {
-  companyId: mongoose.Types.ObjectId;
+export interface IEmployeeDocument extends Document {
+  userId: mongoose.Types.ObjectId;
+  fullName: Record<string, string>;
+  passportNumber: string;
+  nationality: string;
+  email?: string;
+  phone?: string;
+  startDate: string;
+  preferredLanguage: string;
 }
 
-const EmployeeSchema = new Schema<EmployeeDocument>(
+const EmployeeSchema = new Schema<IEmployeeDocument>(
   {
-    companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true, index: true },
-    fullName: { type: Schema.Types.Mixed, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    fullName: { type: Map, of: String, required: true },
     passportNumber: { type: String, required: true },
     nationality: { type: String, required: true },
     email: { type: String },
@@ -17,10 +23,10 @@ const EmployeeSchema = new Schema<EmployeeDocument>(
     preferredLanguage: {
       type: String,
       enum: ['he', 'en', 'fil', 'th', 'am', 'hi', 'ar'],
-      default: 'he',
+      default: 'en',
     },
   },
   { timestamps: true }
 );
 
-export const Employee = mongoose.model<EmployeeDocument>('Employee', EmployeeSchema);
+export const Employee = mongoose.model<IEmployeeDocument>('Employee', EmployeeSchema);

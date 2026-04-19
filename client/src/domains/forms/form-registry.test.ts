@@ -13,7 +13,7 @@ import type { IEmployee, IForm } from '@payslips-maker/shared';
 
 const EMPLOYEE: IEmployee = {
   _id: 'emp1',
-  companyId: 'company1',
+  userId: 'user1',
   fullName: { en: 'Ana Ramirez' },
   passportNumber: 'AA1234567',
   nationality: 'Philippines',
@@ -80,25 +80,25 @@ describe('payslipFormConfig', () => {
   });
 
   it('defaultValues seeds fullName from employee', () => {
-    const values = config.defaultValues(EMPLOYEE, null);
+    const values = config.defaultValues(EMPLOYEE);
     expect((values as { employeeInfo: { fullName: unknown } }).employeeInfo.fullName)
       .toEqual({ en: 'Ana Ramirez' });
   });
 
   it('defaultValues seeds idNumber from employee passportNumber', () => {
-    const values = config.defaultValues(EMPLOYEE, null);
+    const values = config.defaultValues(EMPLOYEE);
     expect((values as { employeeInfo: { idNumber: string } }).employeeInfo.idNumber)
       .toBe('AA1234567');
   });
 
   it('defaultValues seeds nationality from employee', () => {
-    const values = config.defaultValues(EMPLOYEE, null);
+    const values = config.defaultValues(EMPLOYEE);
     expect((values as { employeeInfo: { nationality: string } }).employeeInfo.nationality)
       .toBe('Philippines');
   });
 
   it('defaultValues sets standardDays to 22', () => {
-    const values = config.defaultValues(EMPLOYEE, null);
+    const values = config.defaultValues(EMPLOYEE);
     expect((values as { workDetails: { standardDays: number } }).workDetails.standardDays).toBe(22);
   });
 
@@ -139,17 +139,17 @@ describe('finalSettlementFormConfig', () => {
   });
 
   it('defaultValues seeds employmentStartDate from employee.startDate', () => {
-    const values = config.defaultValues(EMPLOYEE, null) as { employmentStartDate: string };
+    const values = config.defaultValues(EMPLOYEE) as { employmentStartDate: string };
     expect(values.employmentStartDate).toBe('2022-03-01');
   });
 
   it('defaultValues sets terminationReason to "dismissal"', () => {
-    const values = config.defaultValues(EMPLOYEE, null) as { terminationReason: string };
+    const values = config.defaultValues(EMPLOYEE) as { terminationReason: string };
     expect(values.terminationReason).toBe('dismissal');
   });
 
   it('defaultValues sets all numeric fields to 0', () => {
-    const values = config.defaultValues(EMPLOYEE, null) as Record<string, unknown>;
+    const values = config.defaultValues(EMPLOYEE) as Record<string, unknown>;
     const numericFields = [
       'lastMonthlySalary', 'vacationDaysUsed', 'recuperationDaysAlreadyPaid',
       'unpaidWages', 'otherAdditions', 'totalGross', 'netTotal',
@@ -164,12 +164,10 @@ describe('finalSettlementFormConfig', () => {
   });
 
   it('toApiPayload wraps data in finalSettlementData', () => {
-    const data = config.defaultValues(EMPLOYEE, null);
+    const data = config.defaultValues(EMPLOYEE);
     const payload = config.toApiPayload!(data as never, {
       formType: 'final_settlement',
       employeeId: 'emp1',
-      companyId: 'company1',
-      company: null,
     });
     expect(payload.finalSettlementData).toBeDefined();
     expect(payload.formType).toBe('final_settlement');

@@ -2,14 +2,12 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '@/lib/useApiClient';
 import type { IEmployee, CreateEmployeeDto, UpdateEmployeeDto, ApiResponse } from '@payslips-maker/shared';
 
-export function useEmployees(companyId?: string) {
+export function useEmployees() {
   const { get } = useApiClient();
   return useQuery({
-    queryKey: companyId ? ['employees', { companyId }] : ['employees'],
-    queryFn: () => {
-      const url = companyId ? `/api/employees?companyId=${companyId}` : '/api/employees';
-      return get<ApiResponse<IEmployee[]>>(url).then((r) => r.data);
-    },
+    queryKey: ['employees'],
+    queryFn: () =>
+      get<ApiResponse<IEmployee[]>>('/api/employees').then((r) => r.data),
   });
 }
 
@@ -27,8 +25,8 @@ export function useCreateEmployee() {
   const { post } = useApiClient();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ companyId, ...dto }: { companyId: string } & CreateEmployeeDto) =>
-      post<ApiResponse<IEmployee>>(`/api/companies/${companyId}/employees`, dto).then((r) => r.data),
+    mutationFn: (dto: CreateEmployeeDto) =>
+      post<ApiResponse<IEmployee>>('/api/employees', dto).then((r) => r.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['employees'] }),
   });
 }

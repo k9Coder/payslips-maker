@@ -1,9 +1,7 @@
 import mongoose, { Schema, Document } from 'mongoose';
 import type { IUser } from '@payslips-maker/shared';
 
-export interface UserDocument extends Omit<IUser, '_id' | 'companyIds'>, Document {
-  companyIds: mongoose.Types.ObjectId[];
-}
+export interface UserDocument extends Omit<IUser, '_id'>, Document {}
 
 const UserSchema = new Schema<UserDocument>(
   {
@@ -13,7 +11,6 @@ const UserSchema = new Schema<UserDocument>(
     phone: { type: String },
     isAdmin: { type: Boolean, default: false },
     hasSubscription: { type: Boolean, default: false },
-    companyIds: [{ type: Schema.Types.ObjectId, ref: 'Company' }],
   },
   { timestamps: true }
 );

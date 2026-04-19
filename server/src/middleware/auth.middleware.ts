@@ -45,7 +45,6 @@ export async function authMiddleware(
     req.userId = user._id.toString();
     req.isAdmin = user.isAdmin;
     req.hasSubscription = user.hasSubscription;
-    req.companyIds = user.companyIds.map((id) => id.toString());
 
     const impersonateId = req.headers['x-impersonate-user'] as string | undefined;
     if (impersonateId && user.isAdmin) {
@@ -55,7 +54,6 @@ export async function authMiddleware(
         return;
       }
       req.userId = target._id.toString();
-      req.companyIds = target.companyIds.map((id) => id.toString());
       req.hasSubscription = target.hasSubscription;
       req.impersonating = true;
       req.impersonatedUserId = target._id.toString();

@@ -3,14 +3,14 @@ import { payslipFormSchema, type PayslipFormValues } from './payslip.schema';
 import { PayslipFormSections } from './components/PayslipFormSections';
 import { PayslipPDF } from './components/PayslipPDF';
 import type { FormConfig } from '../forms/types/form-config.types';
-import type { IEmployee, ICompany, IForm } from '@payslips-maker/shared';
+import type { IEmployee, IForm } from '@payslips-maker/shared';
 
 export const payslipFormConfig: FormConfig<PayslipFormValues> = {
   labelHe: 'תלוש שכר',
   formType: 'payslip',
   schema: payslipFormSchema,
 
-  defaultValues: (employee: IEmployee, company: ICompany | null) => {
+  defaultValues: (employee: IEmployee) => {
     const now = new Date();
     return ({
     period: { month: now.getMonth() + 1, year: now.getFullYear() },
@@ -18,8 +18,8 @@ export const payslipFormConfig: FormConfig<PayslipFormValues> = {
       fullName: employee.fullName,
       idNumber: employee.passportNumber,
       nationality: employee.nationality,
-      employerName: company?.name ?? {},
-      employerTaxId: company?.ein ?? '',
+      employerName: {},
+      employerTaxId: '',
       employerAddress: undefined,
       employerCity: undefined,
       employerZip: undefined,

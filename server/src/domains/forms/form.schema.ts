@@ -137,7 +137,6 @@ const finalSettlementDataSchema = z.object({
 }).nullable().optional();
 
 export const createFormSchema = z.object({
-  companyId: z.string().min(1),
   employeeId: z.string().min(1),
   formType: z.enum(['payslip', 'final_settlement']).default('payslip'),
   period: periodSchema,

@@ -1,64 +1,51 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 import { authMiddleware } from '../../middleware/auth.middleware';
-import { EmployeeService } from './employee.service';
-import { updateEmployeeSchema } from './employee.schema';
+import {
+  getEmployeesByUser,
+  getEmployeeById,
+  createEmployee,
+  updateEmployee,
+  deleteEmployee,
+} from './employee.service';
+import { createEmployeeSchema, updateEmployeeSchema } from './employee.schema';
 import { routeHandler } from '../../middleware/routeHandler';
 
 const router = Router();
+router.use(authMiddleware);
 
-// GET /api/employees?companyId=
-router.get('/', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const companyId = req.query.companyId as string | undefined;
-  let employees;
-  if (companyId) {
-    if (!(req.companyIds ?? []).includes(companyId)) {
-      res.status(404).json({ success: false, error: 'Company not found' });
-      return;
-    }
-    employees = await EmployeeService.getEmployeesByCompanyId(companyId);
-  } else {
-    employees = await EmployeeService.getEmployeesByCompanyIds(req.companyIds ?? []);
-  }
-  res.json({ success: true, data: employees });
+router.get('/', routeHandler(async (req, res) => {
+  const employees = await getEmployeesByUser(req.userId!);
+  res.json({ data: employees });
 }));
 
-// GET /api/employees/:id
-router.get('/:id', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const employee = await EmployeeService.getEmployeeById(req.params.id, req.companyIds ?? []);
+router.post('/', routeHandler(async (req, res) => {
+  const body = createEmployeeSchema.parse(req.body);
+  const employee = await createEmployee(req.userId!, body);
+  res.status(201).json({ data: employee });
+}));
+
+router.get('/:id', routeHandler(async (req, res) => {
+  const employee = await getEmployeeById(req.params.id, req.userId!);
   if (!employee) {
-    res.status(404).json({ success: false, error: 'Employee not found' });
+    res.status(404).json({ error: 'Employee not found' });
     return;
   }
-  res.json({ success: true, data: employee });
+  res.json({ data: employee });
 }));
 
-// PATCH /api/employees/:id
-router.patch('/:id', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const parsed = updateEmployeeSchema.safeParse(req.body);
-  if (!parsed.success) {
-    res.status(400).json({ success: false, error: parsed.error.flatten().fieldErrors });
-    return;
-  }
-  const employee = await EmployeeService.updateEmployee(
-    req.params.id,
-    req.companyIds ?? [],
-    parsed.data
-  );
+router.patch('/:id', routeHandler(async (req, res) => {
+  const body = updateEmployeeSchema.parse(req.body);
+  const employee = await updateEmployee(req.params.id, req.userId!, body);
   if (!employee) {
-    res.status(404).json({ success: false, error: 'Employee not found' });
+    res.status(404).json({ error: 'Employee not found' });
     return;
   }
-  res.json({ success: true, data: employee });
+  res.json({ data: employee });
 }));
 
-// DELETE /api/employees/:id
-router.delete('/:id', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const deleted = await EmployeeService.deleteEmployee(req.params.id, req.companyIds ?? []);
-  if (!deleted) {
-    res.status(404).json({ success: false, error: 'Employee not found' });
-    return;
-  }
-  res.json({ success: true, data: null });
+router.delete('/:id', routeHandler(async (req, res) => {
+  await deleteEmployee(req.params.id, req.userId!);
+  res.status(204).send();
 }));
 
 export { router as employeeRouter };

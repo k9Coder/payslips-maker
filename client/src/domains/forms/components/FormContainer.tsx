@@ -10,14 +10,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import { useApiClient } from '@/lib/useApiClient';
 import { useEmployee } from '@/domains/employees/hooks/useEmployees';
-import { useCompany } from '@/domains/companies/hooks/useCompanies';
 import { getFormConfig } from '../form-registry';
 import { PDFDownloadDialog } from './PDFDownloadDialog';
 import { SendEmailDialog } from './SendEmailDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { toast } from '@/hooks/use-toast';
-import type { ApiResponse, IForm, FormType, CreateFormDto } from '@payslips-maker/shared';
+import type { ApiResponse, IForm, FormType, CreateFormDto, WorkLogMonthSummary } from '@payslips-maker/shared';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
@@ -25,9 +24,10 @@ interface FormContainerProps {
   formType: FormType;
   employeeId: string;
   formId?: string;
+  workLogOverride?: WorkLogMonthSummary;
 }
 
-export function FormContainer({ formType, employeeId, formId }: FormContainerProps) {
+export function FormContainer({ formType, employeeId, formId, workLogOverride }: FormContainerProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const resolve = useResolveMultiLang();
@@ -42,9 +42,6 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
   // Load employee
   const { data: employee, isLoading: isEmployeeLoading } = useEmployee(employeeId);
 
-  // Load company (needed for defaultValues on new forms)
-  const { data: company = null, isLoading: isCompanyLoading } = useCompany(employee?.companyId ?? '');
-
   // Load existing form when editing
   const { data: existingForm, isLoading: isFormLoading } = useQuery({
     queryKey: ['form', formId],
@@ -53,10 +50,7 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     staleTime: 0,
   });
 
-  const isLoading =
-    isEmployeeLoading ||
-    (!!formId && isFormLoading) ||
-    (!formId && !!employee?.companyId && isCompanyLoading);
+  const isLoading = isEmployeeLoading || (!!formId && isFormLoading);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const form = useForm<any>({
@@ -70,11 +64,35 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     if (!employee) return;
     if (formId && existingForm) {
       form.reset(config.fromApiForm(existingForm));
-    } else if (!formId && company !== undefined) {
-      form.reset(config.defaultValues(employee, company));
+    } else if (!formId) {
+      const defaults = config.defaultValues(employee);
+      if (workLogOverride && formType === 'payslip') {
+        // Merge worklog summary into workDetails
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const d = defaults as any;
+        const merged = {
+          ...d,
+          workDetails: {
+            ...(d.workDetails ?? {}),
+            workedDays: workLogOverride.workDays,
+            vacationDays: workLogOverride.vacationDays,
+            sickDays: workLogOverride.sickDays,
+            holidayDays: workLogOverride.holidayDays,
+            // Place all overtime hours into overtime100h as default bucket
+            overtime100h: workLogOverride.overtimeHours,
+          },
+          period: {
+            month: workLogOverride.month,
+            year: workLogOverride.year,
+          },
+        };
+        form.reset(merged);
+      } else {
+        form.reset(defaults);
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee, existingForm, formId, company]);
+  }, [employee, existingForm, formId, workLogOverride]);
 
   const createMutation = useMutation({
     mutationFn: (dto: CreateFormDto) =>
@@ -126,11 +144,10 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
       toast({ title: 'מצב הדגמה', description: 'שינויים לא נשמרים במצב הדגמה' });
       return;
     }
-    const companyId = employee?.companyId ?? '';
     const baseDto = config.toApiPayload
-      ? config.toApiPayload(data, { formType, employeeId, companyId, company })
+      ? config.toApiPayload(data, { formType, employeeId })
       : { ...data, formType, employeeId };
-    const dto: CreateFormDto = { ...baseDto, companyId } as CreateFormDto;
+    const dto: CreateFormDto = { ...baseDto } as CreateFormDto;
     if (formId) {
       updateMutation.mutate(dto);
     } else {
@@ -258,4 +275,3 @@ export function FormContainer({ formType, employeeId, formId }: FormContainerPro
     </FormProvider>
   );
 }
-

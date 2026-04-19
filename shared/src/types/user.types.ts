@@ -6,7 +6,6 @@ export interface IUser {
   phone?: string;
   isAdmin: boolean;
   hasSubscription: boolean;
-  companyIds: string[];
   createdAt: Date | string;
   updatedAt: Date | string;
 }

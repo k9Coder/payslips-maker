@@ -1,4 +1,4 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { Layout } from '@/shared/components/Layout';
 import { ProtectedRoute } from '@/domains/auth/components/ProtectedRoute';
@@ -23,8 +23,14 @@ const NewFormPage = lazy(() =>
 const FormDetailPage = lazy(() =>
   import('@/pages/FormDetailPage').then((m) => ({ default: m.FormDetailPage }))
 );
-const ProfilePage = lazy(() =>
-  import('@/pages/ProfilePage').then((m) => ({ default: m.ProfilePage }))
+const SettingsPage = lazy(() =>
+  import('@/pages/SettingsPage').then((m) => ({ default: m.SettingsPage }))
+);
+const PayslipsPage = lazy(() =>
+  import('@/pages/PayslipsPage').then((m) => ({ default: m.PayslipsPage }))
+);
+const HelpPage = lazy(() =>
+  import('@/pages/HelpPage').then((m) => ({ default: m.HelpPage }))
 );
 const AdminDashboardPage = lazy(() =>
   import('@/pages/admin/AdminDashboardPage').then((m) => ({ default: m.AdminDashboardPage }))
@@ -38,17 +44,17 @@ const AdminUserDetailPage = lazy(() =>
 const AdminFormsPage = lazy(() =>
   import('@/pages/admin/AdminFormsPage').then((m) => ({ default: m.AdminFormsPage }))
 );
-const EmployeesPage = lazy(() =>
-  import('@/domains/employees/components/EmployeesPage').then((m) => ({ default: m.EmployeesPage }))
+const EmployeeCardsPage = lazy(() =>
+  import('@/domains/employees/EmployeeCardsPage').then((m) => ({ default: m.EmployeeCardsPage }))
+);
+const EmployeeDetailPage = lazy(() =>
+  import('@/domains/employees/EmployeeDetailPage').then((m) => ({ default: m.EmployeeDetailPage }))
 );
 const EmployeeFormPage = lazy(() =>
   import('@/domains/employees/components/EmployeeFormPage').then((m) => ({ default: m.EmployeeFormPage }))
 );
-const CompaniesPage = lazy(() =>
-  import('@/domains/companies/components/CompaniesPage').then((m) => ({ default: m.CompaniesPage }))
-);
-const CompanyFormPage = lazy(() =>
-  import('@/domains/companies/components/CompanyFormPage').then((m) => ({ default: m.CompanyFormPage }))
+const WorkLogPage = lazy(() =>
+  import('@/domains/worklog/WorkLogPage').then((m) => ({ default: m.WorkLogPage }))
 );
 
 function ImpersonationLayout() {
@@ -82,6 +88,54 @@ function AppRoutes() {
             }
           />
           <Route
+            path="employees"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeCardsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees/new"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeFormPage mode="create" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees/:id"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeDetailPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="employees/:id/edit"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <EmployeeFormPage mode="edit" />
+              </Suspense>
+            }
+          />
+          <Route
+            path="worklog"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <WorkLogPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="payslips"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <PayslipsPage />
+              </Suspense>
+            }
+          />
+          <Route
             path="forms/new"
             element={
               <Suspense fallback={<PageLoading />}>
@@ -98,58 +152,19 @@ function AppRoutes() {
             }
           />
           <Route
-            path="profile"
+            path="settings"
             element={
               <Suspense fallback={<PageLoading />}>
-                <ProfilePage />
+                <SettingsPage />
               </Suspense>
             }
           />
+          <Route path="profile" element={<Navigate to="/settings" replace />} />
           <Route
-            path="companies"
+            path="help"
             element={
               <Suspense fallback={<PageLoading />}>
-                <CompaniesPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="companies/new"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <CompanyFormPage mode="create" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="companies/:id/edit"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <CompanyFormPage mode="edit" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="employees"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <EmployeesPage />
-              </Suspense>
-            }
-          />
-          <Route
-            path="employees/new"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <EmployeeFormPage mode="create" />
-              </Suspense>
-            }
-          />
-          <Route
-            path="employees/:id/edit"
-            element={
-              <Suspense fallback={<PageLoading />}>
-                <EmployeeFormPage mode="edit" />
+                <HelpPage />
               </Suspense>
             }
           />
@@ -193,34 +208,10 @@ function AppRoutes() {
           {/* Impersonation routes — admin managing another user's data */}
           <Route path=":userId" element={<ImpersonationLayout />}>
             <Route
-              path="companies"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompaniesPage />
-                </Suspense>
-              }
-            />
-            <Route
-              path="companies/new"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompanyFormPage mode="create" />
-                </Suspense>
-              }
-            />
-            <Route
-              path="companies/:id/edit"
-              element={
-                <Suspense fallback={<PageLoading />}>
-                  <CompanyFormPage mode="edit" />
-                </Suspense>
-              }
-            />
-            <Route
               path="employees"
               element={
                 <Suspense fallback={<PageLoading />}>
-                  <EmployeesPage />
+                  <EmployeeCardsPage />
                 </Suspense>
               }
             />
@@ -237,6 +228,14 @@ function AppRoutes() {
               element={
                 <Suspense fallback={<PageLoading />}>
                   <EmployeeFormPage mode="edit" />
+                </Suspense>
+              }
+            />
+            <Route
+              path="worklog"
+              element={
+                <Suspense fallback={<PageLoading />}>
+                  <WorkLogPage />
                 </Suspense>
               }
             />
