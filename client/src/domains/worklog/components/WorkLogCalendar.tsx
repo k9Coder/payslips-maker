@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import type { WorkLogMonthSummary, WorkLogEntryType, IWorkLogEntry } from '@payslips-maker/shared';
+import type { WorkLogMonthSummary, IWorkLogEntry } from '@payslips-maker/shared';
 import { DayCell } from './DayCell';
 
 const HEBREW_MONTHS = [
@@ -16,10 +16,10 @@ interface WorkLogCalendarProps {
   summary?: WorkLogMonthSummary;
   onPrev: () => void;
   onNext: () => void;
-  onCycleDay: (date: string, nextType: WorkLogEntryType | null) => void;
+  onDayClick: (date: string) => void;
 }
 
-export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onCycleDay }: WorkLogCalendarProps) {
+export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayClick }: WorkLogCalendarProps) {
   const entryMap = useMemo(() => {
     const map: Record<string, IWorkLogEntry> = {};
     summary?.entries.forEach((e) => { map[e.date] = e; });
@@ -63,7 +63,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onCycleD
         ))}
       </div>
 
-      {/* Empty leading cells */}
+      {/* Empty leading cells + day cells */}
       <div className="grid grid-cols-7 gap-1">
         {Array.from({ length: startDow }).map((_, i) => (
           <div key={`empty-${i}`} />
@@ -76,7 +76,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onCycleD
             entry={entryMap[cell.date]}
             isCurrentMonth={true}
             isWeekend={cell.dow === 5 || cell.dow === 6}
-            onCycle={onCycleDay}
+            onDayClick={onDayClick}
           />
         ))}
       </div>
@@ -84,7 +84,11 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onCycleD
       {/* Monthly summary */}
       {summary && (
         <div className="mt-4 grid grid-cols-4 gap-2">
-          <SumBadge color="bg-teal-500" label="עבודה" value={`${summary.workDays}י`} />
+          <SumBadge
+            color="bg-teal-500"
+            label="עבודה"
+            value={`${summary.workDays}י${summary.totalWorkHours > 0 ? ` / ${summary.totalWorkHours}ש` : ''}`}
+          />
           <SumBadge color="bg-amber-400" label="חופשה" value={`${summary.vacationDays}י`} />
           <SumBadge color="bg-blue-400" label="מחלה" value={`${summary.sickDays}י`} />
           <SumBadge color="bg-purple-500" label="נוספות" value={`${summary.overtimeHours}ש`} />

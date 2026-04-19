@@ -9,30 +9,23 @@ const TYPE_CONFIG: Record<WorkLogEntryType, { bg: string; label: string; symbol:
   overtime: { bg: 'bg-purple-500', label: 'שעות נוספות', symbol: '+' },
 };
 
-const TYPE_CYCLE: (WorkLogEntryType | null)[] = [
-  null, 'work', 'vacation', 'sick', 'holiday', 'overtime',
-];
-
 interface DayCellProps {
-  date: string; // YYYY-MM-DD
+  date: string;
   dayNumber: number;
   entry?: IWorkLogEntry;
   isCurrentMonth: boolean;
   isWeekend: boolean;
-  onCycle: (date: string, nextType: WorkLogEntryType | null) => void;
+  onDayClick: (date: string) => void;
 }
 
-export function DayCell({ date, dayNumber, entry, isCurrentMonth, isWeekend, onCycle }: DayCellProps) {
-  const currentType = entry?.type ?? null;
-  const currentIndex = TYPE_CYCLE.indexOf(currentType);
-  const nextType = TYPE_CYCLE[(currentIndex + 1) % TYPE_CYCLE.length];
-  const config = currentType ? TYPE_CONFIG[currentType] : null;
+export function DayCell({ date, dayNumber, entry, isCurrentMonth, isWeekend, onDayClick }: DayCellProps) {
+  const config = entry?.type ? TYPE_CONFIG[entry.type] : null;
 
   return (
     <button
-      onClick={() => isCurrentMonth && onCycle(date, nextType)}
+      onClick={() => isCurrentMonth && onDayClick(date)}
       disabled={!isCurrentMonth}
-      title={config?.label}
+      title={config ? `${config.label}${entry?.hours != null ? ` — ${entry.hours}ש` : ''}` : undefined}
       className={cn(
         'relative h-10 w-full rounded-lg border border-gray-100 flex flex-col items-center justify-center gap-0.5',
         'text-xs font-medium transition-all select-none',
@@ -43,6 +36,9 @@ export function DayCell({ date, dayNumber, entry, isCurrentMonth, isWeekend, onC
     >
       <span className="leading-none">{dayNumber}</span>
       {config?.symbol && <span className="text-[9px] leading-none opacity-90">{config.symbol}</span>}
+      {entry?.hours != null && (
+        <span className="text-[8px] leading-none opacity-80">{entry.hours}ש</span>
+      )}
     </button>
   );
 }
