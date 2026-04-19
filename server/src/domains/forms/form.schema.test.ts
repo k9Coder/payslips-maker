@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest';
 import { createFormSchema } from './form.schema';
 
 const VALID_FORM = {
-  companyId: '507f1f77bcf86cd799439055',
   employeeId: '507f1f77bcf86cd799439044',
   formType: 'payslip' as const,
   period: { month: 3, year: 2025 },
@@ -24,11 +23,6 @@ const VALID_FORM = {
 describe('createFormSchema — required fields', () => {
   it('accepts a valid minimal form', () => {
     expect(createFormSchema.safeParse(VALID_FORM).success).toBe(true);
-  });
-
-  it('rejects missing companyId', () => {
-    const { companyId: _, ...rest } = VALID_FORM;
-    expect(createFormSchema.safeParse(rest).success).toBe(false);
   });
 
   it('rejects missing employeeId', () => {

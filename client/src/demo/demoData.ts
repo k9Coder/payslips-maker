@@ -827,7 +827,6 @@ const ALL_DEMO_EMPLOYEES: IEmployee[] = [...DEMO_EMPLOYEES, ...OTHER_DEMO_EMPLOY
 export const DEMO_ADMIN_USERS: AdminUserView[] = ALL_DEMO_USERS.map((u) => ({
   ...u,
   formCount: formCountFor(u._id),
-  employeeCount: ALL_DEMO_EMPLOYEES.filter((e) => e.userId === u._id).length,
 }));
 
 // ─── Mock API Router ────────────────────────────────────────────────────────────

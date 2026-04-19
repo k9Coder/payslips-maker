@@ -17,5 +17,4 @@ export interface UpdateUserDto {
 
 export interface AdminUserView extends IUser {
   formCount: number;
-  employeeCount: number;
 }
