@@ -7,12 +7,14 @@ interface SidebarItemProps {
   icon: LucideIcon;
   label: string;
   collapsed: boolean;
+  onNavigate?: () => void;
 }
 
-export function SidebarItem({ to, icon: Icon, label, collapsed }: SidebarItemProps) {
+export function SidebarItem({ to, icon: Icon, label, collapsed, onNavigate }: SidebarItemProps) {
   return (
     <NavLink
       to={to}
+      onClick={onNavigate}
       className={({ isActive }) =>
         cn(
           'flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
