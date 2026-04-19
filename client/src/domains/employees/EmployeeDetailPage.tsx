@@ -27,7 +27,7 @@ export function EmployeeDetailPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <button
           onClick={() => navigate('/employees')}
           className="flex items-center gap-2 text-[#1B2A4A] hover:opacity-70 text-sm"
@@ -36,11 +36,11 @@ export function EmployeeDetailPage() {
           כל העובדים
         </button>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={() => navigate(`/employees/${id}/edit`)}>
+          <Button variant="outline" size="sm" className="flex-1 sm:flex-none" onClick={() => navigate(`/employees/${id}/edit`)}>
             <Edit2 className="h-4 w-4 me-1" />
             עריכה
           </Button>
-          <Button variant="destructive" size="sm" onClick={handleDelete} disabled={deleteEmployee.isPending}>
+          <Button variant="destructive" size="sm" className="flex-1 sm:flex-none" onClick={handleDelete} disabled={deleteEmployee.isPending}>
             <Trash2 className="h-4 w-4 me-1" />
             מחיקה
           </Button>
@@ -51,7 +51,7 @@ export function EmployeeDetailPage() {
         <CardHeader>
           <CardTitle className="text-[#1B2A4A]">{name}</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4 text-sm">
+        <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <InfoRow label="מס׳ דרכון" value={employee.passportNumber} />
           <InfoRow label="לאום" value={employee.nationality} />
           <InfoRow label="תאריך התחלה" value={employee.startDate} />
