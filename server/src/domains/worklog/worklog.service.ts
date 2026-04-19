@@ -71,6 +71,9 @@ export async function getMonthSummary(
     overtimeHours: entries
       .filter((e) => e.type === 'overtime')
       .reduce((sum, e) => sum + (e.hours ?? 0), 0),
+    totalWorkHours: entries
+      .filter((e) => e.type === 'work')
+      .reduce((sum, e) => sum + (e.hours ?? 0), 0),
     entries,
   };
 }
