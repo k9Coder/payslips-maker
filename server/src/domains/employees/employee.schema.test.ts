@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { createEmployeeSchema, updateEmployeeSchema } from './employee.schema';
 
 const VALID = {
-  fullName: 'Ana Ramirez',
+  fullName: { en: 'Ana Ramirez', he: 'אנה רמירז' },
   passportNumber: 'AA1234567',
   nationality: 'Philippines',
   startDate: '2023-01-15',
@@ -17,12 +17,12 @@ describe('createEmployeeSchema', () => {
   });
 
   // fullName
-  it('rejects fullName shorter than 2 chars', () => {
-    expect(createEmployeeSchema.safeParse({ ...VALID, fullName: 'A' }).success).toBe(false);
+  it('rejects fullName that is not a record (plain string)', () => {
+    expect(createEmployeeSchema.safeParse({ ...VALID, fullName: 'Ana Ramirez' }).success).toBe(false);
   });
 
-  it('accepts fullName of exactly 2 chars', () => {
-    expect(createEmployeeSchema.safeParse({ ...VALID, fullName: 'Li' }).success).toBe(true);
+  it('accepts fullName with a single short value', () => {
+    expect(createEmployeeSchema.safeParse({ ...VALID, fullName: { en: 'Li' } }).success).toBe(true);
   });
 
   // passportNumber
@@ -74,7 +74,7 @@ describe('createEmployeeSchema', () => {
     const { preferredLanguage: _lang, ...noLang } = VALID;
     const result = createEmployeeSchema.safeParse(noLang);
     expect(result.success).toBe(true);
-    if (result.success) expect(result.data.preferredLanguage).toBe('he');
+    if (result.success) expect(result.data.preferredLanguage).toBe('he'); // schema default
   });
 
   it('rejects a preferredLanguage not in the enum', () => {
@@ -102,7 +102,7 @@ describe('updateEmployeeSchema', () => {
   });
 
   it('accepts a partial update with only fullName', () => {
-    expect(updateEmployeeSchema.safeParse({ fullName: 'New Name' }).success).toBe(true);
+    expect(updateEmployeeSchema.safeParse({ fullName: { en: 'New Name' } }).success).toBe(true);
   });
 
   it('still validates fullName min length when provided', () => {
