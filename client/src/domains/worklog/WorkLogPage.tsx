@@ -1,9 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { CalendarDays } from 'lucide-react';
-import type { WorkLogEntryType } from '@payslips-maker/shared';
+import type { UpdateWorkLogEntryDto } from '@payslips-maker/shared';
+import type { CreateWorkLogEntryDto } from '@payslips-maker/shared';
 import { useEmployees } from '../employees/hooks/useEmployees';
-import { useWorkLogMonth, useUpsertWorkLogEntry, useDeleteWorkLogEntry } from './hooks/useWorkLog';
+import {
+  useWorkLogMonth,
+  useCreateWorkLogEntry,
+  useUpdateWorkLogEntry,
+  useDeleteWorkLogEntry,
+} from './hooks/useWorkLog';
 import { WorkLogCalendar } from './components/WorkLogCalendar';
 import { EmployeeSelector } from './components/EmployeeSelector';
 import { DayEntryDialog } from './components/DayEntryDialog';
@@ -31,8 +37,9 @@ export function WorkLogPage() {
     month
   );
 
-  const upsert = useUpsertWorkLogEntry();
-  const deleteEntry = useDeleteWorkLogEntry();
+  const create = useCreateWorkLogEntry();
+  const update = useUpdateWorkLogEntry();
+  const remove = useDeleteWorkLogEntry();
 
   function prevMonth() {
     if (month === 1) { setMonth(12); setYear((y) => y - 1); }
@@ -43,20 +50,22 @@ export function WorkLogPage() {
     else setMonth((m) => m + 1);
   }
 
-  async function handleDialogSave(type: WorkLogEntryType, hours: number | undefined, notes: string | undefined) {
+  async function handleCreate(dto: Omit<CreateWorkLogEntryDto, 'employeeId' | 'date'>) {
     if (!dialogDate || !selectedEmployeeId) return;
-    await upsert.mutateAsync({ employeeId: selectedEmployeeId, date: dialogDate, type, hours, notes });
-    setDialogDate(null);
+    await create.mutateAsync({ employeeId: selectedEmployeeId, date: dialogDate, ...dto });
   }
 
-  async function handleDialogClear() {
-    if (!dialogDate || !selectedEmployeeId) return;
-    const entry = summary?.entries.find((e) => e.date === dialogDate);
-    if (entry) await deleteEntry.mutateAsync(entry._id);
-    setDialogDate(null);
+  async function handleUpdate(entryId: string, dto: UpdateWorkLogEntryDto) {
+    await update.mutateAsync({ entryId, dto });
   }
 
-  const dialogEntry = dialogDate ? summary?.entries.find((e) => e.date === dialogDate) : undefined;
+  async function handleDelete(entryId: string) {
+    await remove.mutateAsync(entryId);
+  }
+
+  const dialogEntries = dialogDate
+    ? (summary?.entries.filter((e) => e.date === dialogDate) ?? [])
+    : [];
 
   if (loadingEmp) return <div className="flex items-center justify-center h-32 text-gray-400">טוען...</div>;
 
@@ -110,9 +119,10 @@ export function WorkLogPage() {
       <DayEntryDialog
         open={dialogDate !== null}
         date={dialogDate ?? ''}
-        existingEntry={dialogEntry}
-        onSave={handleDialogSave}
-        onClear={handleDialogClear}
+        entries={dialogEntries}
+        onCreate={handleCreate}
+        onUpdate={handleUpdate}
+        onDelete={handleDelete}
         onClose={() => setDialogDate(null)}
       />
     </div>
