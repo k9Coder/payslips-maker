@@ -41,5 +41,6 @@ export interface WorkLogMonthSummary {
   sickDays: number;
   holidayDays: number;
   overtimeHours: number;
+  totalWorkHours: number;
   entries: IWorkLogEntry[];
 }
