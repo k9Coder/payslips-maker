@@ -27,7 +27,6 @@ const WorkLogSchema = new Schema<IWorkLogDocument>(
   { timestamps: true }
 );
 
-// One entry per employee per date
-WorkLogSchema.index({ employeeId: 1, date: 1 }, { unique: true });
+WorkLogSchema.index({ employeeId: 1, date: 1 });
 
 export const WorkLog = mongoose.model<IWorkLogDocument>('WorkLog', WorkLogSchema);
