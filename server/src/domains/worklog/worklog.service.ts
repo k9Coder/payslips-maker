@@ -21,27 +21,32 @@ export async function getMonthEntries(
     .lean();
 }
 
-export async function upsertEntry(
+export async function createEntry(
   userId: string,
   data: { employeeId: string; date: string; type: string; hours?: number; notes?: string }
 ) {
+  return WorkLog.create({
+    userId: new mongoose.Types.ObjectId(userId),
+    employeeId: new mongoose.Types.ObjectId(data.employeeId),
+    date: data.date,
+    type: data.type,
+    hours: data.hours,
+    notes: data.notes,
+  });
+}
+
+export async function updateEntry(
+  userId: string,
+  entryId: string,
+  data: { type?: string; hours?: number; notes?: string }
+) {
   return WorkLog.findOneAndUpdate(
     {
+      _id: new mongoose.Types.ObjectId(entryId),
       userId: new mongoose.Types.ObjectId(userId),
-      employeeId: new mongoose.Types.ObjectId(data.employeeId),
-      date: data.date,
     },
-    {
-      $set: {
-        type: data.type,
-        hours: data.hours,
-        notes: data.notes,
-        userId: new mongoose.Types.ObjectId(userId),
-        employeeId: new mongoose.Types.ObjectId(data.employeeId),
-        date: data.date,
-      },
-    },
-    { upsert: true, new: true }
+    { $set: data },
+    { new: true }
   ).lean();
 }
 
@@ -59,15 +64,22 @@ export async function getMonthSummary(
   month: number
 ) {
   const entries = await getMonthEntries(userId, employeeId, year, month);
+
+  // Count distinct dates per type — a day with work+overtime counts as 1 work day
+  const workDates = new Set(entries.filter((e) => e.type === 'work').map((e) => e.date));
+  const vacationDates = new Set(entries.filter((e) => e.type === 'vacation').map((e) => e.date));
+  const sickDates = new Set(entries.filter((e) => e.type === 'sick').map((e) => e.date));
+  const holidayDates = new Set(entries.filter((e) => e.type === 'holiday').map((e) => e.date));
+
   return {
     employeeId,
     userId,
     year,
     month,
-    workDays: entries.filter((e) => e.type === 'work').length,
-    vacationDays: entries.filter((e) => e.type === 'vacation').length,
-    sickDays: entries.filter((e) => e.type === 'sick').length,
-    holidayDays: entries.filter((e) => e.type === 'holiday').length,
+    workDays: workDates.size,
+    vacationDays: vacationDates.size,
+    sickDays: sickDates.size,
+    holidayDays: holidayDates.size,
     overtimeHours: entries
       .filter((e) => e.type === 'overtime')
       .reduce((sum, e) => sum + (e.hours ?? 0), 0),

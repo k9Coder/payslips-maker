@@ -10,6 +10,12 @@ export const createWorkLogEntrySchema = z.object({
   notes: z.string().max(500).optional(),
 });
 
+export const updateWorkLogEntrySchema = z.object({
+  type: z.enum(['work', 'vacation', 'sick', 'holiday', 'overtime']).optional(),
+  hours: z.number().min(0).max(24).optional(),
+  notes: z.string().max(500).optional(),
+});
+
 export const workLogMonthQuerySchema = z.object({
   employeeId: z.string().min(1),
   year: z.coerce.number().int().min(2000).max(2100),
