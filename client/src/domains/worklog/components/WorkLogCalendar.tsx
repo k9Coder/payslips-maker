@@ -7,7 +7,6 @@ const HEBREW_MONTHS = [
   'ינואר','פברואר','מרץ','אפריל','מאי','יוני',
   'יולי','אוגוסט','ספטמבר','אוקטובר','נובמבר','דצמבר',
 ];
-// Sunday first (matches JS Date.getDay())
 const HEBREW_DAYS = ['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'];
 
 interface WorkLogCalendarProps {
@@ -20,15 +19,19 @@ interface WorkLogCalendarProps {
 }
 
 export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayClick }: WorkLogCalendarProps) {
-  const entryMap = useMemo(() => {
-    const map: Record<string, IWorkLogEntry> = {};
-    summary?.entries.forEach((e) => { map[e.date] = e; });
+  // Group entries by date — multiple entries per date allowed
+  const entriesMap = useMemo(() => {
+    const map: Record<string, IWorkLogEntry[]> = {};
+    summary?.entries.forEach((e) => {
+      if (!map[e.date]) map[e.date] = [];
+      map[e.date].push(e);
+    });
     return map;
   }, [summary]);
 
   const { daysInMonth, startDow } = useMemo(() => ({
     daysInMonth: new Date(year, month, 0).getDate(),
-    startDow: new Date(year, month - 1, 1).getDay(), // 0=Sun
+    startDow: new Date(year, month - 1, 1).getDay(),
   }), [year, month]);
 
   const cells = useMemo(() => {
@@ -63,7 +66,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayCli
         ))}
       </div>
 
-      {/* Empty leading cells + day cells */}
+      {/* Day cells */}
       <div className="grid grid-cols-7 gap-1">
         {Array.from({ length: startDow }).map((_, i) => (
           <div key={`empty-${i}`} />
@@ -73,7 +76,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayCli
             key={cell.date}
             date={cell.date}
             dayNumber={cell.day}
-            entry={entryMap[cell.date]}
+            entries={entriesMap[cell.date] ?? []}
             isCurrentMonth={true}
             isWeekend={cell.dow === 5 || cell.dow === 6}
             onDayClick={onDayClick}
