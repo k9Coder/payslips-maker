@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { authMiddleware } from '../../middleware/auth.middleware';
 import { routeHandler } from '../../middleware/routeHandler';
-import { getMonthSummary, upsertEntry, deleteEntry } from './worklog.service';
-import { createWorkLogEntrySchema, workLogMonthQuerySchema } from './worklog.schema';
+import { getMonthSummary, createEntry, updateEntry, deleteEntry } from './worklog.service';
+import { createWorkLogEntrySchema, updateWorkLogEntrySchema, workLogMonthQuerySchema } from './worklog.schema';
 
 const router = Router();
 router.use(authMiddleware);
@@ -14,11 +14,19 @@ router.get('/', routeHandler(async (req, res) => {
   res.json({ data: summary });
 }));
 
-// POST /api/worklog — upsert (one entry per employee per date)
+// POST /api/worklog — create a new entry (multiple allowed per day)
 router.post('/', routeHandler(async (req, res) => {
   const body = createWorkLogEntrySchema.parse(req.body);
-  const entry = await upsertEntry(req.userId!, body);
-  res.status(200).json({ data: entry });
+  const entry = await createEntry(req.userId!, body);
+  res.status(201).json({ data: entry });
+}));
+
+// PATCH /api/worklog/:id — update an existing entry
+router.patch('/:id', routeHandler(async (req, res) => {
+  const body = updateWorkLogEntrySchema.parse(req.body);
+  const entry = await updateEntry(req.userId!, req.params.id, body);
+  if (!entry) { res.status(404).json({ error: 'Not found' }); return; }
+  res.json({ data: entry });
 }));
 
 // DELETE /api/worklog/:id
