@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { PayslipRowsIcon } from './brand/PayslipRowsIcon';
-import { BRAND_NAME, BRAND_TAGLINE, BRAND_LEGAL_NOTE } from './brand/brand';
+import { BRAND_NAME, BRAND_TAGLINE, BRAND_LEGAL_NOTE, BRAND_SUPPORT_EMAIL, BRAND_WEBSITE, BRAND_COMPANY } from './brand/brand';
 
 function FooterBrand() {
   return (
@@ -32,12 +32,12 @@ function FooterBottom() {
   const year = new Date().getFullYear();
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-[#475569]">
-      <span>© {year} {BRAND_NAME}. כל הזכויות שמורות.</span>
+      <span>© {year} {BRAND_COMPANY} · <a href={`https://${BRAND_WEBSITE}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#94a3b8] transition-colors">{BRAND_WEBSITE}</a>. כל הזכויות שמורות.</span>
       <div className="flex gap-4">
         <Link to="/manual" className="hover:text-[#94a3b8] transition-colors">מדריך</Link>
         <span aria-hidden="true">·</span>
         <a
-          href="mailto:support@pashot-tlush.co.il"
+          href={`mailto:${BRAND_SUPPORT_EMAIL}`}
           className="hover:text-[#94a3b8] transition-colors"
         >
           צור קשר

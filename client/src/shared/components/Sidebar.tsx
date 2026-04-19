@@ -6,6 +6,7 @@ import {
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from '../context/SidebarContext';
 import { cn } from '../../lib/utils';
+import { BRAND_NAME } from './brand/brand';
 
 const NAV_ITEMS = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'ראשי' },
@@ -61,7 +62,7 @@ export function Sidebar({ className }: SidebarProps) {
         dir="rtl"
       >
         <div className="flex items-center justify-between h-14 px-4 border-b border-gray-200">
-          <span className="text-[#1B2A4A] font-bold text-lg">פשוט תלוש</span>
+          <span className="text-[#1B2A4A] font-bold text-lg">{BRAND_NAME}</span>
           <button
             onClick={closeMobile}
             className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
@@ -87,8 +88,8 @@ export function Sidebar({ className }: SidebarProps) {
             collapsed && 'justify-center px-2'
           )}
         >
-          {!collapsed && <span className="text-[#1B2A4A] font-bold text-lg truncate">פשוט תלוש</span>}
-          {collapsed && <span className="text-[#1B2A4A] font-bold text-lg">פ</span>}
+          {!collapsed && <span className="text-[#1B2A4A] font-bold text-lg truncate">{BRAND_NAME}</span>}
+          {collapsed && <span className="text-[#1B2A4A] font-bold text-lg">C+</span>}
         </div>
 
         {navItems}
