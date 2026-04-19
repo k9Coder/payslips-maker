@@ -6,6 +6,7 @@ import { useEmployees } from '../employees/hooks/useEmployees';
 import { useWorkLogMonth, useUpsertWorkLogEntry, useDeleteWorkLogEntry } from './hooks/useWorkLog';
 import { WorkLogCalendar } from './components/WorkLogCalendar';
 import { EmployeeSelector } from './components/EmployeeSelector';
+import { DayEntryDialog } from './components/DayEntryDialog';
 
 export function WorkLogPage() {
   const [searchParams] = useSearchParams();
@@ -15,6 +16,7 @@ export function WorkLogPage() {
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth() + 1);
   const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const [dialogDate, setDialogDate] = useState<string | null>(null);
 
   useEffect(() => {
     if (!employees?.length) return;
@@ -41,15 +43,20 @@ export function WorkLogPage() {
     else setMonth((m) => m + 1);
   }
 
-  async function handleCycleDay(date: string, nextType: WorkLogEntryType | null) {
-    if (!selectedEmployeeId) return;
-    if (nextType === null) {
-      const entry = summary?.entries.find((e) => e.date === date);
-      if (entry) await deleteEntry.mutateAsync(entry._id);
-    } else {
-      await upsert.mutateAsync({ employeeId: selectedEmployeeId, date, type: nextType });
-    }
+  async function handleDialogSave(type: WorkLogEntryType, hours: number | undefined, notes: string | undefined) {
+    if (!dialogDate || !selectedEmployeeId) return;
+    await upsert.mutateAsync({ employeeId: selectedEmployeeId, date: dialogDate, type, hours, notes });
+    setDialogDate(null);
   }
+
+  async function handleDialogClear() {
+    if (!dialogDate || !selectedEmployeeId) return;
+    const entry = summary?.entries.find((e) => e.date === dialogDate);
+    if (entry) await deleteEntry.mutateAsync(entry._id);
+    setDialogDate(null);
+  }
+
+  const dialogEntry = dialogDate ? summary?.entries.find((e) => e.date === dialogDate) : undefined;
 
   if (loadingEmp) return <div className="flex items-center justify-center h-32 text-gray-400">טוען...</div>;
 
@@ -78,7 +85,7 @@ export function WorkLogPage() {
             summary={summary}
             onPrev={prevMonth}
             onNext={nextMonth}
-            onCycleDay={handleCycleDay}
+            onDayClick={setDialogDate}
           />
         </div>
       )}
@@ -97,8 +104,17 @@ export function WorkLogPage() {
             {label}
           </div>
         ))}
-        <span className="ms-2">• לחץ על יום לשינוי סטטוס</span>
+        <span className="ms-2">• לחץ על יום לפתיחת פרטים</span>
       </div>
+
+      <DayEntryDialog
+        open={dialogDate !== null}
+        date={dialogDate ?? ''}
+        existingEntry={dialogEntry}
+        onSave={handleDialogSave}
+        onClear={handleDialogClear}
+        onClose={() => setDialogDate(null)}
+      />
     </div>
   );
 }
