@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import { Sidebar } from './Sidebar';
 import { MobileHeader } from './MobileHeader';
+import { Footer } from './Footer';
 import { SidebarProvider } from '../context/SidebarContext';
 import { ImpersonationBanner } from '../../domains/admin/components/ImpersonationBanner';
 import { Toaster } from '@/components/ui/toaster';
@@ -38,6 +39,7 @@ export function Layout() {
           <main className="flex-1 overflow-y-auto p-4 md:p-6">
             <Outlet />
           </main>
+          <Footer />
         </div>
       </div>
       <Toaster />

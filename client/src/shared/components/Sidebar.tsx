@@ -7,6 +7,7 @@ import { SidebarItem } from './SidebarItem';
 import { useSidebar } from '../context/SidebarContext';
 import { cn } from '../../lib/utils';
 import { BRAND_NAME } from './brand/brand';
+import { CareIcon } from './brand/CareIcon';
 
 const NAV_ITEMS = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'ראשי' },
@@ -62,7 +63,10 @@ export function Sidebar({ className }: SidebarProps) {
         dir="rtl"
       >
         <div className="flex items-center justify-between h-14 px-4 border-b border-gray-200">
-          <span className="text-[#1B2A4A] font-bold text-lg">{BRAND_NAME}</span>
+          <div className="flex items-center gap-2">
+            <CareIcon size={26} />
+            <span className="text-[#1B2A4A] font-bold text-lg" dir="ltr">{BRAND_NAME}</span>
+          </div>
           <button
             onClick={closeMobile}
             className="p-2 rounded-lg text-gray-600 hover:bg-gray-100 transition-colors"
@@ -88,8 +92,13 @@ export function Sidebar({ className }: SidebarProps) {
             collapsed && 'justify-center px-2'
           )}
         >
-          {!collapsed && <span className="text-[#1B2A4A] font-bold text-lg truncate">{BRAND_NAME}</span>}
-          {collapsed && <span className="text-[#1B2A4A] font-bold text-lg">C+</span>}
+          {!collapsed && (
+            <div className="flex items-center gap-2 min-w-0">
+              <CareIcon size={26} className="shrink-0" />
+              <span className="text-[#1B2A4A] font-bold text-lg truncate" dir="ltr">{BRAND_NAME}</span>
+            </div>
+          )}
+          {collapsed && <CareIcon size={28} />}
         </div>
 
         {navItems}
