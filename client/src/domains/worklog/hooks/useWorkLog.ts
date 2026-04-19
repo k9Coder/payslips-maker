@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '@/lib/useApiClient';
-import type { WorkLogMonthSummary, CreateWorkLogEntryDto } from '@payslips-maker/shared';
+import type { WorkLogMonthSummary, CreateWorkLogEntryDto, UpdateWorkLogEntryDto } from '@payslips-maker/shared';
 import type { ApiResponse } from '@payslips-maker/shared';
 
 export function useWorkLogMonth(employeeId: string, year: number, month: number) {
@@ -15,12 +15,22 @@ export function useWorkLogMonth(employeeId: string, year: number, month: number)
   });
 }
 
-export function useUpsertWorkLogEntry() {
+export function useCreateWorkLogEntry() {
   const { post } = useApiClient();
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (dto: CreateWorkLogEntryDto) =>
       post<ApiResponse<unknown>>('/api/worklog', dto),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['worklog'] }),
+  });
+}
+
+export function useUpdateWorkLogEntry() {
+  const { patch } = useApiClient();
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ entryId, dto }: { entryId: string; dto: UpdateWorkLogEntryDto }) =>
+      patch<ApiResponse<unknown>>(`/api/worklog/${entryId}`, dto),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['worklog'] }),
   });
 }
