@@ -12,6 +12,8 @@ export interface IWorkLogEntry {
   date: string; // YYYY-MM-DD
   type: WorkLogEntryType;
   hours?: number;
+  startTime?: string; // HH:MM
+  endTime?: string;   // HH:MM
   notes?: string;
   createdAt: Date | string;
   updatedAt: Date | string;
@@ -22,12 +24,16 @@ export interface CreateWorkLogEntryDto {
   date: string;
   type: WorkLogEntryType;
   hours?: number;
+  startTime?: string;
+  endTime?: string;
   notes?: string;
 }
 
 export interface UpdateWorkLogEntryDto {
   type?: WorkLogEntryType;
   hours?: number;
+  startTime?: string;
+  endTime?: string;
   notes?: string;
 }
 

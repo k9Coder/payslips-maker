@@ -1,18 +1,23 @@
 import { z } from 'zod';
 
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+const timeRegex = /^\d{2}:\d{2}$/;
 
 export const createWorkLogEntrySchema = z.object({
   employeeId: z.string().min(1),
   date: z.string().regex(dateRegex, 'Date must be YYYY-MM-DD'),
   type: z.enum(['work', 'vacation', 'sick', 'holiday', 'overtime']),
   hours: z.number().min(0).max(24).optional(),
+  startTime: z.string().regex(timeRegex, 'Time must be HH:MM').optional(),
+  endTime: z.string().regex(timeRegex, 'Time must be HH:MM').optional(),
   notes: z.string().max(500).optional(),
 });
 
 export const updateWorkLogEntrySchema = z.object({
   type: z.enum(['work', 'vacation', 'sick', 'holiday', 'overtime']).optional(),
   hours: z.number().min(0).max(24).optional(),
+  startTime: z.string().regex(timeRegex, 'Time must be HH:MM').optional(),
+  endTime: z.string().regex(timeRegex, 'Time must be HH:MM').optional(),
   notes: z.string().max(500).optional(),
 });
 

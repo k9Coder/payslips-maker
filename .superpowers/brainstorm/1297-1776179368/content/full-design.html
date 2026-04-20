@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Arial, sans-serif; background: #f1f5f9; color: #0f172a; }
+  .label-tag { display: inline-block; background: #e0e7ff; color: #3730a3; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; letter-spacing: 0.5px; margin-bottom: 12px; }
+
+  /* NAVBAR */
+  .navbar {
+    background: #1e3a8a;
+    padding: 0 24px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-icon {
+    width: 34px; height: 34px;
+    background: rgba(255,255,255,0.12);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .logo-text { color: #fff; font-weight: 700; font-size: 16px; }
+  .nav-links { display: flex; align-items: center; gap: 6px; }
+  .nav-link { color: #bfdbfe; font-size: 13px; padding: 6px 10px; border-radius: 6px; text-decoration: none; }
+  .nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .nav-btn { background: #3b82f6; color: #fff; font-size: 13px; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(160deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
+    padding: 72px 24px 80px;
+    text-align: center;
+    color: white;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    color: #bfdbfe;
+    margin-bottom: 24px;
+  }
+  .hero h1 { font-size: 40px; font-weight: 900; margin-bottom: 16px; line-height: 1.15; letter-spacing: -0.5px; }
+  .hero h1 span { color: #93c5fd; }
+  .hero p { font-size: 17px; color: #bfdbfe; max-width: 480px; margin: 0 auto 36px; line-height: 1.6; }
+  .hero-actions { display: flex; gap: 12px; justify-content: center; }
+  .btn-primary { background: white; color: #1e3a8a; font-weight: 700; padding: 13px 28px; border-radius: 8px; font-size: 15px; border: none; cursor: pointer; }
+  .btn-secondary { background: transparent; color: white; font-weight: 600; padding: 13px 28px; border-radius: 8px; font-size: 15px; border: 2px solid rgba(255,255,255,0.35); cursor: pointer; }
+
+  /* TRUST SIGNALS */
+  .trust-bar {
+    background: #fff;
+    padding: 28px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .trust-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .trust-icon { font-size: 22px; }
+  .trust-title { font-size: 13px; font-weight: 700; color: #1e3a8a; }
+  .trust-sub { font-size: 11px; color: #64748b; }
+
+  /* FEATURES (light preview) */
+  .features { background: #f8faff; padding: 52px 24px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 860px; margin: 0 auto; }
+  .feature-card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; }
+  .feature-icon { width: 40px; height: 40px; background: #eff6ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 20px; }
+  .feature-card h4 { font-size: 14px; font-weight: 700; color: #1e3a8a; margin-bottom: 6px; }
+  .feature-card p { font-size: 12px; color: #64748b; line-height: 1.5; }
+
+  /* FOOTER */
+  .footer {
+    background: #0f172a;
+    color: #94a3b8;
+    padding: 32px 24px 24px;
+  }
+  .footer-inner { max-width: 860px; margin: 0 auto; }
+  .footer-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; gap: 24px; }
+  .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .footer-brand-text { color: #f1f5f9; font-weight: 700; font-size: 15px; }
+  .footer-tagline { font-size: 12px; color: #64748b; max-width: 280px; line-height: 1.5; }
+  .footer-legal {
+    font-size: 11px;
+    color: #64748b;
+    background: #1e293b;
+    border-right: 3px solid #3b82f6;
+    padding: 10px 12px;
+    border-radius: 4px;
+    max-width: 340px;
+    line-height: 1.6;
+  }
+  .footer-divider { border: none; border-top: 1px solid #1e293b; margin-bottom: 16px; }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; font-size: 11px; color: #475569; }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-links a { color: #64748b; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="label-tag">🎨 FULL REBRAND PREVIEW — תלוש פשוט</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">
+      <svg width="20" height="20" viewBox="0 0 38 38" fill="none">
+        <rect x="6" y="7" width="26" height="5" rx="2" fill="white"/>
+        <rect x="6" y="16" width="15" height="3" rx="1.5" fill="#93c5fd"/>
+        <rect x="24" y="16" width="8" height="3" rx="1.5" fill="white" opacity="0.7"/>
+        <rect x="6" y="22" width="12" height="3" rx="1.5" fill="#93c5fd"/>
+        <rect x="24" y="22" width="8" height="3" rx="1.5" fill="white" opacity="0.7"/>
+        <rect x="6" y="29" width="26" height="3" rx="1.5" fill="white" opacity="0.9"/>
+      </svg>
+    </div>
+    <span class="logo-text">תלוש פשוט</span>
+  </div>
+  <div class="nav-links">
+    <a class="nav-link" href="#">לוח בקרה</a>
+    <a class="nav-link" href="#">עובדים</a>
+    <a class="nav-link" href="#">חברות</a>
+    <a class="nav-link" href="#">מדריך</a>
+    <button class="nav-btn">+ תלוש חדש</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">✓ מחושב לפי חוקי העבודה הישראלי</div>
+  <h1>תלושי שכר <span>לעובדים זרים</span><br/>בקלות ובמהירות</h1>
+  <p>מערכת מקצועית ליצירת תלושי שכר תקינים, חישוב מס אוטומטי ושליחה ישירה לעובד — בעברית ובשפת האם שלו.</p>
+  <div class="hero-actions">
+    <button class="btn-primary">התחל עכשיו — בחינם</button>
+    <button class="btn-secondary">צפה בהדגמה</button>
+  </div>
+</div>
+
+<!-- TRUST SIGNALS -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <span class="trust-icon">🧮</span>
+    <span class="trust-title">חישוב מס אוטומטי</span>
+    <span class="trust-sub">מס הכנסה, ביטוח לאומי ובריאות</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">🌍</span>
+    <span class="trust-title">7 שפות</span>
+    <span class="trust-sub">עברית, פיליפינית, תאילנדית ועוד</span>
+  </div>
+  <div class="trust-item">
+    <span class="trust-icon">📄</span>
+    <span class="trust-title">PDF בלחיצה</span>
+    <span class="trust-sub">הורדה ושליחה ישירה לעובד</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features">
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🏢</div>
+      <h4>ניהול חברות ועובדים</h4>
+      <p>שמור פרטי חברות ועובדים — ייוכנסו אוטומטית לכל תלוש חדש.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚖️</div>
+      <h4>תאימות משפטית מלאה</h4>
+      <p>מחושב לפי פקודת מס הכנסה, ביטוח לאומי, ופנסיית חובה.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✉️</div>
+      <h4>שליחה ישירה לעובד</h4>
+      <p>שלח את התלוש ישירות לאימייל של העובד בשפה שלו.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <svg width="22" height="22" viewBox="0 0 38 38" fill="none">
+            <rect x="6" y="7" width="26" height="5" rx="2" fill="#3b82f6"/>
+            <rect x="6" y="16" width="15" height="3" rx="1.5" fill="#93c5fd"/>
+            <rect x="24" y="16" width="8" height="3" rx="1.5" fill="#64748b"/>
+            <rect x="6" y="22" width="12" height="3" rx="1.5" fill="#93c5fd"/>
+            <rect x="24" y="22" width="8" height="3" rx="1.5" fill="#64748b"/>
+            <rect x="6" y="29" width="26" height="3" rx="1.5" fill="#f1f5f9"/>
+          </svg>
+          <span class="footer-brand-text">תלוש פשוט</span>
+        </div>
+        <p class="footer-tagline">מערכת מקצועית ליצירת תלושי שכר לעובדים זרים בישראל.</p>
+      </div>
+      <div class="footer-legal">
+        ⚖️ <strong style="color:#94a3b8;">עמידה בדרישות החוק:</strong><br/>
+        המערכת מחושבת לפי חוקי העבודה הישראלים, לרבות פקודת מס הכנסה, חוק הביטוח הלאומי וחוק פנסיית חובה (2008). החישובים מיועדים לצרכי מידע בלבד — יש להתייעץ עם רואה חשבון לצרכי אישור.
+      </div>
+    </div>
+    <hr class="footer-divider"/>
+    <div class="footer-bottom">
+      <span>© 2025 תלוש פשוט. כל הזכויות שמורות.</span>
+      <div class="footer-links">
+        <a href="#">מדריך</a>
+        <a href="#">פרטיות</a>
+        <a href="#">צור קשר</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

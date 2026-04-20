@@ -8,6 +8,8 @@ export interface IWorkLogDocument extends Document {
   date: string; // YYYY-MM-DD
   type: WorkLogEntryType;
   hours?: number;
+  startTime?: string; // HH:MM
+  endTime?: string;   // HH:MM
   notes?: string;
 }
 
@@ -22,6 +24,8 @@ const WorkLogSchema = new Schema<IWorkLogDocument>(
       required: true,
     },
     hours: { type: Number, min: 0, max: 24 },
+    startTime: { type: String },
+    endTime: { type: String },
     notes: { type: String, maxlength: 500 },
   },
   { timestamps: true }

@@ -23,7 +23,7 @@ export async function getMonthEntries(
 
 export async function createEntry(
   userId: string,
-  data: { employeeId: string; date: string; type: string; hours?: number; notes?: string }
+  data: { employeeId: string; date: string; type: string; hours?: number; startTime?: string; endTime?: string; notes?: string }
 ) {
   return WorkLog.create({
     userId: new mongoose.Types.ObjectId(userId),
@@ -31,6 +31,8 @@ export async function createEntry(
     date: data.date,
     type: data.type,
     hours: data.hours,
+    startTime: data.startTime,
+    endTime: data.endTime,
     notes: data.notes,
   });
 }
@@ -38,7 +40,7 @@ export async function createEntry(
 export async function updateEntry(
   userId: string,
   entryId: string,
-  data: { type?: string; hours?: number; notes?: string }
+  data: { type?: string; hours?: number; startTime?: string; endTime?: string; notes?: string }
 ) {
   return WorkLog.findOneAndUpdate(
     {
