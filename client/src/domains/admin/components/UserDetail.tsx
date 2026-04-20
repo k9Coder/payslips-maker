@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, UserCog } from 'lucide-react';
+import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, UserCog, CalendarDays } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -150,6 +150,12 @@ export function UserDetail() {
                 <Link to={`/${user._id}/dashboard`}>
                   <UserCog className="h-4 w-4" />
                   נהל עבור משתמש
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" className="gap-1" asChild>
+                <Link to={`/${user._id}/worklog`}>
+                  <CalendarDays className="h-4 w-4" />
+                  יומן עבודה
                 </Link>
               </Button>
               <Button

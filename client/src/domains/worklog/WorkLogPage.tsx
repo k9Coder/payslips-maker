@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CalendarDays } from 'lucide-react';
-import type { UpdateWorkLogEntryDto } from '@payslips-maker/shared';
-import type { CreateWorkLogEntryDto } from '@payslips-maker/shared';
+import { CalendarDays, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { resolveMultiLangString, type SupportedLanguage } from '@payslips-maker/shared';
+import type { UpdateWorkLogEntryDto, CreateWorkLogEntryDto } from '@payslips-maker/shared';
 import { useEmployees } from '../employees/hooks/useEmployees';
 import {
   useWorkLogMonth,
@@ -16,6 +17,7 @@ import { DayEntryDialog } from './components/DayEntryDialog';
 
 export function WorkLogPage() {
   const [searchParams] = useSearchParams();
+  const { i18n } = useTranslation();
   const { data: employees, isLoading: loadingEmp } = useEmployees();
 
   const now = new Date();
@@ -30,6 +32,11 @@ export function WorkLogPage() {
     const valid = employees.find((e) => e._id === paramId);
     setSelectedEmployeeId(valid ? paramId! : employees[0]._id);
   }, [employees, searchParams]);
+
+  const selectedEmployee = employees?.find((e) => e._id === selectedEmployeeId);
+  const selectedName = selectedEmployee
+    ? resolveMultiLangString(selectedEmployee.fullName, i18n.language as SupportedLanguage)
+    : '';
 
   const { data: summary, isLoading: loadingSummary } = useWorkLogMonth(
     selectedEmployeeId,
@@ -71,17 +78,31 @@ export function WorkLogPage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-5">
-      <div className="flex items-center gap-2">
-        <CalendarDays className="h-6 w-6 text-[#1B2A4A]" />
-        <h1 className="text-2xl font-bold text-[#1B2A4A]">יומן עבודה</h1>
+      {/* Header */}
+      <div className="flex items-start justify-between">
+        <div className="flex items-center gap-2">
+          <CalendarDays className="h-6 w-6 text-[#1B2A4A]" />
+          <h1 className="text-2xl font-bold text-[#1B2A4A]">יומן עבודה</h1>
+        </div>
+        {/* Always show which employee's worklog this is */}
+        {selectedName && (
+          <div className="flex items-center gap-1.5 bg-[#1B2A4A]/8 rounded-lg px-3 py-1.5">
+            <User className="h-4 w-4 text-[#1B2A4A]" />
+            <span className="text-sm font-semibold text-[#1B2A4A]">{selectedName}</span>
+          </div>
+        )}
       </div>
 
+      {/* Employee selector — always shown when more than one employee */}
       {employees && employees.length > 1 && (
-        <EmployeeSelector
-          employees={employees}
-          selectedId={selectedEmployeeId}
-          onChange={setSelectedEmployeeId}
-        />
+        <div className="space-y-1">
+          <p className="text-xs text-gray-400 font-medium">בחר עובד</p>
+          <EmployeeSelector
+            employees={employees}
+            selectedId={selectedEmployeeId}
+            onChange={setSelectedEmployeeId}
+          />
+        </div>
       )}
 
       {loadingSummary ? (
