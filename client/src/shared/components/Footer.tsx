@@ -1,62 +1,22 @@
 import { Link } from 'react-router-dom';
-import { PayslipRowsIcon } from './brand/PayslipRowsIcon';
-import { BRAND_NAME, BRAND_TAGLINE, BRAND_LEGAL_NOTE, BRAND_SUPPORT_EMAIL, BRAND_WEBSITE, BRAND_COMPANY } from './brand/brand';
-
-function FooterBrand() {
-  return (
-    <div>
-      <div className="flex items-center gap-2.5 mb-2">
-        <PayslipRowsIcon
-          size={22}
-          primaryColor="#3b82f6"
-          accentColor="#93c5fd"
-          valueOpacity={0.5}
-        />
-        <span className="text-[#f1f5f9] font-bold text-base" dir="ltr">{BRAND_NAME}</span>
-      </div>
-      <p className="text-sm text-[#64748b] max-w-[260px] leading-relaxed">{BRAND_TAGLINE}</p>
-    </div>
-  );
-}
-
-function FooterLegalNote() {
-  return (
-    <div className="border-r-[3px] border-[#3b82f6] pr-3 text-xs text-[#64748b] leading-relaxed max-w-sm bg-[#1e293b] rounded-sm p-3">
-      <span className="font-semibold text-[#94a3b8]">⚖️ עמידה בדרישות החוק: </span>
-      {BRAND_LEGAL_NOTE}
-    </div>
-  );
-}
-
-function FooterBottom() {
-  const year = new Date().getFullYear();
-  return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-xs text-[#475569]">
-      <span>© {year} {BRAND_COMPANY} · <a href={`https://${BRAND_WEBSITE}`} target="_blank" rel="noopener noreferrer" className="hover:text-[#94a3b8] transition-colors">{BRAND_WEBSITE}</a>. כל הזכויות שמורות.</span>
-      <div className="flex gap-4">
-        <Link to="/manual" className="hover:text-[#94a3b8] transition-colors">מדריך</Link>
-        <span aria-hidden="true">·</span>
-        <a
-          href={`mailto:${BRAND_SUPPORT_EMAIL}`}
-          className="hover:text-[#94a3b8] transition-colors"
-        >
-          צור קשר
-        </a>
-      </div>
-    </div>
-  );
-}
+import { BRAND_NAME, BRAND_SUPPORT_EMAIL, BRAND_WEBSITE, BRAND_COMPANY } from './brand/brand';
 
 export function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="bg-[#0f172a] text-[#94a3b8] mt-auto">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between mb-6">
-          <FooterBrand />
-          <FooterLegalNote />
+    <footer className="mt-8 border-t border-gray-200 bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
+        <span>
+          © {year}{' '}
+          <span dir="ltr" className="font-medium text-gray-500">{BRAND_NAME}</span>
+          {' '}·{' '}
+          <a href={`https://${BRAND_WEBSITE}`} target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 transition-colors">{BRAND_COMPANY}</a>
+        </span>
+        <div className="flex gap-4">
+          <Link to="/manual" className="hover:text-gray-600 transition-colors">מדריך</Link>
+          <span aria-hidden="true">·</span>
+          <a href={`mailto:${BRAND_SUPPORT_EMAIL}`} className="hover:text-gray-600 transition-colors">צור קשר</a>
         </div>
-        <hr className="border-[#1e293b] mb-4" />
-        <FooterBottom />
       </div>
     </footer>
   );
