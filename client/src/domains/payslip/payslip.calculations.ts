@@ -70,16 +70,16 @@ export function computePayslip(sources: ComputePayslipSources): PayslipFormValue
 
   const grossSalary = r(baseSalary + restDayPremium + sickPayAdjustment);
 
-  // Deductions
+  // Deductions — guard against missing contract fields on legacy employees
   const medicalInsuranceDeduction = r(
-    Math.min(employee.medicalInsuranceMonthlyCost / 2, constants.medicalDeductionCeiling)
+    Math.min((employee.medicalInsuranceMonthlyCost ?? 0) / 2, constants.medicalDeductionCeiling)
   );
-  const accommodationDeduction = r(employee.accommodationDeduction);
+  const accommodationDeduction = r(employee.accommodationDeduction ?? 0);
   const utilitiesDeduction = r(
-    Math.min(employee.utilitiesDeduction, constants.utilitiesDeductionCeiling)
+    Math.min(employee.utilitiesDeduction ?? 0, constants.utilitiesDeductionCeiling)
   );
-  const foodDeduction = employee.hasFoodDeduction
-    ? r(Math.min(grossSalary * 0.1, grossSalary * 0.1))
+  const foodDeduction = (employee.hasFoodDeduction ?? false)
+    ? r(grossSalary * 0.1)
     : 0;
   const incomeTax = 0;
 
@@ -92,8 +92,8 @@ export function computePayslip(sources: ComputePayslipSources): PayslipFormValue
   const netSalary = r(grossSalary - totalPermittedDeductions);
 
   // Pocket money
-  const weekends = countWeekendDays(period.year, period.month, employee.weeklyRestDay);
-  const pocketMoneyPaid = employee.hasPocketMoney
+  const weekends = countWeekendDays(period.year, period.month, employee.weeklyRestDay ?? 'saturday');
+  const pocketMoneyPaid = (employee.hasPocketMoney ?? false)
     ? r(weekends * constants.pocketMoneyPerWeekend)
     : 0;
   const bankTransfer = r(netSalary - pocketMoneyPaid);
