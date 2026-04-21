@@ -4,11 +4,8 @@ const supportedLanguages = ['he', 'en', 'fil', 'th', 'am', 'hi', 'ar'] as const;
 type MultiLangString = Partial<Record<typeof supportedLanguages[number], string>>;
 
 const multiLangStringSchema = z.union([
-  z.string().min(2),
-  z.record(z.enum(supportedLanguages), z.string().optional()).refine(
-    (val) => Object.values(val).some((v) => v && v.trim().length >= 2),
-    { message: 'At least one language must have a value (min 2 chars)' }
-  ),
+  z.string(),
+  z.record(z.enum(supportedLanguages), z.string().optional()),
 ]) as unknown as z.ZodType<MultiLangString>;
 
 const periodSchema = z.object({
@@ -18,10 +15,10 @@ const periodSchema = z.object({
 
 const employeeInfoSchema = z.object({
   fullName: multiLangStringSchema,
-  passportNumber: z.string().min(5),
-  nationality: z.string().min(2),
+  passportNumber: z.string().min(0),
+  nationality: z.string().min(0),
   employerName: multiLangStringSchema,
-  employerTaxId: z.string().min(5),
+  employerTaxId: z.string().min(0),
   employerAddress: z.string().optional(),
   employerCity: z.string().optional(),
   employerZip: z.string().optional(),
