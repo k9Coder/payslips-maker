@@ -69,6 +69,7 @@ export async function getMonthSummary(
 
   // Count distinct dates per type — a day with work+overtime counts as 1 work day
   const workDates = new Set(entries.filter((e) => e.type === 'work').map((e) => e.date));
+  const restDates = new Set(entries.filter((e) => e.type === 'rest_day').map((e) => e.date));
   const vacationDates = new Set(entries.filter((e) => e.type === 'vacation').map((e) => e.date));
   const sickDates = new Set(entries.filter((e) => e.type === 'sick').map((e) => e.date));
   const holidayDates = new Set(entries.filter((e) => e.type === 'holiday').map((e) => e.date));
@@ -79,6 +80,7 @@ export async function getMonthSummary(
     year,
     month,
     workDays: workDates.size,
+    restDays: restDates.size,
     vacationDays: vacationDates.size,
     sickDays: sickDates.size,
     holidayDays: holidayDates.size,

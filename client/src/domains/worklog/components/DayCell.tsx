@@ -6,6 +6,7 @@ const TYPE_CONFIG: Record<WorkLogEntryType, { dot: string; label: string }> = {
   vacation: { dot: 'bg-amber-400', label: 'חופשה' },
   sick: { dot: 'bg-blue-400', label: 'מחלה' },
   holiday: { dot: 'bg-gray-400', label: 'חג' },
+  rest_day: { dot: 'bg-orange-500', label: 'יום מנוחה' },
   overtime: { dot: 'bg-purple-500', label: 'שעות נוספות' },
 };
 

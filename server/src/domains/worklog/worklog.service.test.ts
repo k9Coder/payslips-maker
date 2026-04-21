@@ -80,4 +80,13 @@ describe('getMonthSummary — multi-entry per day', () => {
     expect(s.workDays).toBe(1);
     expect(s.totalWorkHours).toBe(8);
   });
+
+  it('counts rest_day entries as restDays in summary', async () => {
+    mockFind([
+      { date: '2026-04-05', type: 'rest_day', hours: 0 },
+    ]);
+    const s = await getMonthSummary(USER_ID, EMP_ID, 2026, 4);
+    expect(s.restDays).toBe(1);
+    expect(s.workDays).toBe(0);
+  });
 });

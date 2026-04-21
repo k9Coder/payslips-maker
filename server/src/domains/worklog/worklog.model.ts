@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
-export type WorkLogEntryType = 'work' | 'vacation' | 'sick' | 'holiday' | 'overtime';
+export type WorkLogEntryType = 'work' | 'vacation' | 'sick' | 'holiday' | 'rest_day' | 'overtime';
 
 export interface IWorkLogDocument extends Document {
   employeeId: mongoose.Types.ObjectId;
@@ -20,7 +20,7 @@ const WorkLogSchema = new Schema<IWorkLogDocument>(
     date: { type: String, required: true },
     type: {
       type: String,
-      enum: ['work', 'vacation', 'sick', 'holiday', 'overtime'],
+      enum: ['work', 'vacation', 'sick', 'holiday', 'rest_day', 'overtime'],
       required: true,
     },
     hours: { type: Number, min: 0, max: 24 },

@@ -3,6 +3,7 @@ export type WorkLogEntryType =
   | 'vacation'
   | 'sick'
   | 'holiday'
+  | 'rest_day'
   | 'overtime';
 
 export interface IWorkLogEntry {
@@ -43,6 +44,7 @@ export interface WorkLogMonthSummary {
   year: number;
   month: number;
   workDays: number;
+  restDays: number;
   vacationDays: number;
   sickDays: number;
   holidayDays: number;
