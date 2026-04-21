@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Trash2, Pencil, X, Clock } from 'lucide-react';
 import {
   Dialog,
@@ -9,6 +9,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { TimePicker } from '@/components/ui/inputs/TimePicker';
+import { useLoader } from '@/hooks/useLoader';
 import type { IWorkLogEntry, WorkLogEntryType, UpdateWorkLogEntryDto, CreateWorkLogEntryDto } from '@payslips-maker/shared';
 
 const TYPE_OPTIONS: { type: WorkLogEntryType; label: string; bg: string; dot: string }[] = [
@@ -16,6 +18,7 @@ const TYPE_OPTIONS: { type: WorkLogEntryType; label: string; bg: string; dot: st
   { type: 'vacation', label: 'חופשה', bg: 'bg-amber-400', dot: 'bg-amber-400' },
   { type: 'sick', label: 'מחלה', bg: 'bg-blue-400', dot: 'bg-blue-400' },
   { type: 'holiday', label: 'חג', bg: 'bg-gray-400', dot: 'bg-gray-400' },
+  { type: 'rest_day', label: 'יום מנוחה שעבד', bg: 'bg-orange-500', dot: 'bg-orange-500' },
   { type: 'overtime', label: 'שעות נוספות', bg: 'bg-purple-500', dot: 'bg-purple-500' },
 ];
 
@@ -44,30 +47,29 @@ function timeToMinutes(t: string): number {
   return h * 60 + m;
 }
 
-function minutesToHours(mins: number): string {
-  return mins > 0 ? String(Math.round(mins / 60 * 100) / 100) : '';
-}
 
 export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDelete, onClose }: DayEntryDialogProps) {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const { startLoading, stopLoading, Loader } = useLoader();
 
   useEffect(() => {
     if (open) { setEditingId(null); setForm(EMPTY_FORM); }
   }, [open]);
 
-  // Auto-calculate hours from time range
-  useEffect(() => {
-    if (form.startTime && form.endTime) {
-      const mins = timeToMinutes(form.endTime) - timeToMinutes(form.startTime);
-      if (mins > 0) setForm((f) => ({ ...f, hours: minutesToHours(mins) }));
-    }
+  const computedHours = useMemo(() => {
+    if (!form.startTime || !form.endTime) return null;
+    const mins = timeToMinutes(form.endTime) - timeToMinutes(form.startTime);
+    return mins > 0 ? Math.round((mins / 60) * 100) / 100 : null;
   }, [form.startTime, form.endTime]);
+
+  const hasTimeRange = computedHours != null;
+  const displayHours = hasTimeRange ? String(computedHours) : form.hours;
 
   const parts = date.split('-');
   const displayDate = parts.length === 3 ? `${parts[2]}/${parts[1]}/${parts[0]}` : date;
-  const hasTimeRange = !!(form.startTime && form.endTime);
 
   function startEdit(entry: IWorkLogEntry) {
     setEditingId(entry._id);
@@ -85,7 +87,9 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
   async function handleSave() {
     if (!form.type) return;
     setSaving(true);
-    const hours = form.hours.trim() !== '' ? Number(form.hours) : undefined;
+    setSaveError(null);
+    startLoading();
+    const hours = hasTimeRange ? computedHours! : (form.hours.trim() !== '' ? Number(form.hours) : undefined);
     const startTime = form.startTime || undefined;
     const endTime = form.endTime || undefined;
     const notes = form.notes.trim() || undefined;
@@ -97,23 +101,30 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
       }
       setEditingId(null);
       setForm(EMPTY_FORM);
+    } catch (err) {
+      setSaveError(err instanceof Error ? err.message : 'שגיאה בשמירה');
     } finally {
       setSaving(false);
+      stopLoading();
     }
   }
 
   async function handleDelete(entryId: string) {
     setSaving(true);
+    startLoading();
     try {
       await onDelete(entryId);
       if (editingId === entryId) cancelEdit();
     } finally {
       setSaving(false);
+      stopLoading();
     }
   }
 
   return (
-    <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
+    <>
+      {Loader}
+      <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-sm" dir="rtl">
         <DialogHeader>
           <DialogTitle className="text-[#1B2A4A]">יום {displayDate}</DialogTitle>
@@ -197,21 +208,17 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
             {/* Time range */}
             <div className="flex gap-2 mb-2">
               <div className="flex-1">
-                <Label htmlFor="entry-start" className="text-xs text-gray-500 mb-1 block">מ-</Label>
-                <Input
-                  id="entry-start"
-                  type="time"
+                <Label className="text-xs text-gray-500 mb-1 block">מ-</Label>
+                <TimePicker
                   value={form.startTime}
-                  onChange={(e) => setForm((f) => ({ ...f, startTime: e.target.value }))}
+                  onChange={(val) => setForm((f) => ({ ...f, startTime: val }))}
                 />
               </div>
               <div className="flex-1">
-                <Label htmlFor="entry-end" className="text-xs text-gray-500 mb-1 block">עד-</Label>
-                <Input
-                  id="entry-end"
-                  type="time"
+                <Label className="text-xs text-gray-500 mb-1 block">עד-</Label>
+                <TimePicker
                   value={form.endTime}
-                  onChange={(e) => setForm((f) => ({ ...f, endTime: e.target.value }))}
+                  onChange={(val) => setForm((f) => ({ ...f, endTime: val }))}
                 />
               </div>
               {(form.startTime || form.endTime) && (
@@ -237,7 +244,7 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
                 max={24}
                 step={0.5}
                 placeholder="0"
-                value={form.hours}
+                value={displayHours}
                 readOnly={hasTimeRange}
                 onChange={(e) => !hasTimeRange && setForm((f) => ({ ...f, hours: e.target.value }))}
                 className={hasTimeRange ? 'bg-gray-50 text-gray-500' : ''}
@@ -258,6 +265,9 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
               />
             </div>
 
+            {saveError && (
+              <p className="text-xs text-red-500 mb-2 text-center">{saveError}</p>
+            )}
             <Button
               size="sm"
               disabled={!form.type || saving}
@@ -272,5 +282,6 @@ export function DayEntryDialog({ open, date, entries, onCreate, onUpdate, onDele
         </div>
       </DialogContent>
     </Dialog>
+    </>
   );
 }

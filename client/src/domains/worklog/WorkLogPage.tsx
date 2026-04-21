@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { CalendarDays, User } from 'lucide-react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { CalendarDays, User, FileText } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useTranslation } from 'react-i18next';
 import { resolveMultiLangString, type SupportedLanguage } from '@payslips-maker/shared';
 import type { UpdateWorkLogEntryDto, CreateWorkLogEntryDto } from '@payslips-maker/shared';
@@ -17,6 +18,7 @@ import { DayEntryDialog } from './components/DayEntryDialog';
 
 export function WorkLogPage() {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const { i18n } = useTranslation();
   const { data: employees, isLoading: loadingEmp } = useEmployees();
 
@@ -84,13 +86,25 @@ export function WorkLogPage() {
           <CalendarDays className="h-6 w-6 text-[#1B2A4A]" />
           <h1 className="text-2xl font-bold text-[#1B2A4A]">יומן עבודה</h1>
         </div>
-        {/* Always show which employee's worklog this is */}
-        {selectedName && (
-          <div className="flex items-center gap-1.5 bg-[#1B2A4A]/8 rounded-lg px-3 py-1.5">
-            <User className="h-4 w-4 text-[#1B2A4A]" />
-            <span className="text-sm font-semibold text-[#1B2A4A]">{selectedName}</span>
-          </div>
-        )}
+        <div className="flex items-center gap-2">
+          {/* Always show which employee's worklog this is */}
+          {selectedName && (
+            <div className="flex items-center gap-1.5 bg-[#1B2A4A]/8 rounded-lg px-3 py-1.5">
+              <User className="h-4 w-4 text-[#1B2A4A]" />
+              <span className="text-sm font-semibold text-[#1B2A4A]">{selectedName}</span>
+            </div>
+          )}
+          {selectedEmployeeId && (
+            <Button
+              size="sm"
+              onClick={() => navigate(`/forms/new?employeeId=${selectedEmployeeId}&year=${year}&month=${month}`)}
+              className="flex items-center gap-1.5"
+            >
+              <FileText className="h-4 w-4" />
+              צור תלוש
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Employee selector — always shown when more than one employee */}
@@ -127,6 +141,7 @@ export function WorkLogPage() {
           { color: 'bg-amber-400', label: 'חופשה' },
           { color: 'bg-blue-400', label: 'מחלה' },
           { color: 'bg-gray-400', label: 'חג' },
+          { color: 'bg-orange-500', label: 'יום מנוחה' },
           { color: 'bg-purple-500', label: 'שעות נוספות' },
         ].map(({ color, label }) => (
           <div key={label} className="flex items-center gap-1">

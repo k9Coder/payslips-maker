@@ -86,7 +86,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayCli
 
       {/* Monthly summary */}
       {summary && (
-        <div className="mt-4 grid grid-cols-4 gap-2">
+        <div className="mt-4 grid grid-cols-5 gap-2">
           <SumBadge
             color="bg-teal-500"
             label="עבודה"
@@ -94,6 +94,7 @@ export function WorkLogCalendar({ year, month, summary, onPrev, onNext, onDayCli
           />
           <SumBadge color="bg-amber-400" label="חופשה" value={`${summary.vacationDays}י`} />
           <SumBadge color="bg-blue-400" label="מחלה" value={`${summary.sickDays}י`} />
+          <SumBadge color="bg-orange-500" label="מנוחה" value={`${summary.restDays}י`} />
           <SumBadge color="bg-purple-500" label="נוספות" value={`${summary.overtimeHours}ש`} />
         </div>
       )}
