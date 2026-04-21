@@ -10,7 +10,7 @@ router.use(authMiddleware);
 // GET /api/worklog?employeeId=&year=&month=
 router.get('/', routeHandler(async (req, res) => {
   const { employeeId, year, month } = workLogMonthQuerySchema.parse(req.query);
-  const summary = await getMonthSummary(req.userId!, employeeId, year, month);
+  const summary = await getMonthSummary(req.isAdmin ? null : req.userId!, employeeId, year, month);
   res.json({ data: summary });
 }));
 

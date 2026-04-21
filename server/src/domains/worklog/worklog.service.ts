@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { WorkLog } from './worklog.model';
 
 export async function getMonthEntries(
-  userId: string,
+  userId: string | null,
   employeeId: string,
   year: number,
   month: number
@@ -12,13 +12,13 @@ export async function getMonthEntries(
   const start = `${year}-${paddedMonth}-01`;
   const end = `${year}-${paddedMonth}-${String(lastDay).padStart(2, '0')}`;
 
-  return WorkLog.find({
-    userId: new mongoose.Types.ObjectId(userId),
+  const filter: Record<string, unknown> = {
     employeeId: new mongoose.Types.ObjectId(employeeId),
     date: { $gte: start, $lte: end },
-  })
-    .sort({ date: 1 })
-    .lean();
+  };
+  if (userId) filter.userId = new mongoose.Types.ObjectId(userId);
+
+  return WorkLog.find(filter).sort({ date: 1 }).lean();
 }
 
 export async function createEntry(
@@ -60,7 +60,7 @@ export async function deleteEntry(userId: string, entryId: string) {
 }
 
 export async function getMonthSummary(
-  userId: string,
+  userId: string | null,
   employeeId: string,
   year: number,
   month: number
