@@ -56,7 +56,7 @@ export function ImpersonationBanner() {
           className="border-blue-500 bg-transparent hover:bg-blue-700 text-blue-200 hover:text-white gap-1.5 shrink-0"
           asChild
         >
-          <Link to={`/admin/users/${userId}`}>
+          <Link to="/admin/users">
             <Eye className="h-3.5 w-3.5" />
             יציאה ממצב ניהול
             <ArrowRight className="h-3.5 w-3.5" />
