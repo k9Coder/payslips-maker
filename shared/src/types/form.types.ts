@@ -2,15 +2,6 @@ import type { MultiLangString } from './employee.types';
 
 export type FormType = 'payslip' | 'final_settlement';
 
-export interface ICustomPayItem {
-  code: string;
-  description: MultiLangString;
-  quantity?: number;
-  rate?: number;
-  amount: number;
-  taxPercent?: number;
-}
-
 export interface IVacationAccount {
   previousBalance: number;
   accrued: number;
@@ -27,68 +18,51 @@ export interface ISickAccount {
 
 export interface IEmployeeInfo {
   fullName: MultiLangString;
-  idNumber: string;
+  passportNumber: string;
   nationality: string;
   employerName: MultiLangString;
   employerTaxId: string;
-  // Employer additions
   employerAddress?: string;
   employerCity?: string;
   employerZip?: string;
-  employerRegistrationNumber?: string;
-  taxFileNumber?: string;
-  // Employee personal details
-  employeeNumber?: string;
-  jobTitle?: MultiLangString;
-  department?: MultiLangString;
-  familyStatus?: string;
-  grade?: string;
-  jobFraction?: number;
-  employmentStartDate?: string;
-  taxCalcType?: string;
-  nationalInsuranceType?: string;
-  salaryBasis?: 'monthly' | 'daily' | 'hourly';
-  // Employee address
-  employeeAddress?: string;
-  employeeCity?: string;
-  employeeZip?: string;
+  employmentStartDate: string;
+  seniorityMonths: number;
 }
 
 export interface IWorkDetails {
-  standardDays: number;
   workedDays: number;
+  restDaysWorked: number;
   vacationDays: number;
   sickDays: number;
   holidayDays: number;
-  overtime100h: number;
-  overtime125h: number;
-  overtime150h: number;
 }
 
 export interface IPayCalculation {
+  minimumWage: number;
   dailyRate: number;
   baseSalary: number;
-  overtimePay: number;
-  vacationPay: number;
+  restDayPremium: number;
+  sickPayAdjustment: number;
+  recoveryPay: number;
+  pocketMoneyPaid: number;
   grossSalary: number;
 }
 
 export interface IDeductions {
+  medicalInsuranceDeduction: number;
+  accommodationDeduction: number;
+  utilitiesDeduction: number;
+  foodDeduction: number;
   incomeTax: number;
-  nationalInsurance: number;
-  healthInsurance: number;
-  otherDeductions: number;
+  totalPermittedDeductions: number;
 }
 
 export interface IEmployerContributions {
-  nationalInsurance: number;
-  pension: number;
-  pensionFund?: string;
-  pensionEmployeeRate?: number;
-  pensionEmployerRate?: number;
-  severanceFund?: number;
-  educationFund?: number;
-  educationFundEmployee?: number;
+  nii: number;
+  pensionSubstitute: number;
+  severanceSubstitute: number;
+  cumulativePensionBalance: number;
+  cumulativeSeveranceBalance: number;
 }
 
 export interface IPaymentInfo {
@@ -105,48 +79,48 @@ export interface IPeriod {
 
 export interface IFinalSettlementData {
   // Employment period
-  employmentStartDate: string;       // YYYY-MM-DD
-  employmentEndDate: string;         // YYYY-MM-DD
-  totalMonths: number;               // calculated
+  employmentStartDate: string;
+  employmentEndDate: string;
+  totalMonths: number;
   terminationReason: 'dismissal' | 'resignation' | 'mutual';
 
   // Last salary info
   lastMonthlySalary: number;
-  dailyRate: number;                 // calculated: lastMonthlySalary / 22
+  dailyRate: number;
 
   // Severance (פיצויים)
-  severanceEligible: boolean;        // calculated based on terminationReason + tenure
-  severancePay: number;              // calculated
+  severanceEligible: boolean;
+  severancePay: number;
 
   // Vacation payout (פדיון חופשה)
-  vacationDaysAccrued: number;       // calculated (based on tenure)
-  vacationDaysUsed: number;          // user input
-  unusedVacationDays: number;        // calculated: accrued - used
-  vacationPayout: number;            // calculated
+  vacationDaysAccrued: number;
+  vacationDaysUsed: number;
+  unusedVacationDays: number;
+  vacationPayout: number;
 
   // Recuperation pay (הבראה)
-  recuperationDaysEntitled: number;  // calculated (based on tenure)
-  recuperationDaysAlreadyPaid: number; // user input
-  recuperationPayout: number;        // calculated
+  recuperationDaysEntitled: number;
+  recuperationDaysAlreadyPaid: number;
+  recuperationPayout: number;
 
   // Notice period (הודעה מוקדמת)
-  noticePeriodDays: number;          // calculated
-  noticePeriodPay: number;           // calculated
-  noticeActuallyGiven: boolean;      // user input — if true, no notice pay
+  noticePeriodDays: number;
+  noticePeriodPay: number;
+  noticeActuallyGiven: boolean;
 
   // Additional unpaid items
-  unpaidWages: number;               // user input
-  otherAdditions: number;            // user input
+  unpaidWages: number;
+  otherAdditions: number;
 
   // Totals
-  totalGross: number;                // calculated
+  totalGross: number;
   deductions: {
     incomeTax: number;
     nationalInsurance: number;
     healthInsurance: number;
     otherDeductions: number;
   };
-  netTotal: number;                  // calculated
+  netTotal: number;
 }
 
 export interface IPayslipConstants {
@@ -167,11 +141,11 @@ export interface IPayslipConstants {
 
 export interface IForm {
   _id: string;
-  userId: string;       // producer — who generated this form
+  userId: string;
   clerkId: string;
   employeeId: string;
   formType: FormType;
-  producedByName: string; // snapshot of producer's fullName at creation time
+  producedByName: string;
   period: IPeriod;
   employeeInfo: IEmployeeInfo;
   workDetails: IWorkDetails;
@@ -179,9 +153,9 @@ export interface IForm {
   deductions: IDeductions;
   employerContributions: IEmployerContributions;
   netSalary: number;
+  bankTransfer: number;
   paymentInfo: IPaymentInfo;
   finalSettlementData?: IFinalSettlementData | null;
-  customPayItems?: ICustomPayItem[];
   vacationAccount?: IVacationAccount | null;
   sickAccount?: ISickAccount | null;
   createdAt: Date | string;
