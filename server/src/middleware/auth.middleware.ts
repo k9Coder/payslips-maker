@@ -4,7 +4,7 @@ import { User } from '../domains/users/user.model';
 import { env } from '../infrastructure/env';
 import { logger } from '../infrastructure/logger/logger';
 
-const ALLOWED_EMAILS = ['yarin0600@gmail.com', 'omermfla@gmail.com'];
+const ALLOWED_EMAILS = ['Holdingliat@gmail.com', 'yarin0600@gmail.com', 'omermfla@gmail.com'];
 
 export async function authMiddleware(
   req: Request,
