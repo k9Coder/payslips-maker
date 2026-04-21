@@ -1,13 +1,29 @@
-import { Link } from 'react-router-dom';
+import { Link, useMatch } from 'react-router-dom';
 import { ArrowRight, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useImpersonation } from '../context/ImpersonationContext';
+import { useQuery } from '@tanstack/react-query';
+import { useApiClient } from '@/lib/useApiClient';
+import type { ApiResponse, IUser, FormListItem } from '@payslips-maker/shared';
 
 export function ImpersonationBanner() {
-  const ctx = useImpersonation();
-  if (!ctx) return null;
+  const match = useMatch('/:userId/*');
+  const userId = match?.params?.userId;
+  // Only treat as impersonation if userId looks like a MongoDB ObjectId
+  const isImpersonating = !!userId && /^[0-9a-f]{24}$/i.test(userId);
 
-  const name = ctx.targetUser?.fullName ?? ctx.targetUserId;
+  const { get } = useApiClient();
+  const { data: targetUser } = useQuery({
+    queryKey: ['admin', 'user', userId],
+    queryFn: () =>
+      get<ApiResponse<{ user: IUser; forms: FormListItem[] }>>(`/api/admin/users/${userId}`)
+        .then((r) => r.data?.user ?? null),
+    enabled: isImpersonating,
+    staleTime: 60_000,
+  });
+
+  if (!isImpersonating) return null;
+
+  const name = targetUser?.fullName ?? userId ?? '';
 
   return (
     <div className="sticky top-0 z-50 bg-[#1B2A4A] border-b-2 border-blue-400 px-4 py-3 shadow-lg">
@@ -40,7 +56,7 @@ export function ImpersonationBanner() {
           className="border-blue-500 bg-transparent hover:bg-blue-700 text-blue-200 hover:text-white gap-1.5 shrink-0"
           asChild
         >
-          <Link to={`/admin/users/${ctx.targetUserId}`}>
+          <Link to={`/admin/users/${userId}`}>
             <Eye className="h-3.5 w-3.5" />
             יציאה ממצב ניהול
             <ArrowRight className="h-3.5 w-3.5" />
