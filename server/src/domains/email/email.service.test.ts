@@ -91,7 +91,7 @@ describe('EmailService.sendFormEmail', () => {
     toEmail: 'ana@example.com',
     toName: 'Ana Ramirez',
     senderName: 'Test Employer',
-    subject: 'תלוש שכר',
+    subject: 'מחליף תלוש שכר',
     pdfBuffer: Buffer.from('fake-pdf'),
     pdfFilename: 'payslip.pdf',
   };

@@ -40,8 +40,8 @@ describe('getPDFTranslations', () => {
     expect(finalSettlement.title.length).toBeGreaterThan(0);
   });
 
-  it('Hebrew payslip title is "תלוש שכר"', () => {
-    expect(getPDFTranslations('he').payslip.title).toBe('תלוש שכר');
+  it('Hebrew payslip title is "מחליף תלוש שכר"', () => {
+    expect(getPDFTranslations('he').payslip.title).toBe('מחליף תלוש שכר');
   });
 
   it('English payslip title is "Payslip"', () => {

@@ -24,7 +24,7 @@ function FormTypeBadge({ formType }: { formType: string }) {
   }
   return (
     <Badge className="text-xs bg-teal-100 text-teal-800 border-teal-200 hover:bg-teal-100">
-      תלוש שכר
+      מחליף תלוש שכר
     </Badge>
   );
 }

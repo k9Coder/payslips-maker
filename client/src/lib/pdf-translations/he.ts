@@ -2,7 +2,7 @@ import type { PDFTranslations } from './pdf-translation.types';
 
 export const heTranslations: PDFTranslations = {
   payslip: {
-    title: 'תלוש שכר',
+    title: 'מחליף תלוש שכר',
     printedOn: 'הודפס בתאריך',
     period: 'תקופה',
     months: {

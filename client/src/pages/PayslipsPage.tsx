@@ -97,7 +97,7 @@ export function PayslipsPage() {
                         {MONTH_NAMES[form.period.month]} {form.period.year}
                       </span>
                       <span className="ms-2 text-xs text-gray-400">
-                        {form.formType === 'payslip' ? 'תלוש שכר' : 'גמר חשבון'}
+                        {form.formType === 'payslip' ? 'מחליף תלוש שכר' : 'גמר חשבון'}
                       </span>
                     </div>
                   </div>

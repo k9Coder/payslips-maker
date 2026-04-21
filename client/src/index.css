@@ -55,3 +55,8 @@
     outline-offset: 2px;
   }
 }
+
+/* Hide AM/PM segment from time inputs — app uses 24-hour format */
+input[type="time"]::-webkit-datetime-edit-ampm-field {
+  display: none;
+}
