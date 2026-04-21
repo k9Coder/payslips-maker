@@ -73,7 +73,7 @@ export const finalSettlementFormConfig: FormConfig<FinalSettlementFormValues> = 
     // Dummy payslip fields required by the shared schema
     period: { month: new Date().getMonth() + 1, year: new Date().getFullYear() },
     employeeInfo: { fullName: {}, passportNumber: '', nationality: '', employerName: {}, employerTaxId: '', employmentStartDate: '', seniorityMonths: 0 },
-    workDetails: { workedDays: 0, restDaysWorked: 0, vacationDays: 0, sickDays: 0, holidayDays: 0 },
+    workDetails: { workedDays: 0, totalWorkHours: 0, restDaysWorked: 0, vacationDays: 0, sickDays: 0, holidayDays: 0 },
     payCalculation: { minimumWage: 0, dailyRate: 0, baseSalary: 0, restDayPremium: 0, sickPayAdjustment: 0, recoveryPay: 0, pocketMoneyPaid: 0, grossSalary: 0 },
     deductions: { medicalInsuranceDeduction: 0, accommodationDeduction: 0, utilitiesDeduction: 0, foodDeduction: 0, incomeTax: 0, totalPermittedDeductions: 0 },
     employerContributions: { nii: 0, pensionSubstitute: 0, severanceSubstitute: 0, cumulativePensionBalance: 0, cumulativeSeveranceBalance: 0 },

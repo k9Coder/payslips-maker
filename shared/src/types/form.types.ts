@@ -31,6 +31,7 @@ export interface IEmployeeInfo {
 
 export interface IWorkDetails {
   workedDays: number;
+  totalWorkHours: number;
   restDaysWorked: number;
   vacationDays: number;
   sickDays: number;

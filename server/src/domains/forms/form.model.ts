@@ -25,6 +25,7 @@ const EmployeeInfoSchema = new Schema(
 const WorkDetailsSchema = new Schema(
   {
     workedDays: { type: Number, required: true },
+    totalWorkHours: { type: Number, default: 0 },
     restDaysWorked: { type: Number, default: 0 },
     vacationDays: { type: Number, default: 0 },
     sickDays: { type: Number, default: 0 },

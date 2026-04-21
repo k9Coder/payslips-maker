@@ -1,7 +1,8 @@
 # Infrastructure Cost Estimate
 
-> Last updated: March 2026
+> Last updated: April 2026
 > Based on actual services used in this repo. Prices are approximate and subject to change.
+> Exchange rate reference: 1 USD ≈ 3.7 NIS
 
 ---
 
@@ -16,14 +17,37 @@
 | **AWS ECR** | Docker image registry | ✅ 500MB/12mo | $0.10/GB/month | ~$0.10–0.20 |
 | **AWS ECS Fargate** | Server hosting | ❌ None | ~$8.90/month (0.25vCPU+0.5GB) | $9–35 |
 | **Clerk** | Authentication | ✅ 10,000 MAU | $25/month (Pro) | $0–25+ |
-| **MongoDB Atlas** | Database | ✅ 512MB (M0) | $9/month (M2) | $0–9 |
-| **SendGrid** | Transactional email | ✅ 100/day (3K/mo) | $19.95/month (40K/mo) | $0–20 |
-| **LogRocket** | Client session replay | ✅ 1,000 sessions/mo | $99/month (10K sessions) | $0–99 |
-| **Grafana Cloud** | Server-side logging | ✅ 50GB/month | ~$0.50/GB over 50GB | $0 |
-| **Sentry** | Error tracking (missing!) | ✅ 5K errors/month | $26/month | $0 |
+| **MongoDB Atlas** | Database | ✅ 512MB (M0) | $8/month (Flex) | $0–25 |
+| **SendGrid / Resend** | Transactional email | ✅ 3K/month (100/day) | $19.95–20/month | $0–20 |
+| **Bit (via Meshulam)** | Israeli payments | ✅ No monthly fee | 1.6% per transaction | 0 + commission |
+| **WhatsApp (WATI)** | Payslip notifications | ❌ None (API requires paid) | ~$49/month + $0.01/msg | $49–150+ |
+| **LogRocket** | Client session replay | ✅ 1,000 sessions/mo | $99/month | $0–99 |
+| **Grafana Cloud** | Server-side logging | ✅ 50GB/month | ~$0.50/GB over | $0 |
+| **Sentry** | Error tracking | ✅ 5K errors/month | $26/month | $0 |
 
-**Estimated monthly total (free tier):** ~$9–18/month (domain + small Fargate task)
-**Estimated monthly total (light production):** ~$35–60/month
+---
+
+## Cost by User Scale
+
+> Assumptions:
+> - ~70% of registered users are Monthly Active Users (MAU) — payslip customers log in ~once/month
+> - Each active user receives ~1 WhatsApp notification/month (payslip ready)
+> - Payslip documents are 10–50 KB; worklog entries are ~1 KB each
+> - Average subscription price: ~100 NIS/month (~$27)
+> - All costs are infrastructure/subscription costs only — Bit commission is shown separately as revenue impact
+
+| Users (registered) | MAU | Fargate | MongoDB | Clerk | WhatsApp (WATI) | Email (Resend) | Other | **Total Infra/mo** | Bit Commission (revenue impact) |
+|---|---|---|---|---|---|---|---|---|---|
+| **50** | ~35 | $9 (0.25vCPU) | $0 (M0 free) | $0 | $0 (skip or test) | $0 (free tier) | $1 domain | **~$10/mo** | ~$24/mo taken by Bit |
+| **200** | ~140 | $9 (0.25vCPU) | $0 (M0 free) | $0 | $49 base + $1.40 msgs | $0 (free tier) | $1 | **~$60/mo** | ~$97/mo |
+| **500** | ~350 | $9 (0.25vCPU) | $9 (M2 or Flex) | $0 | $49 base + $3.50 msgs | $0 (free tier) | $1 | **~$72/mo** | ~$243/mo |
+| **1,000** | ~700 | $18 (0.5vCPU) | $9 (M2) | $0 | $49 base + $7 msgs | $0 (free tier) | $1 | **~$84/mo** | ~$486/mo |
+| **2,000** | ~1,400 | $18 (0.5vCPU) | $9 (M2) | $0 | $99 (Growth) + $14 msgs | $20/mo | $1 | **~$161/mo** | ~$972/mo |
+| **5,000** | ~3,500 | $36 (1vCPU) | $25 (M5) | $0 | $99 + $35 msgs | $20/mo | $1 | **~$216/mo** | ~$2,430/mo |
+| **10,000** | ~7,000 | $72 (2vCPU) | $57 (M10) | $0 (<10K MAU) | $279 + $70 msgs | $20/mo | $27 (Sentry) | **~$525/mo** | ~$4,860/mo |
+| **15,000** | ~10,500 | $142 (2x 2vCPU) | $57 (M10) | $125 (15K MAU) | $279 + $105 | $20/mo | $27 | **~$755/mo** | ~$7,290/mo |
+
+> **Key insight:** At scale, Clerk becomes the dominant cost driver above 10K MAU. Bit commission is not an infrastructure cost but reduces effective revenue — factor it into pricing strategy.
 
 ---
 
@@ -72,33 +96,24 @@ No free tier exists. You pay the registrar annually.
 | **Free (private repo)** | 2,000 min/month | ✅ Free | $0 (until 2K min) |
 | **Overage (private)** | $0.008/min | — | ~$1.20–2/month |
 
-- Pages limits: 1GB storage, 100GB bandwidth/month — plenty for a React SPA
-- If repo is private and you deploy ~50×/month at 3 min each = 150 min → well within free tier
-
 **Recommendation:** Keep repo public if possible. If private, Actions cost is negligible.
 
 ---
 
 ### 🐳 AWS ECR (Elastic Container Registry)
 
-Used to store Docker images for the server.
-
 | Tier | Storage | Cost |
 |---|---|---|
 | Free (first 12 months) | 500MB/month | $0 |
-| After free tier | Any | $0.10/GB/month storage + $0.09/GB transfer out |
+| After free tier | Any | $0.10/GB/month + $0.09/GB transfer |
 
-- A typical Node.js Docker image is 300–700MB
-- After the 12-month free tier: ~$0.10–0.20/month — essentially negligible
-- ECR is not where your AWS bill comes from. ECS Fargate is.
+After the 12-month free tier: ~$0.10–0.20/month — essentially negligible.
 
 ---
 
 ### 🚀 AWS ECS Fargate (Server Hosting)
 
-**Fargate has NO free tier.** You pay from day one for the compute.
-
-Pricing in `us-east-1` (as configured in `deploy-server.yml`):
+**Fargate has NO free tier.** Pricing in `us-east-1` (confirmed April 2026):
 
 | Resource | Price |
 |---|---|
@@ -114,31 +129,26 @@ Pricing in `us-east-1` (as configured in `deploy-server.yml`):
 | Medium | 1 | 2 GB | ~$35.52 |
 | Large | 2 | 4 GB | ~$71.04 |
 
-> For a low-traffic payslip SaaS, **0.25 vCPU + 0.5 GB (~$9/month)** is usually enough to start.
+> Fargate Spot (interruptible tasks) offers up to 70% discount — suitable for batch/non-critical workloads.
 
 #### Cheaper alternatives to ECS Fargate
 
-If ECS complexity isn't worth it for a small app:
-
 | Service | Free Tier | Paid | Notes |
 |---|---|---|---|
-| **Render.com** | ✅ (spins down after 15min inactivity) | $7/month (Starter, always-on) | Much simpler than ECS |
-| **Railway** | ✅ $5 credit/month | ~$5–20/month usage-based | Great DX, simple deploys |
-| **Fly.io** | ✅ 3 shared VMs free | ~$1.94/month (shared-cpu-1x) | Very cheap, Docker-native |
+| **Render.com** | ✅ (spins down after 15min) | $7/month (always-on) | Much simpler than ECS |
+| **Railway** | ✅ $5 credit/month | ~$5–20/month | Great DX, simple deploys |
+| **Fly.io** | ✅ 3 shared VMs | ~$1.94/month | Very cheap, Docker-native |
 
-**Recommendation:** ECS is already set up and works. Keep it unless ops burden grows. If starting fresh, Render Starter ($7/month) is far simpler.
+**Recommendation:** ECS is already set up. Keep it unless ops burden grows.
 
 ---
 
 ### 🔐 Clerk (Authentication)
 
-Used for sign-in, sign-up, JWT issuance, and webhooks.
-
 | Plan | MAU Included | Price | Extra MAU |
 |---|---|---|---|
 | **Free** | 10,000 | $0 | — |
 | **Pro** | 10,000 | $25/month | $0.02/MAU |
-| **Enterprise** | Custom | Custom | — |
 
 **Cost at scale:**
 
@@ -149,17 +159,9 @@ Used for sign-in, sign-up, JWT issuance, and webhooks.
 | 20,000 | $25 + (10,000 × $0.02) = **$225** |
 | 50,000 | $25 + (40,000 × $0.02) = **$825** |
 
-> Note: MAU = any user who logs in at least once per month. Payslip users tend to log in monthly (payday), so your MAU count ≈ total active users.
+> Note: Payslip users log in monthly (payday), so MAU ≈ total active users.
 
-#### Alternatives if Clerk gets expensive
-
-| Service | Free MAU | Paid |
-|---|---|---|
-| **Supabase Auth** | 50,000 MAU free | $25/month (Pro, includes more) |
-| **Auth0** | 7,500 MAU free | $23/month (up to 1,000 MAU) |
-| **Firebase Auth** | Unlimited free (email/password) | Pay only for phone auth |
-
-**Recommendation:** Clerk free tier handles up to 10K MAU. At that scale you're likely generating enough revenue to cover $25+/month anyway.
+**Alternative at scale:** Supabase Auth — 50,000 MAU free, then $25/month (Pro includes more features).
 
 ---
 
@@ -168,166 +170,237 @@ Used for sign-in, sign-up, JWT issuance, and webhooks.
 | Tier | Storage | RAM | Price | Notes |
 |---|---|---|---|---|
 | **M0 (Free)** | 512 MB | Shared | $0 | No SLA, shared cluster |
-| **M2** | 2 GB | Shared | ~$9/month | OK for light production |
+| **Flex** | 5 GB | Shared | ~$8–30/month | Replaced Serverless; auto-scales |
+| **M2** | 2 GB | Shared | ~$9/month | Light production |
 | **M5** | 5 GB | Shared | ~$25/month | Moderate load |
-| **M10** | 10 GB | Dedicated | ~$57/month | Production-grade |
-| **Serverless** | Pay-per-use | — | $0.10/M reads + $1.00/M writes + $0.25/GB | Good for spiky traffic |
+| **M10** | 10 GB | Dedicated | ~$57/month | Production-grade SLA |
 
-> A single payslip document is roughly 5–20 KB. M0's 512MB fits ~25,000–100,000 payslips before needing an upgrade.
+> Worklog + payslip data: each payslip ~10–50 KB, each worklog entry ~1 KB. M0 comfortably holds ~500–1,000 users' data before upgrade.
 
 **When to upgrade:**
-- M0 → M2 ($9/month): When you hit 512MB or need a guaranteed connection limit
-- M2 → M5 ($25/month): When storage exceeds 2GB or you need more concurrent connections
+- M0 → Flex/M2: When you hit 512MB or need guaranteed connections (~500+ active users)
+- M2 → M5: Storage exceeds 2GB or concurrent connections required (~2,000+ users)
 
 ---
 
-### 📧 SendGrid (Email)
+### 💳 Bit Payment Integration (Israeli Payments)
 
-Used for sending payslip PDFs and notifications.
+Bit is Israel's dominant peer-to-peer and business payment app (Bank Hapoalim). For businesses, Bit is accessed via an Israeli payment gateway — not directly via API.
+
+#### How it works
+1. You register with an Israeli gateway (Meshulam or PayMe/Grow)
+2. Your gateway handles Bit, credit cards, Apple Pay, Google Pay under one API
+3. Bit payments appear as a redirect/QR flow to the customer
+4. Transaction limit: up to 5,000 NIS/transaction, 20,000 NIS/month (removable upon approval)
+
+#### Pricing model
+
+| Component | Cost | Notes |
+|---|---|---|
+| Monthly gateway fee (Meshulam/PayMe) | ~0–150 NIS/month | Depends on plan and volume |
+| Bit commission per transaction | **~1.6%** | Bit's cut (user-confirmed) |
+| Gateway processing fee | ~0.5–1.5% + fixed | Meshulam/PayMe on top of Bit |
+| **Effective total per transaction** | **~2.1–3.1%** | Combined Bit + gateway |
+
+> The 1.6% goes to Bit/Isracard. The gateway (Meshulam/PayMe) takes an additional slice. Factor ~2.5% total into your pricing model to stay profitable.
+
+#### Revenue impact at scale (assuming 100 NIS avg subscription)
+
+| Users paying | Monthly Revenue | ~2.5% Commission | Net Revenue |
+|---|---|---|---|
+| 50 | 5,000 NIS | 125 NIS | 4,875 NIS |
+| 200 | 20,000 NIS | 500 NIS | 19,500 NIS |
+| 500 | 50,000 NIS | 1,250 NIS | 48,750 NIS |
+| 1,000 | 100,000 NIS | 2,500 NIS | 97,500 NIS |
+| 5,000 | 500,000 NIS | 12,500 NIS | 487,500 NIS |
+
+**Recommendation:** Use Meshulam (Grow) — it supports Bit natively, integrates with React frontend easily, and has a clean webhook system for payment confirmation. No PayPal needed — Bit covers the Israeli market. If you ever need international payments, add Stripe for non-IL users.
+
+---
+
+### 📱 WhatsApp Business Integration
+
+WhatsApp Business API (via Meta Cloud API or a provider like WATI) is required for programmatic messaging. The free WhatsApp Business App does not support automation or API access.
+
+#### Meta pricing model (January 2026 update: per-message, not per-conversation)
+
+| Message Type | Price (Israel recipient) | Use Case |
+|---|---|---|
+| **Service** (user-initiated, 24h window) | **Free** | Customer replies, support |
+| **Utility** | ~$0.008–0.015 | Payslip ready, payment confirmed |
+| **Marketing** | ~$0.025–0.05 | Promotions, plan upsells |
+| **Authentication** | ~$0.008–0.015 | OTP, verification |
+
+#### Provider options (platform fee on top of Meta charges)
+
+| Provider | Base Plan | Included | Notes |
+|---|---|---|---|
+| **WATI (Growth)** | ~$49/month | 1,000 conversations | Most popular for SMBs, good UI |
+| **WATI (Pro)** | ~$99/month | 5,000 conversations | More agents, advanced automation |
+| **WATI (Business)** | ~$279/month | Unlimited | Enterprise |
+| **360dialog** | ~$5–10/month | Low platform fee | Cheaper but more DIY setup |
+| **Meta Cloud API (direct)** | $0 platform fee | Pay-per-message only | Most complex to set up |
+
+#### Monthly WhatsApp cost at user scale
+
+Assumption: 1 utility message/active user/month (payslip ready notification)
+
+| Active Users | WATI Plan | Meta msg cost | **Total WhatsApp/mo** |
+|---|---|---|---|
+| < 50 | Skip or test | — | $0 (use email only) |
+| 50–500 | WATI Growth $49 | ~$0.50–5 | **~$50/mo** |
+| 500–2,000 | WATI Growth $49 | ~$5–20 | **~$55–70/mo** |
+| 2,000–5,000 | WATI Pro $99 | ~$20–50 | **~$120–150/mo** |
+| 5,000–15,000 | WATI Pro/Business $279 | ~$50–150 | **~$330–430/mo** |
+
+> **Important:** At early stage (<200 users) consider sending via email only and adding WhatsApp later. The $49/month WATI base fee is not worth it until you have consistent MAU.
+
+**Recommendation:** Start with Resend email only. Add WATI WhatsApp when you reach ~200 paying users who are actively requesting it. Use utility messages only (not marketing) to keep Meta costs minimal.
+
+---
+
+### 📧 SendGrid / Resend (Email)
 
 | Plan | Emails/month | Price |
 |---|---|---|
-| **Free** | ~3,000 (100/day) | $0 |
-| Essentials 40K | 40,000 | $19.95/month |
-| Essentials 100K | 100,000 | $29.95/month |
+| **Resend Free** | 3,000 (100/day) | $0 |
+| **Resend Pro** | 50,000 | $20/month |
+| **SendGrid Free** | 3,000 (100/day) | $0 |
+| **SendGrid Essentials 40K** | 40,000 | $19.95/month |
 
-#### Alternative: Resend (recommended)
+> Payslip emails sent once/month per user. At 500 users: 500 emails/month — well within free tier. You only exceed 3K/month at ~3,000+ active users sending monthly.
 
-SendGrid is owned by Twilio and can be overkill. **Resend** has a cleaner API and a better free tier for developers:
+**Recommendation:** Use Resend — better API, better deliverability defaults, React Email support for HTML templates. Switch from SendGrid when you integrate email properly.
 
-| Plan | Emails/month | Price |
+---
+
+### 🎥 LogRocket (Client Session Replay)
+
+| Plan | Sessions/month | Price |
 |---|---|---|
-| **Free** | 3,000 (100/day) | $0 |
-| Pro | 50,000 | $20/month |
-| Scale | 200,000 | $90/month |
+| **Free** | 1,000 | $0 |
+| **Team** | 10,000 | $99/month |
 
-**Recommendation:** Switch to Resend — same free tier limit but better API, better deliverability defaults, and simpler setup. Only requires changing `@sendgrid/mail` to `resend` package.
+**Alternative: PostHog** — 15,000 session recordings/month free + analytics, feature flags, A/B testing.
 
----
-
-### 🎥 LogRocket (Client Session Replay & Monitoring)
-
-| Plan | Sessions/month | Retention | Price |
-|---|---|---|---|
-| **Free** | 1,000 | 1 month | $0 |
-| **Team** | 10,000 | 1 year | $99/month |
-| **Professional** | 25,000 | 1 year | $150/month |
-| **Enterprise** | Custom | Custom | Custom |
-
-> 1,000 sessions/month = roughly 1,000 unique user visits. For early-stage this is fine.
-
-#### Alternative: PostHog (much more generous free tier)
-
-| Plan | Events/month | Session Recordings | Price |
-|---|---|---|---|
-| **Free** | 1,000,000 | 15,000 | $0 |
-| Paid | Beyond free | Beyond free | Pay-as-you-go |
-
-**Recommendation:** If you're hitting the 1K session limit, switch to PostHog — 15K recordings/month free is 15× more generous and it also includes analytics, feature flags, and A/B testing.
+**Recommendation:** PostHog replaces LogRocket and adds more. Switch when LogRocket free tier runs out.
 
 ---
 
-### 📋 Server-Side Logging
+### 📋 Server-Side Logging (Grafana Cloud)
 
-Currently **console-only** (there's a TODO in `server/src/infrastructure/logger/logger.ts`). Here's what the options look like:
+| Service | Free Tier | Paid |
+|---|---|---|
+| **Grafana Cloud** | 50 GB/month, 14-day retention | ~$0.50/GB over |
+| **Better Stack** | 3 GB/month, 3-day retention | $0.15/GB ingestion |
 
-| Service | Free Tier | Retention (free) | Paid | Notes |
-|---|---|---|---|---|
-| **Grafana Cloud** ⭐ | 50 GB/month | 14 days | ~$0.50/GB over 50GB | Best free tier by far |
-| **Better Stack** ⭐ | 3 GB/month | 3 days | $0.15/GB ingestion + $0.08/GB/mo retention | Best paid pricing |
-| **Datadog** | 5 hosts, logs 1 day only | 1 day | $0.10/GB ingestion + $1.70/million events/month | Only worth it if using full Datadog suite |
-| **Coralogix** | ❌ 14-day trial only | — | $0.42/GB | No free option |
-| **Logz.io** | ❌ 14-day trial only | — | $0.92/GB/day (~$27/mo per GB) | Very expensive, avoid |
-
-**Recommendation:**
-- **Start:** Grafana Cloud — 50GB/month free is more than enough for a low-traffic app. No credit card required.
-- **If paying:** Better Stack — clearest pricing, best developer experience, $0.15/GB ingestion.
-- **Avoid:** Logz.io (overpriced), Coralogix (no free tier).
+**Recommendation:** Grafana Cloud — 50GB free is massive for a low-traffic app. Connect via Loki agent.
 
 ---
 
-### 🐛 Sentry (Error Tracking — not yet added, recommended)
+### 🐛 Sentry (Error Tracking)
 
-This is missing from the current stack and worth adding on the free tier.
+| Plan | Errors/month | Price |
+|---|---|---|
+| **Free** | 5,000 | $0 |
+| **Team** | 50,000 | $26/month |
 
-| Plan | Errors/month | Users | Price |
-|---|---|---|---|
-| **Free** | 5,000 | 1 | $0 |
-| **Team** | 50,000 | Unlimited | $26/month |
-| **Business** | 100,000 | Unlimited | $80/month |
-
-Sentry captures unhandled exceptions on both client and server, with stack traces, breadcrumbs, and release tracking. The free tier is sufficient for early-stage.
+**Recommendation:** Add Sentry now on the free tier — catches unhandled exceptions with stack traces on both client and server.
 
 ---
 
-## Cost Scenarios
+## Full Scenario Cost Tables
 
-### Scenario A — Early Stage (everything on free tier)
+### Scenario A — Early Stage (50 users, everything free tier)
 
 | Service | Monthly |
 |---|---|
-| Domain | ~$1 (amortized) |
-| Cloudflare DNS | $0 |
+| Domain | ~$1 |
+| Cloudflare | $0 |
 | GitHub Pages + Actions | $0 |
 | AWS ECR | $0 (first year) |
 | AWS ECS Fargate (0.25vCPU) | ~$9 |
 | Clerk (< 10K MAU) | $0 |
 | MongoDB Atlas M0 | $0 |
-| SendGrid / Resend | $0 |
-| LogRocket (< 1K sessions) | $0 |
-| Grafana Cloud logging | $0 |
-| Sentry (< 5K errors) | $0 |
+| Resend | $0 |
+| WhatsApp (WATI) | $0 (skip, email only) |
+| Bit integration | $0 platform + ~2.5% per transaction |
+| Grafana Cloud | $0 |
+| Sentry | $0 |
 | **Total** | **~$10/month** |
 
 ---
 
-### Scenario B — Light Production (few hundred paying users)
+### Scenario B — Light Production (200–500 users, small paying cohort)
+
+| Service | Monthly |
+|---|---|
+| Domain | ~$1 |
+| AWS ECS Fargate (0.25vCPU) | ~$9 |
+| MongoDB Atlas M0 or M2 | $0–9 |
+| Resend | $0 |
+| WhatsApp WATI Growth | $49–55 (if enabled) |
+| Bit integration | $0 + ~2.5%/tx |
+| Clerk (< 10K MAU) | $0 |
+| Grafana Cloud | $0 |
+| Sentry | $0 |
+| **Total (no WhatsApp)** | **~$10–20/month** |
+| **Total (with WhatsApp)** | **~$60–75/month** |
+
+---
+
+### Scenario C — Growing (1,000–2,000 users)
 
 | Service | Monthly |
 |---|---|
 | Domain | ~$1 |
 | AWS ECS Fargate (0.5vCPU) | ~$18 |
 | MongoDB Atlas M2 | $9 |
-| SendGrid/Resend | $0 (still in free tier) |
+| Resend | $0 (still free) |
+| WhatsApp WATI Growth/Pro | $49–99 + $10–20 msgs |
+| Bit integration | $0 + ~2.5%/tx |
 | Clerk (< 10K MAU) | $0 |
-| LogRocket | $0 (or $99 if you want more) |
 | Grafana Cloud | $0 |
 | Sentry | $0 |
-| **Total** | **~$28/month (~$336/year)** |
+| **Total** | **~$90–150/month** |
 
 ---
 
-### Scenario C — Growing (1K–5K MAU, active usage)
+### Scenario D — Scale (5,000+ users)
 
 | Service | Monthly |
 |---|---|
 | Domain | ~$1 |
 | AWS ECS Fargate (1vCPU) | ~$36 |
 | MongoDB Atlas M5 | $25 |
-| Resend Pro (high email volume) | $20 |
-| Clerk (< 10K MAU) | $0 |
-| PostHog (replacing LogRocket) | $0 |
+| Resend Pro | $20 |
+| WhatsApp WATI Pro | $99 + $50 msgs |
+| Bit integration | $0 + ~2.5%/tx |
+| Clerk (< 10K MAU still) | $0 |
+| PostHog (replaces LogRocket) | $0 |
 | Grafana Cloud | $0 |
 | Sentry | $0 |
-| **Total** | **~$82/month (~$984/year)** |
+| **Total** | **~$230/month** |
 
 ---
 
-### Scenario D — Scale (10K–50K MAU)
+### Scenario E — Large Scale (10,000–15,000 MAU)
 
 | Service | Monthly |
 |---|---|
 | Domain | ~$1 |
-| AWS ECS Fargate (2vCPU, 2 tasks) | ~$140 |
+| AWS ECS Fargate (2x 2vCPU) | ~$142 |
 | MongoDB Atlas M10 | $57 |
-| Resend Pro | $20–90 |
-| Clerk Pro (20K MAU) | $225 |
-| PostHog / LogRocket Team | $0–99 |
+| Resend Pro | $20 |
+| WhatsApp WATI Business | $279 + $100 msgs |
+| Bit integration | $0 + ~2.5%/tx |
+| Clerk Pro (15K MAU) | $125 |
+| PostHog | $0 |
 | Grafana Cloud | $0–20 |
 | Sentry Team | $26 |
-| **Total** | **~$570–660/month (~$6,840–7,920/year)** |
+| **Total** | **~$750–780/month** |
 
-> At 10K+ MAU Clerk becomes the dominant cost driver. If you reach this scale, evaluate Supabase Auth (50K MAU free) as a drop-in alternative.
+> At 10K+ MAU, Clerk becomes the dominant non-infra cost. Evaluate Supabase Auth (50K MAU free) as a migration target.
 
 ---
 
@@ -335,7 +408,7 @@ Sentry captures unhandled exceptions on both client and server, with stack trace
 
 | Service | Why | Cost |
 |---|---|---|
-| **Sentry** | Catches runtime errors on client + server | Free up to 5K errors/month |
-| **Grafana Cloud** | Server-side log aggregation (currently missing) | Free up to 50GB/month |
-| **Cloudflare** | DNS + CDN + SSL in one place | Free forever |
-| **Resend** | Better email API than SendGrid | Free 3K/month |
+| **Sentry** | Runtime error tracking client + server | Free up to 5K errors/month |
+| **Grafana Cloud** | Server-side log aggregation | Free up to 50GB/month |
+| **Resend** | Better email API, React Email templates | Free 3K/month |
+| **WhatsApp WATI** | Payslip notifications (add at ~200 users) | $49+/month |

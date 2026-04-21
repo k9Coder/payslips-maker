@@ -86,6 +86,7 @@ const FORM_ADMIN_1: IForm = {
   },
   workDetails: {
     workedDays: 22,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -147,6 +148,7 @@ const FORM_ADMIN_2: IForm = {
   },
   workDetails: {
     workedDays: 20,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -208,6 +210,7 @@ const FORM_ADMIN_3: IForm = {
   },
   workDetails: {
     workedDays: 21,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 1,
     sickDays: 0,
@@ -271,6 +274,7 @@ const FORM_DAVID_1: IForm = {
   },
   workDetails: {
     workedDays: 20,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 2,
     sickDays: 0,
@@ -332,6 +336,7 @@ const FORM_DAVID_2: IForm = {
   },
   workDetails: {
     workedDays: 22,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -393,6 +398,7 @@ const FORM_SARAH_1: IForm = {
   },
   workDetails: {
     workedDays: 21,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -454,6 +460,7 @@ const FORM_SARAH_2: IForm = {
   },
   workDetails: {
     workedDays: 19,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 3,
     sickDays: 0,
@@ -515,6 +522,7 @@ const FORM_YOSEF_1: IForm = {
   },
   workDetails: {
     workedDays: 23,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -576,6 +584,7 @@ const FORM_YOSEF_2: IForm = {
   },
   workDetails: {
     workedDays: 21,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -637,6 +646,7 @@ const FORM_RACHEL_1: IForm = {
   },
   workDetails: {
     workedDays: 20,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
@@ -698,6 +708,7 @@ const FORM_RACHEL_2: IForm = {
   },
   workDetails: {
     workedDays: 18,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 2,
     sickDays: 1,

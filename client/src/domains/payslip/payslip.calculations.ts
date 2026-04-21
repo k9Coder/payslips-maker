@@ -147,6 +147,7 @@ export function computePayslip(sources: ComputePayslipSources): PayslipFormValue
     },
     workDetails: {
       workedDays: worklogSummary.workDays,
+      totalWorkHours: worklogSummary.totalWorkHours,
       restDaysWorked: worklogSummary.restDays,
       vacationDays: worklogSummary.vacationDays,
       sickDays: worklogSummary.sickDays,

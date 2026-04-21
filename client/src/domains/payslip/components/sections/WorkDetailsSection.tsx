@@ -19,6 +19,7 @@ export function WorkDetailsSection() {
   return (
     <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <DisabledField label="ימים שעבד" value={wd.workedDays} />
+      <DisabledField label='סה"כ שעות עבודה' value={wd.totalWorkHours} />
       <DisabledField label="ימי מנוחה שעבד" value={wd.restDaysWorked} />
       <DisabledField label="ימי חופשה" value={wd.vacationDays} />
       <DisabledField label="ימי מחלה" value={wd.sickDays} />

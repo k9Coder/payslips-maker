@@ -1,0 +1,20 @@
+For both client&server:
+    - functions no longer than 50 rows unless there is very sepcial case where we have to.
+    - try not to modify objects we pass by reference unless we have to, same for all arguments we pass to functions yeah?
+    - clean code, we have many files / functions / variables in each file unneeded.
+    - code that you see is not readable you try to make it readable as possible, most important thing is readability.
+    - in each "repo" client or server, if you see functions which are reusable or reptitive export them to a file under that subject, if that's way too general go to utils.ts, if not <domain_name>/utils.ts
+    - try to verify the types I don't like 'any', nor 'unknown'.
+
+1. in client mainly, we have to divide to components and use them.
+    - create reusable input components like we did with the TimePicker.tsx.
+    - each component has to be pretty clear of what it does, no need useeffect and api calls there, just customized hooks and api calls will be from exported files as best practice suggests.
+    - we do not render 50000 elements from one component we organize several with common ground into reusable component and render that component.
+    - we do use redux/zustand, is that in intention this way? if yes why? if not, why? if you suggest we could add, why what would it give us that we do not have right now, and what's the best way to insert here redux using the redux toolkit?
+    - do we need usage of loki like lib or something?
+    - do we have a way of adding sentry to the client here free tier is there free tier?
+    - styles shouldn't be on same component file try to reduce that it is ugly, I don't like that.
+    - no more than one component in a file unless it's really special and supposed to happen.
+
+2. in server
+    

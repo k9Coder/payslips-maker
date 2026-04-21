@@ -27,6 +27,7 @@ export const payslipFormSchema = z.object({
   }),
   workDetails: z.object({
     workedDays: z.number().min(0).max(31),
+    totalWorkHours: z.number().min(0).default(0),
     restDaysWorked: z.number().min(0).default(0),
     vacationDays: z.number().min(0).default(0),
     sickDays: z.number().min(0).default(0),

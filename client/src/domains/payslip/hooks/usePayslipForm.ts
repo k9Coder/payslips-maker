@@ -24,6 +24,7 @@ const defaultValues: PayslipFormValues = {
   },
   workDetails: {
     workedDays: 0,
+    totalWorkHours: 0,
     restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
