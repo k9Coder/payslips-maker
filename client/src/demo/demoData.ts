@@ -682,6 +682,15 @@ function formCountFor(userId: string): number {
 
 // ─── Demo Employees ─────────────────────────────────────────────────────────────
 
+const CONTRACT_DEFAULTS = {
+  weeklyRestDay: 'saturday' as const,
+  hasPocketMoney: false,
+  medicalInsuranceMonthlyCost: 0,
+  accommodationDeduction: 0,
+  utilitiesDeduction: 0,
+  hasFoodDeduction: false,
+};
+
 export const DEMO_EMPLOYEES: IEmployee[] = [
   {
     _id: 'demo-employee-admin-1',
@@ -693,6 +702,7 @@ export const DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+66812345678',
     startDate: '2023-01-01',
     preferredLanguage: 'th',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-01-01T08:00:00.000Z',
     updatedAt: '2023-01-01T08:00:00.000Z',
   },
@@ -706,6 +716,7 @@ export const DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+639123456789',
     startDate: '2023-03-15',
     preferredLanguage: 'fil',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-03-15T08:00:00.000Z',
     updatedAt: '2023-03-15T08:00:00.000Z',
   },
@@ -723,6 +734,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+525512345678',
     startDate: '2023-06-01',
     preferredLanguage: 'en',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-06-01T08:00:00.000Z',
     updatedAt: '2023-06-01T08:00:00.000Z',
   },
@@ -736,6 +748,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+919876543210',
     startDate: '2023-09-01',
     preferredLanguage: 'hi',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-09-01T08:00:00.000Z',
     updatedAt: '2023-09-01T08:00:00.000Z',
   },
@@ -750,6 +763,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+201012345678',
     startDate: '2023-04-01',
     preferredLanguage: 'ar',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-04-01T08:00:00.000Z',
     updatedAt: '2023-04-01T08:00:00.000Z',
   },
@@ -763,6 +777,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+212612345678',
     startDate: '2023-07-15',
     preferredLanguage: 'ar',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-07-15T08:00:00.000Z',
     updatedAt: '2023-07-15T08:00:00.000Z',
   },
@@ -777,6 +792,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+40712345678',
     startDate: '2022-11-01',
     preferredLanguage: 'en',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2022-11-01T08:00:00.000Z',
     updatedAt: '2022-11-01T08:00:00.000Z',
   },
@@ -790,6 +806,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+79161234567',
     startDate: '2023-02-01',
     preferredLanguage: 'en',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-02-01T08:00:00.000Z',
     updatedAt: '2023-02-01T08:00:00.000Z',
   },
@@ -804,6 +821,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+33612345678',
     startDate: '2023-08-01',
     preferredLanguage: 'en',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-08-01T08:00:00.000Z',
     updatedAt: '2023-08-01T08:00:00.000Z',
   },
@@ -817,6 +835,7 @@ const OTHER_DEMO_EMPLOYEES: IEmployee[] = [
     phone: '+48512345678',
     startDate: '2023-10-01',
     preferredLanguage: 'en',
+    ...CONTRACT_DEFAULTS,
     createdAt: '2023-10-01T08:00:00.000Z',
     updatedAt: '2023-10-01T08:00:00.000Z',
   },

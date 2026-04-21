@@ -19,6 +19,12 @@ const EMPLOYEE: IEmployee = {
   nationality: 'Philippines',
   startDate: '2022-03-01',
   preferredLanguage: 'fil',
+  weeklyRestDay: 'saturday',
+  hasPocketMoney: false,
+  medicalInsuranceMonthlyCost: 0,
+  accommodationDeduction: 0,
+  utilitiesDeduction: 0,
+  hasFoodDeduction: false,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -66,8 +72,8 @@ describe('getFormConfig', () => {
 describe('payslipFormConfig', () => {
   const config = getFormConfig('payslip');
 
-  it('labelHe is "תלוש שכר"', () => {
-    expect(config.labelHe).toBe('תלוש שכר');
+  it('labelHe is "מחליף תלוש שכר"', () => {
+    expect(config.labelHe).toBe('מחליף תלוש שכר');
   });
 
   it('has a Zod schema with a parse method', () => {

@@ -38,6 +38,12 @@ const schema = z.object({
   phone: z.string().optional(),
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'חייב להיות בפורמט YYYY-MM-DD'),
   preferredLanguage: z.enum(['he', 'en', 'fil', 'th', 'am', 'hi', 'ar']).default('he'),
+  weeklyRestDay: z.enum(['friday', 'saturday', 'sunday']).default('saturday'),
+  hasPocketMoney: z.boolean().default(false),
+  medicalInsuranceMonthlyCost: z.number().min(0).default(0),
+  accommodationDeduction: z.number().min(0).default(0),
+  utilitiesDeduction: z.number().min(0).max(94.34).default(0),
+  hasFoodDeduction: z.boolean().default(false),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -79,7 +85,15 @@ export function EmployeeFormPage({ mode }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { preferredLanguage: 'he' },
+    defaultValues: {
+      preferredLanguage: 'he',
+      weeklyRestDay: 'saturday',
+      hasPocketMoney: false,
+      medicalInsuranceMonthlyCost: 0,
+      accommodationDeduction: 0,
+      utilitiesDeduction: 0,
+      hasFoodDeduction: false,
+    },
   });
 
   useEffect(() => {
@@ -92,6 +106,12 @@ export function EmployeeFormPage({ mode }: Props) {
         phone: existing.phone ?? '',
         startDate: existing.startDate,
         preferredLanguage: existing.preferredLanguage,
+        weeklyRestDay: existing.weeklyRestDay ?? 'saturday',
+        hasPocketMoney: existing.hasPocketMoney ?? false,
+        medicalInsuranceMonthlyCost: existing.medicalInsuranceMonthlyCost ?? 0,
+        accommodationDeduction: existing.accommodationDeduction ?? 0,
+        utilitiesDeduction: existing.utilitiesDeduction ?? 0,
+        hasFoodDeduction: existing.hasFoodDeduction ?? false,
       });
     }
   }, [existing, mode, reset]);
@@ -239,6 +259,48 @@ export function EmployeeFormPage({ mode }: Props) {
                   )}
                 </SelectContent>
               </Select>
+            </div>
+
+            {/* Contract settings */}
+            <div className="space-y-4 border-t pt-4">
+              <h3 className="text-base font-semibold text-[#1B2A4A]">הגדרות חוזה</h3>
+
+              <div className="space-y-1.5">
+                <Label>יום מנוחה שבועי</Label>
+                <select
+                  {...register('weeklyRestDay')}
+                  className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                >
+                  <option value="saturday">שבת</option>
+                  <option value="friday">שישי</option>
+                  <option value="sunday">ראשון</option>
+                </select>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="hasPocketMoney" {...register('hasPocketMoney')} />
+                <Label htmlFor="hasPocketMoney">דמי כיס בחוזה (₪100 לסוף שבוע)</Label>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="medicalInsuranceMonthlyCost">עלות ביטוח רפואי חודשית בפועל (₪)</Label>
+                <Input id="medicalInsuranceMonthlyCost" type="number" min="0" step="0.01" dir="ltr" {...register('medicalInsuranceMonthlyCost', { valueAsNumber: true })} />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="accommodationDeduction">ניכוי מגורים חודשי (₪)</Label>
+                <Input id="accommodationDeduction" type="number" min="0" step="0.01" dir="ltr" {...register('accommodationDeduction', { valueAsNumber: true })} />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="utilitiesDeduction">הוצאות נלוות (₪) — מקסימום ₪94.34</Label>
+                <Input id="utilitiesDeduction" type="number" min="0" max="94.34" step="0.01" dir="ltr" {...register('utilitiesDeduction', { valueAsNumber: true })} />
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input type="checkbox" id="hasFoodDeduction" {...register('hasFoodDeduction')} />
+                <Label htmlFor="hasFoodDeduction">ניכוי כלכלה (עד 10% משכר) — הסכמה בכתב בחוזה</Label>
+              </div>
             </div>
 
             <div className="flex gap-3 pt-2">
