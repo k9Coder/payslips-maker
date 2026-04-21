@@ -9,10 +9,10 @@ export interface FormDocument extends Omit<IForm, '_id' | 'userId' | 'employeeId
 const EmployeeInfoSchema = new Schema(
   {
     fullName: { type: Schema.Types.Mixed, required: true },
-    passportNumber: { type: String, required: true },
-    nationality: { type: String, required: true },
-    employerName: { type: Schema.Types.Mixed, required: true },
-    employerTaxId: { type: String, required: true },
+    passportNumber: { type: String, default: '' },
+    nationality: { type: String, default: '' },
+    employerName: { type: Schema.Types.Mixed, default: {} },
+    employerTaxId: { type: String, default: '' },
     employerAddress: String,
     employerCity: String,
     employerZip: String,
