@@ -9,6 +9,12 @@ export interface IEmployeeDocument extends Document {
   phone?: string;
   startDate: string;
   preferredLanguage: string;
+  weeklyRestDay: 'friday' | 'saturday' | 'sunday';
+  hasPocketMoney: boolean;
+  medicalInsuranceMonthlyCost: number;
+  accommodationDeduction: number;
+  utilitiesDeduction: number;
+  hasFoodDeduction: boolean;
 }
 
 const EmployeeSchema = new Schema<IEmployeeDocument>(
@@ -25,6 +31,16 @@ const EmployeeSchema = new Schema<IEmployeeDocument>(
       enum: ['he', 'en', 'fil', 'th', 'am', 'hi', 'ar'],
       default: 'en',
     },
+    weeklyRestDay: {
+      type: String,
+      enum: ['friday', 'saturday', 'sunday'],
+      default: 'saturday',
+    },
+    hasPocketMoney: { type: Boolean, default: false },
+    medicalInsuranceMonthlyCost: { type: Number, default: 0 },
+    accommodationDeduction: { type: Number, default: 0 },
+    utilitiesDeduction: { type: Number, default: 0 },
+    hasFoodDeduction: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

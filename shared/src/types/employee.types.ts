@@ -28,6 +28,13 @@ export interface IEmployee {
   phone?: string;
   startDate: string; // YYYY-MM-DD
   preferredLanguage: SupportedLanguage;
+  // Contract settings
+  weeklyRestDay: 'friday' | 'saturday' | 'sunday';
+  hasPocketMoney: boolean;
+  medicalInsuranceMonthlyCost: number;
+  accommodationDeduction: number;
+  utilitiesDeduction: number;
+  hasFoodDeduction: boolean;
   createdAt: Date | string;
   updatedAt: Date | string;
 }

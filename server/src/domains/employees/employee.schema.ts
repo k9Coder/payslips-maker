@@ -8,6 +8,12 @@ export const createEmployeeSchema = z.object({
   phone: z.string().optional(),
   startDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date must be YYYY-MM-DD'),
   preferredLanguage: z.enum(['he', 'en', 'fil', 'th', 'am', 'hi', 'ar']).default('he'),
+  weeklyRestDay: z.enum(['friday', 'saturday', 'sunday']).default('saturday'),
+  hasPocketMoney: z.boolean().default(false),
+  medicalInsuranceMonthlyCost: z.number().min(0).default(0),
+  accommodationDeduction: z.number().min(0).default(0),
+  utilitiesDeduction: z.number().min(0).default(0),
+  hasFoodDeduction: z.boolean().default(false),
 });
 
 export const updateEmployeeSchema = createEmployeeSchema.partial();
