@@ -38,6 +38,7 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
   const queryClient = useQueryClient();
   const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
   const [sendEmailDialogOpen, setSendEmailDialogOpen] = useState(false);
+  const [formReady, setFormReady] = useState(false);
   const { data: currentUser } = useCurrentUser();
 
   const config = getFormConfig(formType);
@@ -67,6 +68,7 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
     if (!employee) return;
     if (formId && existingForm) {
       form.reset(config.fromApiForm(existingForm));
+      setFormReady(true);
     } else if (!formId) {
       if (
         workLogOverride &&
@@ -90,8 +92,10 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
           period: { year: workLogOverride.year, month: workLogOverride.month },
         });
         form.reset(computed);
+        setFormReady(true);
       } else {
         form.reset(config.defaultValues(employee));
+        setFormReady(true);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -166,7 +170,7 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
     });
   };
 
-  if (isLoading) return <PageLoading />;
+  if (isLoading || !formReady) return <PageLoading />;
   if (!employee) return <p className="text-center text-muted-foreground">עובד לא נמצא</p>;
 
   return (
