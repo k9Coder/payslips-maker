@@ -222,44 +222,31 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
     employerContributions,
     paymentInfo,
     netSalary,
-    customPayItems = [],
     vacationAccount,
     sickAccount,
   } = form;
 
+  const bankTransfer = (form as IForm & { bankTransfer?: number }).bankTransfer ?? netSalary;
   const periodLabel = `${t.months[period.month]}/${period.year}`;
 
   // Build earnings rows
   const earningsRows: Array<{ code: string; desc: string; qty?: number; rate?: number; gross?: number; taxPct?: number; payment?: number }> = [
     { code: '01', desc: t.earnings.baseSalary, qty: workDetails.workedDays, rate: payCalculation.dailyRate, payment: payCalculation.baseSalary },
-    ...(workDetails.overtime125h > 0 ? [{ code: '06', desc: t.earnings.overtime125, qty: workDetails.overtime125h, payment: undefined }] : []),
-    ...(workDetails.overtime150h > 0 ? [{ code: '07', desc: t.earnings.overtime150, qty: workDetails.overtime150h, payment: undefined }] : []),
-    ...(payCalculation.overtimePay > 0 && workDetails.overtime125h === 0 && workDetails.overtime150h === 0
-      ? [{ code: '06', desc: t.earnings.overtimePay, payment: payCalculation.overtimePay }]
-      : []),
-    ...(payCalculation.vacationPay > 0 ? [{ code: '09', desc: t.earnings.vacationPay, payment: payCalculation.vacationPay }] : []),
-    ...customPayItems.map(item => ({
-      code: item.code,
-      desc: resolve(item.description),
-      qty: item.quantity,
-      rate: item.rate,
-      gross: undefined,
-      taxPct: item.taxPercent,
-      payment: item.amount,
-    })),
+    ...(payCalculation.restDayPremium > 0 ? [{ code: '02', desc: 'גמול יום מנוחה', qty: workDetails.restDaysWorked, payment: payCalculation.restDayPremium }] : []),
+    ...(payCalculation.sickPayAdjustment < 0 ? [{ code: '03', desc: 'התאמת מחלה', payment: payCalculation.sickPayAdjustment }] : []),
+    ...(payCalculation.recoveryPay > 0 ? [{ code: '04', desc: 'דמי הבראה', payment: payCalculation.recoveryPay }] : []),
   ];
 
   // Build deduction rows (using short labels for the deduction type column)
   const deductionRows: Array<{ desc: string; amount: number }> = [
     ...(deductions.incomeTax > 0 ? [{ desc: t.deductionRows.incomeTaxShort, amount: deductions.incomeTax }] : []),
-    ...(deductions.nationalInsurance > 0 ? [{ desc: t.deductionRows.niShort, amount: deductions.nationalInsurance }] : []),
-    ...(deductions.healthInsurance > 0 ? [{ desc: t.deductionRows.healthShort, amount: deductions.healthInsurance }] : []),
-    ...(employerContributions.pension > 0 ? [{ desc: t.deductionRows.pensionShort, amount: employerContributions.pension }] : []),
-    ...(deductions.otherDeductions > 0 ? [{ desc: t.deductionRows.otherDeductions, amount: deductions.otherDeductions }] : []),
+    ...(deductions.medicalInsuranceDeduction > 0 ? [{ desc: 'ביטוח רפואי', amount: deductions.medicalInsuranceDeduction }] : []),
+    ...(deductions.accommodationDeduction > 0 ? [{ desc: 'מגורים', amount: deductions.accommodationDeduction }] : []),
+    ...(deductions.utilitiesDeduction > 0 ? [{ desc: 'הוצאות נלוות', amount: deductions.utilitiesDeduction }] : []),
+    ...(deductions.foodDeduction > 0 ? [{ desc: 'כלכלה', amount: deductions.foodDeduction }] : []),
   ];
 
-  const totalMandatoryDeductions =
-    deductions.incomeTax + deductions.nationalInsurance + deductions.healthInsurance + deductions.otherDeductions;
+  const totalMandatoryDeductions = deductions.totalPermittedDeductions;
 
   const maxRows = Math.max(earningsRows.length, deductionRows.length);
   const tableRows = Array.from({ length: maxRows }, (_, i) => ({
@@ -285,13 +272,8 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
               </Text>
             )}
             <Text style={styles.headerText}>
-              {t.header.taxFileNumber}: {employeeInfo.taxFileNumber ?? employeeInfo.employerTaxId}
+              {t.header.taxFileNumber}: {employeeInfo.employerTaxId}
             </Text>
-            {!!employeeInfo.employerRegistrationNumber && (
-              <Text style={styles.headerText}>
-                {t.header.employerRegistrationNumber}: {employeeInfo.employerRegistrationNumber}
-              </Text>
-            )}
           </View>
           {/* Title block (left in RTL) */}
           <View style={styles.titleBlock}>
@@ -308,67 +290,42 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
               <Text style={styles.sectionHeaderText}>{t.personalDetails.sectionTitle}</Text>
             </View>
             <View style={styles.personalGrid}>
-              {/* Row 1: employeeNumber | taxCalcType | nationalInsuranceType | jobFraction */}
-              <View style={styles.personalGridRow}>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.employeeNumber}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.employeeNumber ?? ''}</Text>
-                </View>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.taxCalcType}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.taxCalcType ?? ''}</Text>
-                </View>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.nationalInsuranceType}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.nationalInsuranceType ?? ''}</Text>
-                </View>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.jobFraction}</Text>
-                  <Text style={styles.personalValue}>
-                    {employeeInfo.jobFraction != null ? employeeInfo.jobFraction.toFixed(4) : '1.0000'}
-                  </Text>
-                </View>
-              </View>
-              {/* Row 2: employmentStartDate | idNumber | jobTitle | salaryBasis */}
+              {/* Row 1: employmentStartDate | seniorityMonths | nationality | passportNumber */}
               <View style={styles.personalGridRow}>
                 <View style={styles.personalCell}>
                   <Text style={styles.personalLabel}>{t.personalDetails.employmentStartDate}</Text>
                   <Text style={styles.personalValue}>{employeeInfo.employmentStartDate ?? ''}</Text>
                 </View>
                 <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.idNumber}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.idNumber}</Text>
+                  <Text style={styles.personalLabel}>ותק (חודשים)</Text>
+                  <Text style={styles.personalValue}>{employeeInfo.seniorityMonths ?? ''}</Text>
                 </View>
                 <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.jobTitle}</Text>
-                  <Text style={styles.personalValue}>{resolve(employeeInfo.jobTitle)}</Text>
+                  <Text style={styles.personalLabel}>{t.employee.nationality}</Text>
+                  <Text style={styles.personalValue}>{employeeInfo.nationality}</Text>
                 </View>
                 <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.salaryBasis}</Text>
-                  <Text style={styles.personalValue}>
-                    {employeeInfo.salaryBasis
-                      ? t.personalDetails.salaryBasisValues[employeeInfo.salaryBasis]
-                      : t.personalDetails.salaryBasisValues.monthly}
-                  </Text>
+                  <Text style={styles.personalLabel}>מספר דרכון</Text>
+                  <Text style={styles.personalValue}>{employeeInfo.passportNumber}</Text>
                 </View>
               </View>
-              {/* Row 3: department | familyStatus | grade | workedDays/standardDays */}
+              {/* Row 2: workedDays | restDaysWorked | vacationDays | sickDays */}
               <View style={styles.personalGridRow}>
                 <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.department}</Text>
-                  <Text style={styles.personalValue}>{resolve(employeeInfo.department)}</Text>
-                </View>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.familyStatus}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.familyStatus ?? ''}</Text>
-                </View>
-                <View style={styles.personalCell}>
-                  <Text style={styles.personalLabel}>{t.personalDetails.grade}</Text>
-                  <Text style={styles.personalValue}>{employeeInfo.grade ?? ''}</Text>
-                </View>
-                <View style={styles.personalCell}>
                   <Text style={styles.personalLabel}>{t.additionalData.workedDays}</Text>
-                  <Text style={styles.personalValue}>{workDetails.workedDays}/{workDetails.standardDays}</Text>
+                  <Text style={styles.personalValue}>{workDetails.workedDays}</Text>
+                </View>
+                <View style={styles.personalCell}>
+                  <Text style={styles.personalLabel}>ימי מנוחה שעבד</Text>
+                  <Text style={styles.personalValue}>{workDetails.restDaysWorked}</Text>
+                </View>
+                <View style={styles.personalCell}>
+                  <Text style={styles.personalLabel}>{t.additionalData.vacationDays}</Text>
+                  <Text style={styles.personalValue}>{workDetails.vacationDays}</Text>
+                </View>
+                <View style={styles.personalCell}>
+                  <Text style={styles.personalLabel}>{t.additionalData.sickDays}</Text>
+                  <Text style={styles.personalValue}>{workDetails.sickDays}</Text>
                 </View>
               </View>
               {/* Row 4 (bank): bankCode/branch | accountNumber | nationality */}
@@ -399,14 +356,6 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
             </View>
             <View style={styles.addressContent}>
               <Text style={styles.addressLine}>{resolve(employeeInfo.fullName)}</Text>
-              {!!employeeInfo.employeeAddress && (
-                <Text style={styles.addressLine}>{employeeInfo.employeeAddress}</Text>
-              )}
-              {!!(employeeInfo.employeeCity || employeeInfo.employeeZip) && (
-                <Text style={styles.addressLine}>
-                  {[employeeInfo.employeeCity, employeeInfo.employeeZip].filter(Boolean).join(' ')}
-                </Text>
-              )}
             </View>
           </View>
         </View>
@@ -518,25 +467,21 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
               <Text style={styles.bottomKvValue}>2.25</Text>
             </View>
             <View style={styles.bottomKvRow}>
-              <Text style={styles.bottomKvLabel}>{t.employerContributions.nationalInsurance}</Text>
-              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.nationalInsurance)}</Text>
+              <Text style={styles.bottomKvLabel}>ביטוח לאומי מעסיק</Text>
+              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.nii)}</Text>
             </View>
             <View style={styles.bottomKvRow}>
-              <Text style={styles.bottomKvLabel}>{t.employerContributions.pension}</Text>
-              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.pension)}</Text>
+              <Text style={styles.bottomKvLabel}>חלף פנסיה</Text>
+              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.pensionSubstitute)}</Text>
             </View>
-            {employerContributions.educationFund != null && employerContributions.educationFund > 0 && (
-              <View style={styles.bottomKvRow}>
-                <Text style={styles.bottomKvLabel}>{t.employerContributions.educationFund}</Text>
-                <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.educationFund)}</Text>
-              </View>
-            )}
-            {employerContributions.severanceFund != null && employerContributions.severanceFund > 0 && (
-              <View style={styles.bottomKvRow}>
-                <Text style={styles.bottomKvLabel}>{t.employerContributions.severanceFund}</Text>
-                <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.severanceFund)}</Text>
-              </View>
-            )}
+            <View style={styles.bottomKvRow}>
+              <Text style={styles.bottomKvLabel}>חלף פיצויים</Text>
+              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.severanceSubstitute)}</Text>
+            </View>
+            <View style={styles.bottomKvRow}>
+              <Text style={styles.bottomKvLabel}>יתרת פנסיה מצטבר</Text>
+              <Text style={styles.bottomKvValue}>{fmtNum(employerContributions.cumulativePensionBalance)}</Text>
+            </View>
           </View>
 
           {/* Panel 2: Additional data */}
@@ -545,12 +490,12 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
               <Text style={styles.bottomPanelHeaderText}>{t.additionalData.sectionTitle}</Text>
             </View>
             <View style={styles.bottomKvRow}>
-              <Text style={styles.bottomKvLabel}>{t.additionalData.standardDays}</Text>
-              <Text style={styles.bottomKvValue}>{fmtDay(workDetails.standardDays)}</Text>
-            </View>
-            <View style={styles.bottomKvRow}>
               <Text style={styles.bottomKvLabel}>{t.additionalData.workedDays}</Text>
               <Text style={styles.bottomKvValue}>{fmtDay(workDetails.workedDays)}</Text>
+            </View>
+            <View style={styles.bottomKvRow}>
+              <Text style={styles.bottomKvLabel}>ימי מנוחה שעבד</Text>
+              <Text style={styles.bottomKvValue}>{fmtDay(workDetails.restDaysWorked)}</Text>
             </View>
             <View style={styles.bottomKvRow}>
               <Text style={styles.bottomKvLabel}>{t.additionalData.vacationDays}</Text>
@@ -638,18 +583,15 @@ export function PayslipPDF({ form, language = 'he' }: PayslipPDFProps) {
               <Text style={styles.bottomKvLabel}>{t.netPayBox.netSalary}</Text>
               <Text style={styles.bottomKvValueBold}>{fmtNum(netSalary)}</Text>
             </View>
-            <View style={styles.subPanelDivider}>
-              <Text style={styles.subPanelTitle}>{t.netPayBox.voluntaryDeductions}</Text>
-            </View>
-            {deductions.otherDeductions > 0 && (
+            {payCalculation.pocketMoneyPaid > 0 && (
               <View style={styles.bottomKvRow}>
-                <Text style={styles.bottomKvLabel}>{t.deductionRows.otherDeductions}</Text>
-                <Text style={styles.bottomKvValue}>{fmtNum(deductions.otherDeductions)}</Text>
+                <Text style={styles.bottomKvLabel}>דמי כיס (מקדמה)</Text>
+                <Text style={styles.bottomKvValue}>− {fmtNum(payCalculation.pocketMoneyPaid)}</Text>
               </View>
             )}
             <View style={[styles.bottomKvRow, { marginTop: 2 }]}>
-              <Text style={styles.bottomKvLabel}>{t.netPayBox.netPayment}</Text>
-              <Text style={styles.bottomKvValueBold}>{fmtNum(netSalary)}</Text>
+              <Text style={styles.bottomKvLabel}>העברה בנקאית</Text>
+              <Text style={styles.bottomKvValueBold}>{fmtNum(bankTransfer)}</Text>
             </View>
           </View>
 

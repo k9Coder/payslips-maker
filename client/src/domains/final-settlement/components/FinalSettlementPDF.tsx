@@ -191,7 +191,7 @@ export function FinalSettlementPDF({ form, language = 'he' }: { form: IForm; lan
           </View>
           <View>
             <Text style={styles.employeeLabel}>{t.employee.idNumber}</Text>
-            <Text style={styles.employeeValue}>{employeeInfo.idNumber}</Text>
+            <Text style={styles.employeeValue}>{employeeInfo.passportNumber}</Text>
           </View>
           <View>
             <Text style={styles.employeeLabel}>{t.employee.nationality}</Text>

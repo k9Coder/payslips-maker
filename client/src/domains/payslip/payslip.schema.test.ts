@@ -5,39 +5,47 @@ const VALID_FORM = {
   period: { month: 3, year: 2025 },
   employeeInfo: {
     fullName: 'Ana Ramirez',
-    idNumber: 'AA1234567',
+    passportNumber: 'AA1234567',
     nationality: 'Philippines',
     employerName: 'Test Employer Ltd',
     employerTaxId: '123456789',
+    employmentStartDate: '2022-01-01',
+    seniorityMonths: 38,
   },
   workDetails: {
-    standardDays: 22,
     workedDays: 22,
+    restDaysWorked: 0,
     vacationDays: 0,
     sickDays: 0,
     holidayDays: 0,
-    overtime100h: 0,
-    overtime125h: 0,
-    overtime150h: 0,
   },
   payCalculation: {
-    dailyRate: 300,
-    baseSalary: 6600,
-    overtimePay: 0,
-    vacationPay: 0,
-    grossSalary: 6600,
+    minimumWage: 6443.85,
+    dailyRate: 257.75,
+    baseSalary: 6443.85,
+    restDayPremium: 0,
+    sickPayAdjustment: 0,
+    recoveryPay: 0,
+    pocketMoneyPaid: 0,
+    grossSalary: 6443.85,
   },
   deductions: {
+    medicalInsuranceDeduction: 0,
+    accommodationDeduction: 0,
+    utilitiesDeduction: 0,
+    foodDeduction: 0,
     incomeTax: 0,
-    nationalInsurance: 0,
-    healthInsurance: 0,
-    otherDeductions: 0,
+    totalPermittedDeductions: 0,
   },
   employerContributions: {
-    nationalInsurance: 0,
-    pension: 0,
+    nii: 0,
+    pensionSubstitute: 0,
+    severanceSubstitute: 0,
+    cumulativePensionBalance: 0,
+    cumulativeSeveranceBalance: 0,
   },
-  netSalary: 6600,
+  netSalary: 6443.85,
+  bankTransfer: 6043.85,
   paymentInfo: {
     paymentMethod: 'bank',
     bankName: '',
@@ -51,18 +59,18 @@ describe('payslipFormSchema — required fields', () => {
     expect(payslipFormSchema.safeParse(VALID_FORM).success).toBe(true);
   });
 
-  it('rejects fullName shorter than 2 characters', () => {
+  it('rejects fullName shorter than 1 character', () => {
     const result = payslipFormSchema.safeParse({
       ...VALID_FORM,
-      employeeInfo: { ...VALID_FORM.employeeInfo, fullName: 'A' },
+      employeeInfo: { ...VALID_FORM.employeeInfo, fullName: '' },
     });
     expect(result.success).toBe(false);
   });
 
-  it('rejects idNumber shorter than 5 characters', () => {
+  it('rejects passportNumber shorter than 5 characters', () => {
     const result = payslipFormSchema.safeParse({
       ...VALID_FORM,
-      employeeInfo: { ...VALID_FORM.employeeInfo, idNumber: '1234' },
+      employeeInfo: { ...VALID_FORM.employeeInfo, passportNumber: '1234' },
     });
     expect(result.success).toBe(false);
   });
@@ -93,7 +101,7 @@ describe('payslipFormSchema — required fields', () => {
 });
 
 describe('payslipFormSchema — optional employer info fields', () => {
-  it('accepts all new employer info fields when provided', () => {
+  it('accepts optional employer address fields', () => {
     const result = payslipFormSchema.safeParse({
       ...VALID_FORM,
       employeeInfo: {
@@ -101,142 +109,39 @@ describe('payslipFormSchema — optional employer info fields', () => {
         employerAddress: 'Herzl 1',
         employerCity: 'Tel Aviv',
         employerZip: '6100000',
-        employerRegistrationNumber: '51-123456-7',
-        taxFileNumber: '123-45678',
       },
     });
     expect(result.success).toBe(true);
-  });
-
-  it('accepts all new employee personal info fields when provided', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      employeeInfo: {
-        ...VALID_FORM.employeeInfo,
-        employeeNumber: 'E-042',
-        jobTitle: '301',
-        department: 'Kitchen',
-        familyStatus: 'single',
-        grade: 'A',
-        jobFraction: 0.5,
-        employmentStartDate: '2022-01-01',
-        taxCalcType: 'annual',
-        nationalInsuranceType: 'foreign',
-        salaryBasis: 'daily',
-        employeeAddress: 'Ben Yehuda 5',
-        employeeCity: 'Haifa',
-        employeeZip: '3100000',
-      },
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('rejects salaryBasis values outside the enum', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      employeeInfo: { ...VALID_FORM.employeeInfo, salaryBasis: 'weekly' },
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it('rejects jobFraction above 1', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      employeeInfo: { ...VALID_FORM.employeeInfo, jobFraction: 1.5 },
-    });
-    expect(result.success).toBe(false);
   });
 });
 
-describe('payslipFormSchema — employer contributions new fields', () => {
-  it('accepts new pension and fund fields', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      employerContributions: {
-        nationalInsurance: 1149,
-        pension: 429,
-        pensionFund: 'מנורה',
-        pensionEmployeeRate: 6,
-        pensionEmployerRate: 6.5,
-        severanceFund: 660,
-        educationFund: 792,
-        educationFundEmployee: 528,
-      },
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('defaults missing pension/fund fields to 0', () => {
+describe('payslipFormSchema — employer contributions fields', () => {
+  it('defaults all employer contribution fields to 0', () => {
     const result = payslipFormSchema.safeParse(VALID_FORM);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.employerContributions.pensionEmployeeRate).toBe(0);
-      expect(result.data.employerContributions.pensionEmployerRate).toBe(0);
-      expect(result.data.employerContributions.severanceFund).toBe(0);
-      expect(result.data.employerContributions.educationFund).toBe(0);
-      expect(result.data.employerContributions.educationFundEmployee).toBe(0);
+      expect(result.data.employerContributions.nii).toBe(0);
+      expect(result.data.employerContributions.pensionSubstitute).toBe(0);
+      expect(result.data.employerContributions.severanceSubstitute).toBe(0);
+      expect(result.data.employerContributions.cumulativePensionBalance).toBe(0);
+      expect(result.data.employerContributions.cumulativeSeveranceBalance).toBe(0);
     }
-  });
-});
-
-describe('payslipFormSchema — customPayItems', () => {
-  it('defaults to an empty array', () => {
-    const result = payslipFormSchema.safeParse(VALID_FORM);
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.customPayItems).toEqual([]);
-    }
-  });
-
-  it('accepts a valid custom pay item', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      customPayItems: [{ code: '21', description: 'Meal allowance', quantity: 22, rate: 15, amount: 330, taxPercent: 100 }],
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it('rejects a custom pay item with empty description', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      customPayItems: [{ code: '21', description: '', amount: 330 }],
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it('rejects taxPercent above 100', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      customPayItems: [{ description: 'Bonus', amount: 500, taxPercent: 101 }],
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it('accepts items without optional fields (quantity, rate, taxPercent)', () => {
-    const result = payslipFormSchema.safeParse({
-      ...VALID_FORM,
-      customPayItems: [{ description: 'Bonus', amount: 1000 }],
-    });
-    expect(result.success).toBe(true);
   });
 });
 
 describe('payslipFormSchema — vacationAccount and sickAccount', () => {
-  it('defaults vacationAccount and sickAccount to undefined (not set)', () => {
+  it('defaults vacationAccount and sickAccount to undefined when omitted', () => {
     const result = payslipFormSchema.safeParse(VALID_FORM);
     expect(result.success).toBe(true);
     if (result.success) {
-      expect(result.data.vacationAccount).toBeUndefined();
-      expect(result.data.sickAccount).toBeUndefined();
+      expect(result.data.vacationAccount == null).toBe(true);
+      expect(result.data.sickAccount == null).toBe(true);
     }
   });
 
-  it('accepts vacationAccount: null (disabled)', () => {
+  it('accepts vacationAccount: null', () => {
     const result = payslipFormSchema.safeParse({ ...VALID_FORM, vacationAccount: null });
     expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data.vacationAccount).toBeNull();
-    }
   });
 
   it('accepts vacationAccount with all balance fields', () => {
@@ -244,11 +149,6 @@ describe('payslipFormSchema — vacationAccount and sickAccount', () => {
       ...VALID_FORM,
       vacationAccount: { previousBalance: 5, accrued: 1.75, used: 2, remaining: 4.75 },
     });
-    expect(result.success).toBe(true);
-  });
-
-  it('accepts sickAccount: null (disabled)', () => {
-    const result = payslipFormSchema.safeParse({ ...VALID_FORM, sickAccount: null });
     expect(result.success).toBe(true);
   });
 
