@@ -1,6 +1,6 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useApiClient } from '@/lib/useApiClient';
 import type { IUser, ApiResponse, FormListItem } from '@payslips-maker/shared';
 
@@ -14,6 +14,12 @@ const ImpersonationContext = createContext<ImpersonationContextValue | null>(nul
 export function ImpersonationProvider({ children }: { children: React.ReactNode }) {
   const { userId } = useParams<{ userId: string }>();
   const { get } = useApiClient();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (userId) queryClient.invalidateQueries();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   const { data } = useQuery({
     queryKey: ['admin', 'user', userId],

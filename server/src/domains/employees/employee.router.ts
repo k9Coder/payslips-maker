@@ -25,7 +25,10 @@ router.post('/', routeHandler(async (req, res) => {
 }));
 
 router.get('/:id', routeHandler(async (req, res) => {
-  const employee = await getEmployeeById(req.params.id, req.userId!);
+  // Admins can fetch any employee by ID (e.g. while impersonating)
+  const employee = req.isAdmin
+    ? await getEmployeeById(req.params.id)
+    : await getEmployeeById(req.params.id, req.userId!);
   if (!employee) {
     res.status(404).json({ error: 'Employee not found' });
     return;

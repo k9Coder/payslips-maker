@@ -5,11 +5,10 @@ export async function getEmployeesByUser(userId: string) {
   return Employee.find({ userId: new mongoose.Types.ObjectId(userId) }).lean();
 }
 
-export async function getEmployeeById(id: string, userId: string) {
-  return Employee.findOne({
-    _id: new mongoose.Types.ObjectId(id),
-    userId: new mongoose.Types.ObjectId(userId),
-  }).lean();
+export async function getEmployeeById(id: string, userId?: string) {
+  const filter: Record<string, unknown> = { _id: new mongoose.Types.ObjectId(id) };
+  if (userId) filter.userId = new mongoose.Types.ObjectId(userId);
+  return Employee.findOne(filter).lean();
 }
 
 export async function createEmployee(userId: string, data: Record<string, unknown>) {
