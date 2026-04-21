@@ -44,6 +44,9 @@ const AdminUserDetailPage = lazy(() =>
 const AdminFormsPage = lazy(() =>
   import('@/pages/admin/AdminFormsPage').then((m) => ({ default: m.AdminFormsPage }))
 );
+const AdminPayslipConstantsPage = lazy(() =>
+  import('@/pages/admin/AdminPayslipConstantsPage').then((m) => ({ default: m.AdminPayslipConstantsPage }))
+);
 const EmployeeCardsPage = lazy(() =>
   import('@/domains/employees/EmployeeCardsPage').then((m) => ({ default: m.EmployeeCardsPage }))
 );
@@ -201,6 +204,14 @@ function AppRoutes() {
             element={
               <Suspense fallback={<PageLoading />}>
                 <AdminFormsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="admin/payslip-constants"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <AdminPayslipConstantsPage />
               </Suspense>
             }
           />

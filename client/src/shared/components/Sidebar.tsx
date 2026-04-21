@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   LayoutDashboard, Users, CalendarDays, FileText,
-  Settings, HelpCircle, ChevronRight, ChevronLeft, X, ShieldCheck,
+  Settings, HelpCircle, ChevronRight, ChevronLeft, X, ShieldCheck, SlidersHorizontal,
 } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from '../context/SidebarContext';
@@ -20,6 +20,7 @@ const NAV_ITEMS = [
 ] as const;
 
 const ADMIN_NAV_ITEM = { to: '/admin', icon: ShieldCheck, label: 'ניהול' } as const;
+const ADMIN_CONSTANTS_NAV_ITEM = { to: '/admin/payslip-constants', icon: SlidersHorizontal, label: 'קבועי שכר' } as const;
 
 interface SidebarProps {
   className?: string;
@@ -50,6 +51,13 @@ export function Sidebar({ className }: SidebarProps) {
             to={ADMIN_NAV_ITEM.to}
             icon={ADMIN_NAV_ITEM.icon}
             label={ADMIN_NAV_ITEM.label}
+            collapsed={collapsed}
+            onNavigate={closeMobile}
+          />
+          <SidebarItem
+            to={ADMIN_CONSTANTS_NAV_ITEM.to}
+            icon={ADMIN_CONSTANTS_NAV_ITEM.icon}
+            label={ADMIN_CONSTANTS_NAV_ITEM.label}
             collapsed={collapsed}
             onNavigate={closeMobile}
           />
