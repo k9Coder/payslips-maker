@@ -9,18 +9,25 @@ export const payslipFormConfig: FormConfig<PayslipFormValues> = {
   formType: 'payslip',
   schema: payslipFormSchema,
 
-  defaultValues: (_employee: IEmployee): PayslipFormValues => {
+  defaultValues: (employee: IEmployee): PayslipFormValues => {
     const now = new Date();
+    const start = new Date(employee.startDate ?? '');
+    const periodStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const seniorityMonths = isNaN(start.getTime()) ? 0 : Math.max(
+      0,
+      (periodStart.getFullYear() - start.getFullYear()) * 12 +
+      (periodStart.getMonth() - start.getMonth())
+    );
     return {
       period: { month: now.getMonth() + 1, year: now.getFullYear() },
       employeeInfo: {
-        fullName: {},
-        passportNumber: '',
-        nationality: '',
+        fullName: employee.fullName ?? {},
+        passportNumber: employee.passportNumber ?? '',
+        nationality: employee.nationality ?? '',
         employerName: {},
         employerTaxId: '',
-        employmentStartDate: '',
-        seniorityMonths: 0,
+        employmentStartDate: employee.startDate ?? '',
+        seniorityMonths,
       },
       workDetails: { workedDays: 0, restDaysWorked: 0, vacationDays: 0, sickDays: 0, holidayDays: 0 },
       payCalculation: { minimumWage: 0, dailyRate: 0, baseSalary: 0, restDayPremium: 0, sickPayAdjustment: 0, recoveryPay: 0, pocketMoneyPaid: 0, grossSalary: 0 },

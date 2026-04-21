@@ -94,7 +94,17 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
         form.reset(computed);
         setFormReady(true);
       } else {
-        form.reset(config.defaultValues(employee));
+        const defaults = config.defaultValues(employee);
+        if (formType === 'payslip' && currentUser && 'employeeInfo' in defaults) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const ei = (defaults as any).employeeInfo;
+          ei.employerName = currentUser.employerName ?? {};
+          ei.employerTaxId = currentUser.employerTaxId ?? '';
+          ei.employerAddress = currentUser.employerAddress;
+          ei.employerCity = currentUser.employerCity;
+          ei.employerZip = currentUser.employerZip;
+        }
+        form.reset(defaults);
         setFormReady(true);
       }
     }
