@@ -156,21 +156,27 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
     return () => window.removeEventListener('beforeunload', handler);
   }, [form.formState.isDirty]);
 
-  const onSubmit = form.handleSubmit((data) => {
-    if (DEMO_MODE) {
-      toast({ title: 'מצב הדגמה', description: 'שינויים לא נשמרים במצב הדגמה' });
-      return;
+  const onSubmit = form.handleSubmit(
+    (data) => {
+      if (DEMO_MODE) {
+        toast({ title: 'מצב הדגמה', description: 'שינויים לא נשמרים במצב הדגמה' });
+        return;
+      }
+      const baseDto = config.toApiPayload
+        ? config.toApiPayload(data, { formType, employeeId })
+        : { ...data, formType, employeeId };
+      const dto: CreateFormDto = { ...baseDto } as CreateFormDto;
+      if (formId) {
+        updateMutation.mutate(dto);
+      } else {
+        createMutation.mutate(dto);
+      }
+    },
+    (errors) => {
+      console.error('Form validation errors:', errors);
+      toast({ title: 'שגיאת אימות', description: 'נא לבדוק את שדות הטופס', variant: 'destructive' });
     }
-    const baseDto = config.toApiPayload
-      ? config.toApiPayload(data, { formType, employeeId })
-      : { ...data, formType, employeeId };
-    const dto: CreateFormDto = { ...baseDto } as CreateFormDto;
-    if (formId) {
-      updateMutation.mutate(dto);
-    } else {
-      createMutation.mutate(dto);
-    }
-  });
+  );
 
   const handleDuplicate = () => {
     const values = form.getValues();
