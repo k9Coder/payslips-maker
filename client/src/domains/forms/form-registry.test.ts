@@ -91,9 +91,9 @@ describe('payslipFormConfig', () => {
       .toEqual({ en: 'Ana Ramirez' });
   });
 
-  it('defaultValues seeds idNumber from employee passportNumber', () => {
+  it('defaultValues seeds passportNumber from employee', () => {
     const values = config.defaultValues(EMPLOYEE);
-    expect((values as { employeeInfo: { idNumber: string } }).employeeInfo.idNumber)
+    expect((values as { employeeInfo: { passportNumber: string } }).employeeInfo.passportNumber)
       .toBe('AA1234567');
   });
 
@@ -103,9 +103,9 @@ describe('payslipFormConfig', () => {
       .toBe('Philippines');
   });
 
-  it('defaultValues sets standardDays to 22', () => {
+  it('defaultValues sets workedDays to 0', () => {
     const values = config.defaultValues(EMPLOYEE);
-    expect((values as { workDetails: { standardDays: number } }).workDetails.standardDays).toBe(22);
+    expect((values as { workDetails: { workedDays: number } }).workDetails.workedDays).toBe(0);
   });
 
   it('fromApiForm extracts the correct payslip fields', () => {

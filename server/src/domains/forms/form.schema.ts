@@ -4,7 +4,7 @@ const supportedLanguages = ['he', 'en', 'fil', 'th', 'am', 'hi', 'ar'] as const;
 type MultiLangString = Partial<Record<typeof supportedLanguages[number], string>>;
 
 const multiLangStringSchema = z.union([
-  z.string(),
+  z.string().min(2),
   z.record(z.enum(supportedLanguages), z.string().optional()),
 ]) as unknown as z.ZodType<MultiLangString>;
 

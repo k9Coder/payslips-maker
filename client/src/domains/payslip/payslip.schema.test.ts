@@ -67,12 +67,12 @@ describe('payslipFormSchema — required fields', () => {
     expect(result.success).toBe(false);
   });
 
-  it('rejects passportNumber shorter than 5 characters', () => {
+  it('accepts passportNumber of any length including short (relaxed to allow legacy employees)', () => {
     const result = payslipFormSchema.safeParse({
       ...VALID_FORM,
       employeeInfo: { ...VALID_FORM.employeeInfo, passportNumber: '1234' },
     });
-    expect(result.success).toBe(false);
+    expect(result.success).toBe(true);
   });
 
   it('rejects month 0', () => {
