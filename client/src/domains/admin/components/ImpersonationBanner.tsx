@@ -23,7 +23,7 @@ export function ImpersonationBanner() {
 
   if (!isImpersonating) return null;
 
-  const name = targetUser?.fullName ?? userId ?? '';
+  const name = targetUser?.fullName ?? targetUser?.email ?? userId ?? '';
 
   return (
     <div className="sticky top-0 z-50 bg-[#1B2A4A] border-b-2 border-blue-400 px-4 py-3 shadow-lg">
