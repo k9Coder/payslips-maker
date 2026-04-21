@@ -21,16 +21,37 @@ export function SettingsPage() {
 
   const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
+  const [employerNameHe, setEmployerNameHe] = useState('');
+  const [employerTaxId, setEmployerTaxId] = useState('');
+  const [employerAddress, setEmployerAddress] = useState('');
+  const [employerCity, setEmployerCity] = useState('');
+  const [employerZip, setEmployerZip] = useState('');
 
   useEffect(() => {
     if (currentUser) {
       setFullName(currentUser.fullName ?? '');
       setPhone(currentUser.phone ?? '');
+      setEmployerNameHe(currentUser.employerName?.he ?? '');
+      setEmployerTaxId(currentUser.employerTaxId ?? '');
+      setEmployerAddress(currentUser.employerAddress ?? '');
+      setEmployerCity(currentUser.employerCity ?? '');
+      setEmployerZip(currentUser.employerZip ?? '');
     }
   }, [currentUser]);
 
   const updateUser = useMutation({
     mutationFn: () => api.patch('/api/users/me', { fullName, phone }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['currentUser'] }),
+  });
+
+  const updateEmployer = useMutation({
+    mutationFn: () => api.patch('/api/users/me', {
+      employerName: { he: employerNameHe },
+      employerTaxId,
+      employerAddress,
+      employerCity,
+      employerZip,
+    }),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['currentUser'] }),
   });
 
@@ -82,6 +103,43 @@ export function SettingsPage() {
           </Button>
           {updateUser.isSuccess && (
             <p className="text-sm text-teal-600 text-center">הפרטים נשמרו בהצלחה</p>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Employer info */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base text-[#1B2A4A]">פרטי מעסיק</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div>
+            <Label htmlFor="employerNameHe">שם המעסיק (עברית)</Label>
+            <Input id="employerNameHe" value={employerNameHe} onChange={(e) => setEmployerNameHe(e.target.value)} className="mt-1" />
+          </div>
+          <div>
+            <Label htmlFor="employerTaxId">מספר עוסק / ח.פ.</Label>
+            <Input id="employerTaxId" value={employerTaxId} onChange={(e) => setEmployerTaxId(e.target.value)} dir="ltr" className="mt-1" />
+          </div>
+          <div>
+            <Label htmlFor="employerAddress">כתובת</Label>
+            <Input id="employerAddress" value={employerAddress} onChange={(e) => setEmployerAddress(e.target.value)} className="mt-1" />
+          </div>
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <Label htmlFor="employerCity">עיר</Label>
+              <Input id="employerCity" value={employerCity} onChange={(e) => setEmployerCity(e.target.value)} className="mt-1" />
+            </div>
+            <div className="w-28">
+              <Label htmlFor="employerZip">מיקוד</Label>
+              <Input id="employerZip" value={employerZip} onChange={(e) => setEmployerZip(e.target.value)} dir="ltr" className="mt-1" />
+            </div>
+          </div>
+          <Button onClick={() => updateEmployer.mutate()} disabled={updateEmployer.isPending} className="w-full">
+            {updateEmployer.isPending ? 'שומר...' : 'שמור פרטי מעסיק'}
+          </Button>
+          {updateEmployer.isSuccess && (
+            <p className="text-sm text-teal-600 text-center">פרטי המעסיק נשמרו בהצלחה</p>
           )}
         </CardContent>
       </Card>

@@ -11,6 +11,11 @@ const UserSchema = new Schema<UserDocument>(
     phone: { type: String },
     isAdmin: { type: Boolean, default: false },
     hasSubscription: { type: Boolean, default: false },
+    employerName: { type: Map, of: String },
+    employerTaxId: { type: String },
+    employerAddress: { type: String },
+    employerCity: { type: String },
+    employerZip: { type: String },
   },
   { timestamps: true }
 );
