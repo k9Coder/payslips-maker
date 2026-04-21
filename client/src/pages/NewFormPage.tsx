@@ -25,11 +25,12 @@ export function NewFormPage() {
     ? (formTypeParam as FormType)
     : 'payslip';
 
+  const now = new Date();
   const yearParam = searchParams.get('year');
   const monthParam = searchParams.get('month');
-  const year = yearParam ? parseInt(yearParam, 10) : 0;
-  const month = monthParam ? parseInt(monthParam, 10) : 0;
-  const hasWorklogParams = !!employeeId && year > 0 && month > 0;
+  const year = yearParam ? parseInt(yearParam, 10) : now.getFullYear();
+  const month = monthParam ? parseInt(monthParam, 10) : now.getMonth() + 1;
+  const hasWorklogParams = !!employeeId;
 
   const { data: workLogSummary } = useWorkLogMonth(
     hasWorklogParams ? employeeId : '',
