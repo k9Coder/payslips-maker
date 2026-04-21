@@ -11,6 +11,7 @@ import { formRouter } from './domains/forms/form.router';
 import { adminRouter } from './domains/admin/admin.router';
 import { employeeRouter } from './domains/employees/employee.router';
 import worklogRouter from './domains/worklog/worklog.router';
+import { payslipConstantsRouter } from './domains/payslip-constants/payslip-constants.router';
 import { internalMiddleware } from './middleware/internal.middleware';
 import { userInternalRouter } from './domains/users/user.internal.router';
 import { employeeInternalRouter } from './domains/employees/employee.internal.router';
@@ -49,6 +50,7 @@ app.use('/api/forms', formRouter);
 app.use('/api/admin', adminRouter);
 app.use('/api/employees', employeeRouter);
 app.use('/api/worklog', worklogRouter);
+app.use('/api/payslip-constants', payslipConstantsRouter);
 
 // Internal M2M routes (service-to-service only)
 app.use('/api/internal/users', internalMiddleware, userInternalRouter);
@@ -63,22 +65,8 @@ app.use((_req: Request, res: Response) => {
 // Global error handler
 app.use(errorMiddleware);
 
-async function dropLegacyWorklogUniqueIndex(): Promise<void> {
-  try {
-    const mongoose = await import('mongoose');
-    const col = mongoose.default.connection.collection('worklogs');
-    await col.dropIndex('employeeId_1_date_1');
-    logger.info('Dropped legacy worklog unique index (employeeId_1_date_1)');
-  } catch (err: unknown) {
-    const code = (err as { code?: number }).code;
-    if (code === 27) return; // index not found — already gone
-    logger.warn('Could not drop legacy worklog index', { error: String(err) });
-  }
-}
-
 async function start(): Promise<void> {
   await connectDB();
-  await dropLegacyWorklogUniqueIndex();
   const port = Number(env.PORT);
   app.listen(port, () => {
     logger.info(`Server running on port ${port}`, { env: env.NODE_ENV });

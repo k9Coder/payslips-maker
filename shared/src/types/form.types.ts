@@ -149,6 +149,22 @@ export interface IFinalSettlementData {
   netTotal: number;                  // calculated
 }
 
+export interface IPayslipConstants {
+  _id?: string;
+  minimumMonthlyWage: number;
+  dailyRate: number;
+  restDayPremium: number;
+  medicalDeductionCeiling: number;
+  utilitiesDeductionCeiling: number;
+  recoveryPayDayRate: number;
+  niiEmployerRate: number;
+  pensionSubstituteRate: number;
+  severanceSubstituteRate: number;
+  pocketMoneyPerWeekend: number;
+  effectiveFrom: string;
+  updatedAt?: Date | string;
+}
+
 export interface IForm {
   _id: string;
   userId: string;       // producer — who generated this form
