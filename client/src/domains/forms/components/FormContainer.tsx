@@ -16,7 +16,8 @@ import { SendEmailDialog } from './SendEmailDialog';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { toast } from '@/hooks/use-toast';
-import type { ApiResponse, IForm, FormType, CreateFormDto, WorkLogMonthSummary } from '@payslips-maker/shared';
+import type { ApiResponse, IForm, FormType, CreateFormDto, WorkLogMonthSummary, IPayslipConstants } from '@payslips-maker/shared';
+import { computePayslip } from '@/domains/payslip/payslip.calculations';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
@@ -25,9 +26,11 @@ interface FormContainerProps {
   employeeId: string;
   formId?: string;
   workLogOverride?: WorkLogMonthSummary;
+  previousPayslip?: IForm | null;
+  constants?: IPayslipConstants;
 }
 
-export function FormContainer({ formType, employeeId, formId, workLogOverride }: FormContainerProps) {
+export function FormContainer({ formType, employeeId, formId, workLogOverride, previousPayslip, constants }: FormContainerProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const resolve = useResolveMultiLang();
@@ -65,34 +68,34 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride }:
     if (formId && existingForm) {
       form.reset(config.fromApiForm(existingForm));
     } else if (!formId) {
-      const defaults = config.defaultValues(employee);
-      if (workLogOverride && formType === 'payslip') {
-        // Merge worklog summary into workDetails
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const d = defaults as any;
-        const merged = {
-          ...d,
-          workDetails: {
-            ...(d.workDetails ?? {}),
-            workedDays: workLogOverride.workDays,
-            vacationDays: workLogOverride.vacationDays,
-            sickDays: workLogOverride.sickDays,
-            holidayDays: workLogOverride.holidayDays,
-            // Place all overtime hours into overtime100h as default bucket
-            overtime100h: workLogOverride.overtimeHours,
-          },
-          period: {
-            month: workLogOverride.month,
-            year: workLogOverride.year,
-          },
+      if (
+        workLogOverride &&
+        formType === 'payslip' &&
+        constants &&
+        currentUser
+      ) {
+        const employerProfile = {
+          employerName: currentUser.employerName ?? {},
+          employerTaxId: currentUser.employerTaxId ?? '',
+          employerAddress: currentUser.employerAddress,
+          employerCity: currentUser.employerCity,
+          employerZip: currentUser.employerZip,
         };
-        form.reset(merged);
+        const computed = computePayslip({
+          employee,
+          employerProfile,
+          worklogSummary: workLogOverride,
+          previousPayslip: previousPayslip ?? null,
+          constants,
+          period: { year: workLogOverride.year, month: workLogOverride.month },
+        });
+        form.reset(computed);
       } else {
-        form.reset(defaults);
+        form.reset(config.defaultValues(employee));
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [employee, existingForm, formId, workLogOverride]);
+  }, [employee, existingForm, formId, workLogOverride, previousPayslip, constants, currentUser]);
 
   const createMutation = useMutation({
     mutationFn: (dto: CreateFormDto) =>

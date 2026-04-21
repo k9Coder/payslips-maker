@@ -5,6 +5,8 @@ import { lazy, Suspense, useEffect } from 'react';
 import { PageLoading } from '@/shared/components/LoadingSpinner';
 import type { FormType } from '@payslips-maker/shared';
 import { useWorkLogMonth } from '@/domains/worklog/hooks/useWorkLog';
+import { usePreviousPayslip } from '@/domains/payslip/hooks/usePreviousPayslip';
+import { usePayslipConstants } from '@/domains/admin/hooks/usePayslipConstants';
 
 const FormContainer = lazy(() =>
   import('@/domains/forms/components/FormContainer').then((m) => ({ default: m.FormContainer }))
@@ -29,12 +31,13 @@ export function NewFormPage() {
   const month = monthParam ? parseInt(monthParam, 10) : 0;
   const hasWorklogParams = !!employeeId && year > 0 && month > 0;
 
-  // Fetch worklog summary only when all three params are present
   const { data: workLogSummary } = useWorkLogMonth(
     hasWorklogParams ? employeeId : '',
     year,
     month
   );
+  const { data: previousPayslip } = usePreviousPayslip(employeeId, year, month, hasWorklogParams);
+  const { data: constants } = usePayslipConstants();
 
   // Redirect to employees page if no employee selected
   useEffect(() => {
@@ -63,6 +66,8 @@ export function NewFormPage() {
           formType={formType}
           employeeId={employeeId}
           workLogOverride={hasWorklogParams ? workLogSummary : undefined}
+          previousPayslip={hasWorklogParams ? (previousPayslip ?? null) : undefined}
+          constants={hasWorklogParams ? constants : undefined}
         />
       </Suspense>
     </div>
