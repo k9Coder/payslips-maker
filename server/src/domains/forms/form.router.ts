@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { z } from 'zod';
 import mongoose from 'mongoose';
 import { authMiddleware } from '../../middleware/auth.middleware';
 import { subscriptionMiddleware } from '../../middleware/subscription.middleware';
@@ -66,6 +67,15 @@ router.post('/', authMiddleware, routeHandler(async (req: Request, res: Response
     }
     throw error;
   }
+}));
+
+// GET /api/forms/previous?employeeId=X&year=Y&month=M — must be before /:id
+router.get('/previous', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
+  const employeeId = z.string().min(1).parse(req.query.employeeId);
+  const year = z.coerce.number().int().parse(req.query.year);
+  const month = z.coerce.number().int().min(1).max(12).parse(req.query.month);
+  const form = await FormService.getPreviousPayslip(req.userId!, employeeId, year, month);
+  res.json({ data: form });
 }));
 
 // GET /api/forms/:id
@@ -151,7 +161,7 @@ router.post('/:id/send-email', authMiddleware, subscriptionMiddleware, routeHand
       toName: resolveMultiLangString(employee.fullName, 'he'),
       senderName: user?.fullName ?? 'מעסיק',
       subject: isPayslip
-        ? `תלוש שכר – ${form.period?.month}/${form.period?.year}`
+        ? `מחליף תלוש שכר – ${form.period?.month}/${form.period?.year}`
         : `גמר חשבון – ${resolveMultiLangString(employee.fullName, 'he')}`,
       pdfBuffer,
       pdfFilename: filename,

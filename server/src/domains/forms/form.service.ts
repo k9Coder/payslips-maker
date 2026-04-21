@@ -152,4 +152,31 @@ export const FormService = {
       .sort({ updatedAt: -1 })
       .lean();
   },
+
+  async getPreviousPayslip(
+    userId: string,
+    employeeId: string,
+    year: number,
+    month: number
+  ): Promise<IForm | null> {
+    const form = await Form.findOne({
+      userId: new Types.ObjectId(userId),
+      employeeId: new Types.ObjectId(employeeId),
+      formType: 'payslip',
+      $or: [
+        { 'period.year': { $lt: year } },
+        { 'period.year': year, 'period.month': { $lt: month } },
+      ],
+    })
+      .sort({ 'period.year': -1, 'period.month': -1 })
+      .lean();
+
+    if (!form) return null;
+    return {
+      ...form,
+      _id: form._id.toString(),
+      userId: form.userId.toString(),
+      employeeId: form.employeeId.toString(),
+    } as unknown as IForm;
+  },
 };

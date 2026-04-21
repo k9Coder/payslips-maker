@@ -9,58 +9,57 @@ export interface FormDocument extends Omit<IForm, '_id' | 'userId' | 'employeeId
 const EmployeeInfoSchema = new Schema(
   {
     fullName: { type: Schema.Types.Mixed, required: true },
-    idNumber: { type: String, required: true },
+    passportNumber: { type: String, required: true },
     nationality: { type: String, required: true },
     employerName: { type: Schema.Types.Mixed, required: true },
     employerTaxId: { type: String, required: true },
     employerAddress: String,
     employerCity: String,
     employerZip: String,
-    employerRegistrationNumber: String,
-    taxFileNumber: String,
-    employeeNumber: String,
-    jobTitle: { type: Schema.Types.Mixed },
-    department: { type: Schema.Types.Mixed },
-    familyStatus: String,
-    grade: String,
-    jobFraction: Number,
-    employmentStartDate: String,
-    taxCalcType: String,
-    nationalInsuranceType: String,
-    salaryBasis: { type: String, enum: ['monthly', 'daily', 'hourly'] },
-    employeeAddress: String,
-    employeeCity: String,
-    employeeZip: String,
+    employmentStartDate: { type: String, required: true },
+    seniorityMonths: { type: Number, required: true },
   },
   { _id: false }
 );
 
 const WorkDetailsSchema = new Schema(
   {
-    standardDays: { type: Number, required: true },
     workedDays: { type: Number, required: true },
+    restDaysWorked: { type: Number, default: 0 },
     vacationDays: { type: Number, default: 0 },
     sickDays: { type: Number, default: 0 },
     holidayDays: { type: Number, default: 0 },
-    overtime100h: { type: Number, default: 0 },
-    overtime125h: { type: Number, default: 0 },
-    overtime150h: { type: Number, default: 0 },
   },
   { _id: false }
 );
 
 const PayCalculationSchema = new Schema(
   {
+    minimumWage: { type: Number, required: true },
     dailyRate: { type: Number, required: true },
     baseSalary: { type: Number, required: true },
-    overtimePay: { type: Number, default: 0 },
-    vacationPay: { type: Number, default: 0 },
+    restDayPremium: { type: Number, default: 0 },
+    sickPayAdjustment: { type: Number, default: 0 },
+    recoveryPay: { type: Number, default: 0 },
+    pocketMoneyPaid: { type: Number, default: 0 },
     grossSalary: { type: Number, required: true },
   },
   { _id: false }
 );
 
 const DeductionsSchema = new Schema(
+  {
+    medicalInsuranceDeduction: { type: Number, default: 0 },
+    accommodationDeduction: { type: Number, default: 0 },
+    utilitiesDeduction: { type: Number, default: 0 },
+    foodDeduction: { type: Number, default: 0 },
+    incomeTax: { type: Number, default: 0 },
+    totalPermittedDeductions: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
+
+const FinalSettlementDeductionsSchema = new Schema(
   {
     incomeTax: { type: Number, default: 0 },
     nationalInsurance: { type: Number, default: 0 },
@@ -72,26 +71,11 @@ const DeductionsSchema = new Schema(
 
 const EmployerContributionsSchema = new Schema(
   {
-    nationalInsurance: { type: Number, default: 0 },
-    pension: { type: Number, default: 0 },
-    pensionFund: String,
-    pensionEmployeeRate: { type: Number, default: 0 },
-    pensionEmployerRate: { type: Number, default: 0 },
-    severanceFund: { type: Number, default: 0 },
-    educationFund: { type: Number, default: 0 },
-    educationFundEmployee: { type: Number, default: 0 },
-  },
-  { _id: false }
-);
-
-const CustomPayItemSchema = new Schema(
-  {
-    code: { type: String, default: '' },
-    description: { type: Schema.Types.Mixed, required: true },
-    quantity: Number,
-    rate: Number,
-    amount: { type: Number, required: true },
-    taxPercent: Number,
+    nii: { type: Number, default: 0 },
+    pensionSubstitute: { type: Number, default: 0 },
+    severanceSubstitute: { type: Number, default: 0 },
+    cumulativePensionBalance: { type: Number, default: 0 },
+    cumulativeSeveranceBalance: { type: Number, default: 0 },
   },
   { _id: false }
 );
@@ -129,7 +113,7 @@ const FinalSettlementDataSchema = new Schema(
     noticePeriodDays: Number,
     noticePeriodPay: Number,
     totalGross: Number,
-    deductions: DeductionsSchema,
+    deductions: FinalSettlementDeductionsSchema,
     netTotal: Number,
   },
   { _id: false }
@@ -157,9 +141,9 @@ const FormSchema = new Schema<FormDocument>(
     deductions: { type: DeductionsSchema, required: true },
     employerContributions: { type: EmployerContributionsSchema, required: true },
     netSalary: { type: Number, required: true },
+    bankTransfer: { type: Number, default: 0 },
     paymentInfo: { type: PaymentInfoSchema, required: true },
     finalSettlementData: { type: FinalSettlementDataSchema, default: null },
-    customPayItems: { type: [CustomPayItemSchema], default: [] },
     vacationAccount: { type: VacationAccountSchema, default: null },
     sickAccount: { type: VacationAccountSchema, default: null },
   },
