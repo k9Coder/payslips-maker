@@ -1061,6 +1061,18 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
     } as T;
   }
 
+  // GET /api/worklog  (demo — return empty month summary)
+  if (cleanUrl === '/api/worklog' && method === 'GET') {
+    return {
+      success: true,
+      data: {
+        employeeId: '', userId: '', year: 0, month: 0,
+        workDays: 0, restDays: 0, vacationDays: 0, sickDays: 0, holidayDays: 0,
+        overtimeHours: 0, totalWorkHours: 0, entries: [],
+      },
+    } as T;
+  }
+
   // Fallback — should not happen
   console.warn('[Demo] Unhandled API route:', method, url);
   return { success: false, data: null } as T;

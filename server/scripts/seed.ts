@@ -176,6 +176,7 @@ function buildPayslip(s: PayslipSpec) {
     employeeInfo: s.employeeInfo,
     workDetails: {
       workedDays: s.workedDays,
+      totalWorkHours: s.workedDays * 9,
       restDaysWorked: s.restDaysWorked,
       vacationDays: s.vacationDays,
       sickDays: s.sickDays,
