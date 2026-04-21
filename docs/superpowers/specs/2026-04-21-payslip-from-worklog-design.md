@@ -253,6 +253,56 @@ Section 2 includes a small "ערוך ביומן ←" link back to the worklog fo
 
 ---
 
+---
+
+## Section 4 — Admin-Managed Payslip Constants
+
+### Motivation
+
+PAY_SLIP_101 constants (minimum wage, daily rate, etc.) are updated every April 1st by law. Rather than hardcoding them and requiring a code deploy each year, they are stored in MongoDB and editable by admins only through a dedicated admin UI.
+
+### Data model — `PayslipConstants` collection
+
+Single-document collection (upserted, not a list). Fields:
+
+| Field | Type | April 2026 value |
+|---|---|---|
+| `minimumMonthlyWage` | number | 6443.85 |
+| `dailyRate` | number | 257.75 |
+| `restDayPremium` | number | 426.35 |
+| `medicalDeductionCeiling` | number | 164.91 |
+| `utilitiesDeductionCeiling` | number | 94.34 |
+| `recoveryPayDayRate` | number | 418.00 |
+| `niiEmployerRate` | number | 0.036 |
+| `pensionSubstituteRate` | number | 0.065 |
+| `severanceSubstituteRate` | number | 0.060 |
+| `pocketMoneyPerWeekend` | number | 100.00 |
+| `effectiveFrom` | string (YYYY-MM-DD) | '2026-04-01' |
+| `updatedAt` | Date | auto |
+
+### API
+
+- `GET /api/admin/payslip-constants` — admin only, returns current constants
+- `PATCH /api/admin/payslip-constants` — admin only, updates fields (partial)
+- `GET /api/payslip-constants` — **public authenticated** endpoint, returns current constants (used by client to populate `computePayslip()`)
+
+### Client usage
+
+On payslip form init, constants are fetched from `/api/payslip-constants` (cached via React Query, long stale time). `computePayslip(sources, constants)` receives them as a parameter — no hardcoded values in the calculation function.
+
+### Admin UI
+
+New page/section under admin dashboard: **"קבועי שכר"** (Payslip Constants).  
+Displays all fields as editable number inputs with their Hebrew labels.  
+Shows `effectiveFrom` date. Save button calls `PATCH /api/admin/payslip-constants`.  
+Access-controlled by existing `adminMiddleware`.
+
+### Seed script
+
+Seeds the `PayslipConstants` collection with April 2026 values on first run. Idempotent (upsert by a fixed key).
+
+---
+
 ## Out of Scope
 
 - Recovery pay month selection (when to trigger דמי הבראה) — manual input on the form for now, defaults to 0
@@ -261,7 +311,7 @@ Section 2 includes a small "ערוך ביומן ←" link back to the worklog fo
 
 ---
 
-## Constants (April 2026)
+## Constants (April 2026) — seeded into DB, admin-editable
 
 | Constant | Value |
 |---|---|
