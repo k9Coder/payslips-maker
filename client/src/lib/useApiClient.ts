@@ -4,6 +4,7 @@ import { getDemoResponse } from '@/demo/demoData';
 import { useImpersonation } from '@/domains/admin/context/ImpersonationContext';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
+const API_BASE = import.meta.env.VITE_API_BASE_URL ?? '';
 
 export function useApiClient() {
   const { getToken } = useAuth();
@@ -19,7 +20,7 @@ export function useApiClient() {
 
     const token = await getToken();
 
-    const res = await fetch(url, {
+    const res = await fetch(`${API_BASE}${url}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ export function useApiClient() {
   async function postSync(email: string, fullName: string): Promise<void> {
     if (DEMO_MODE) return;
     const token = await getToken();
-    await fetch('/api/users/sync', {
+    await fetch(`${API_BASE}/api/users/sync`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
