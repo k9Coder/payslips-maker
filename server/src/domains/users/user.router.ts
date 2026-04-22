@@ -49,7 +49,10 @@ router.post('/sync', routeHandler(async (req: Request, res: Response): Promise<v
 
   const verified = await verifyToken(token, {
     secretKey: env.CLERK_SECRET_KEY,
-    authorizedParties: ['http://localhost:5173'],
+    authorizedParties: [
+      'http://localhost:5173',
+      'https://k9coder.github.io',
+    ],
   });
   const clerkId = verified.sub;
 
