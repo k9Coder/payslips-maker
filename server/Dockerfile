@@ -24,9 +24,10 @@ COPY package.json package-lock.json ./
 COPY server/package.json ./server/
 RUN npm ci --workspace=server --omit=dev
 
-# Place compiled shared directly in node_modules (avoids workspace symlink issues)
-COPY shared/package.json ./node_modules/@payslips-maker/shared/package.json
-COPY --from=builder /app/shared/dist ./node_modules/@payslips-maker/shared/dist
+# Remove any symlink npm created for @payslips-maker/shared, then install it as real files
+RUN rm -rf /app/node_modules/@payslips-maker/shared && mkdir -p /app/node_modules/@payslips-maker/shared
+COPY shared/package.json /app/node_modules/@payslips-maker/shared/package.json
+COPY --from=builder /app/shared/dist /app/node_modules/@payslips-maker/shared/dist
 
 # Copy compiled server
 COPY --from=builder /app/server/dist ./server/dist
