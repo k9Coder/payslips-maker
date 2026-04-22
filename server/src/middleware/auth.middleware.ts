@@ -23,7 +23,7 @@ export async function authMiddleware(
   try {
     const verified = await verifyToken(token, {
       secretKey: env.CLERK_SECRET_KEY,
-      authorizedParties: ['http://localhost:5173'],
+      authorizedParties: ['http://localhost:5173', 'https://k9coder.github.io'],
     });
     const clerkId = verified.sub;
 
