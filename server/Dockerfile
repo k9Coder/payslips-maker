@@ -26,6 +26,7 @@ COPY server/package.json ./server/
 RUN npm ci --workspace=shared --workspace=server --omit=dev
 
 # Copy compiled output
+COPY --from=builder /app/shared/dist ./shared/dist
 COPY --from=builder /app/server/dist ./server/dist
 
 EXPOSE 3001
