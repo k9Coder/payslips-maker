@@ -9,11 +9,17 @@ export const UserService = {
     email: string,
     fullName: string
   ): Promise<IUser> {
+    logger.info('createUserFromClerk called', { clerkId, email, fullName });
+    
     const existing = await User.findOne({ clerkId });
-    if (existing) return existing.toObject() as unknown as IUser;
+    if (existing) {
+      logger.info('User already exists', { clerkId });
+      return existing.toObject() as unknown as IUser;
+    }
 
+    logger.info('Creating new user in MongoDB', { clerkId, email, fullName });
     const user = await User.create({ clerkId, email, fullName });
-    logger.info('User created from Clerk webhook', { clerkId, email });
+    logger.info('User created successfully in MongoDB', { clerkId, mongoId: user._id, email });
     return user.toObject() as unknown as IUser;
   },
 

@@ -19,11 +19,18 @@ interface ClerkUserCreatedEvent {
 type ClerkWebhookEvent = ClerkUserCreatedEvent | { type: string; data: unknown };
 
 router.post('/', async (req: Request, res: Response): Promise<void> => {
+  logger.info('Clerk webhook received', { 
+    headers: req.headers,
+    bodyType: typeof req.body,
+    bodyLength: Buffer.isBuffer(req.body) ? req.body.length : 'N/A'
+  });
+
   const svixId = req.headers['svix-id'] as string;
   const svixTimestamp = req.headers['svix-timestamp'] as string;
   const svixSignature = req.headers['svix-signature'] as string;
 
   if (!svixId || !svixTimestamp || !svixSignature) {
+    logger.warn('Missing svix headers', { svixId, svixTimestamp, svixSignature });
     res.status(400).json({ error: 'Missing svix headers' });
     return;
   }
@@ -37,6 +44,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
       'svix-timestamp': svixTimestamp,
       'svix-signature': svixSignature,
     }) as ClerkWebhookEvent;
+    logger.info('Webhook verified', { eventType: event.type });
   } catch (error) {
     logger.warn('Clerk webhook verification failed', { error: String(error) });
     res.status(400).json({ error: 'Webhook verification failed' });
@@ -48,12 +56,20 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const email = email_addresses[0]?.email_address ?? '';
     const fullName = `${first_name ?? ''} ${last_name ?? ''}`.trim() || email;
 
+    logger.info('Processing user.created event', { clerkId: id, email, fullName });
+
     try {
-      await UserService.createUserFromClerk(id, email, fullName);
-      logger.info('User created via webhook', { clerkId: id, email });
+      const result = await UserService.createUserFromClerk(id, email, fullName);
+      logger.info('User created via webhook', { clerkId: id, email, mongoId: result._id });
     } catch (error) {
-      logger.error('Failed to create user from webhook', { error: String(error), clerkId: id });
+      logger.error('Failed to create user from webhook', { 
+        error: String(error), 
+        clerkId: id,
+        stack: error instanceof Error ? error.stack : 'N/A'
+      });
     }
+  } else {
+    logger.info('Webhook event type not user.created', { eventType: event.type });
   }
 
   res.status(200).json({ received: true });
