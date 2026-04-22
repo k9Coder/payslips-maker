@@ -19,11 +19,12 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Install only production deps (workspace setup creates the @payslips-maker/shared symlink)
+# Install production deps — root-level npm ci creates inter-workspace symlinks
 COPY package.json package-lock.json ./
 COPY shared/package.json ./shared/
 COPY server/package.json ./server/
-RUN npm ci --workspace=shared --workspace=server --omit=dev
+COPY client/package.json ./client/
+RUN npm ci --omit=dev
 
 # Copy compiled output
 COPY --from=builder /app/shared/dist ./shared/dist
