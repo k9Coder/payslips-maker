@@ -11,8 +11,8 @@ import { UserService } from '../users/user.service';
 import { createFormSchema, updateFormSchema } from './form.schema';
 import { sendEmailSchema } from '../email/email.schema';
 import { routeHandler, AppError } from '../../middleware/routeHandler';
-import { resolveMultiLangString } from '@payslips-maker/shared';
 import type { FormType } from '@payslips-maker/shared';
+import { resolveMultiLangString } from '../../utils/multiLang';
 
 const router = Router();
 

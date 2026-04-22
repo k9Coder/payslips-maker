@@ -19,17 +19,12 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-# Install server production deps only
+# Install server production deps
 COPY package.json package-lock.json ./
 COPY server/package.json ./server/
 RUN npm ci --workspace=server --omit=dev
 
-# Remove any symlink npm created for @payslips-maker/shared, then install it as real files
-RUN rm -rf /app/node_modules/@payslips-maker/shared && mkdir -p /app/node_modules/@payslips-maker/shared
-COPY shared/package.json /app/node_modules/@payslips-maker/shared/package.json
-COPY --from=builder /app/shared/dist /app/node_modules/@payslips-maker/shared/dist
-
-# Copy compiled server
+# Copy compiled server (no shared runtime dependency)
 COPY --from=builder /app/server/dist ./server/dist
 
 EXPOSE 3001
