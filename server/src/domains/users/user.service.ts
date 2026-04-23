@@ -11,16 +11,41 @@ export const UserService = {
   ): Promise<IUser> {
     logger.info('createUserFromClerk called', { clerkId, email, fullName });
     
-    const existing = await User.findOne({ clerkId });
-    if (existing) {
-      logger.info('User already exists', { clerkId });
-      return existing.toObject() as unknown as IUser;
+    // Check if user exists by clerkId first
+    let user = await User.findOne({ clerkId });
+    if (user) {
+      logger.info('User already exists by clerkId', { clerkId });
+      return user.toObject() as unknown as IUser;
     }
 
-    logger.info('Creating new user in MongoDB', { clerkId, email, fullName });
-    const user = await User.create({ clerkId, email, fullName });
-    logger.info('User created successfully in MongoDB', { clerkId, mongoId: user._id, email });
-    return user.toObject() as unknown as IUser;
+    // Try to upsert by clerkId (will use email from setOnInsert if new)
+    try {
+      user = await User.findOneAndUpdate(
+        { clerkId },
+        { $setOnInsert: { clerkId, email, fullName, isAdmin: false } },
+        { upsert: true, new: true }
+      );
+      if(!user){
+        throw new Error('failed to create user, idk why.');
+      }
+      logger.info('User created from Clerk webhook', { clerkId, mongoId: user._id, email });
+      return user.toObject() as unknown as IUser;
+    } catch (error) {
+      // If E11000 error on email, try to update existing user by email
+      if (error instanceof Error && error.message.includes('E11000') && error.message.includes('email')) {
+        logger.warn('Email conflict, updating existing user', { email, clerkId });
+        user = await User.findOneAndUpdate(
+          { email },
+          { clerkId, fullName },
+          { new: true }
+        );
+        if (user) {
+          logger.info('User updated with new clerkId', { email, clerkId, mongoId: user._id });
+          return user.toObject() as unknown as IUser;
+        }
+      }
+      throw error;
+    }
   },
 
   async syncUser(
