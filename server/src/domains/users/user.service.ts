@@ -7,9 +7,10 @@ export const UserService = {
   async createUserFromClerk(
     clerkId: string,
     email: string,
-    fullName: string
+    fullName: string,
+    isAdmin: boolean = false
   ): Promise<IUser> {
-    logger.info('createUserFromClerk called', { clerkId, email, fullName });
+    logger.info('createUserFromClerk called', { clerkId, email, fullName, isAdmin });
     
     // Check if user exists by clerkId first
     let user = await User.findOne({ clerkId });
@@ -22,7 +23,7 @@ export const UserService = {
     try {
       user = await User.findOneAndUpdate(
         { clerkId },
-        { $setOnInsert: { clerkId, email, fullName, isAdmin: false } },
+        { $setOnInsert: { clerkId, email, fullName, isAdmin } },
         { upsert: true, new: true }
       );
       if(!user){

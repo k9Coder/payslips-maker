@@ -4,6 +4,8 @@ import { UserService } from '../domains/users/user.service';
 import { env } from '../infrastructure/env';
 import { logger } from '../infrastructure/logger/logger';
 
+const ALLOWED_EMAILS = ['Holdingliat@gmail.com', 'yarinmagdaci@gmail.com', 'yarin0600@gmail.com', 'omermfla@gmail.com'];
+
 const router = Router();
 
 interface ClerkUserCreatedEvent {
@@ -55,12 +57,13 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
     const { id, email_addresses, first_name, last_name } = (event as ClerkUserCreatedEvent).data;
     const email = email_addresses[0]?.email_address ?? '';
     const fullName = `${first_name ?? ''} ${last_name ?? ''}`.trim() || email;
+    const isAdmin = ALLOWED_EMAILS.includes(email);
 
-    logger.info('Processing user.created event', { clerkId: id, email, fullName });
+    logger.info('Processing user.created event', { clerkId: id, email, fullName, isAdmin });
 
     try {
-      const result = await UserService.createUserFromClerk(id, email, fullName);
-      logger.info('User created via webhook', { clerkId: id, email, mongoId: result._id });
+      const result = await UserService.createUserFromClerk(id, email, fullName, isAdmin);
+      logger.info('User created via webhook', { clerkId: id, email, mongoId: result._id, isAdmin });
     } catch (error) {
       logger.error('Failed to create user from webhook', { 
         error: String(error), 
