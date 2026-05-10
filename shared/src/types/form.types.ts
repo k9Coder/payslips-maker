@@ -41,6 +41,7 @@ export interface IWorkDetails {
 export interface IPayCalculation {
   minimumWage: number;
   dailyRate: number;
+  hourlyRate: number;
   baseSalary: number;
   restDayPremium: number;
   sickPayAdjustment: number;
@@ -127,6 +128,7 @@ export interface IFinalSettlementData {
 export interface IPayslipConstants {
   _id?: string;
   minimumMonthlyWage: number;
+  minimumHourlyWage: number;
   dailyRate: number;
   restDayPremium: number;
   medicalDeductionCeiling: number;
