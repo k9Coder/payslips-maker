@@ -36,7 +36,7 @@ const BASE_DTO = {
     seniorityMonths: 38,
   },
   workDetails: { workedDays: 22, totalWorkHours: 0, restDaysWorked: 0, vacationDays: 0, sickDays: 0, holidayDays: 0 },
-  payCalculation: { minimumWage: 6443.85, dailyRate: 257.75, baseSalary: 6443.85, restDayPremium: 0, sickPayAdjustment: 0, recoveryPay: 0, pocketMoneyPaid: 0, grossSalary: 6443.85 },
+  payCalculation: { minimumWage: 6443.85, dailyRate: 257.75, hourlyRate: 35.40, baseSalary: 6442.80, restDayPremium: 0, sickPayAdjustment: 0, recoveryPay: 0, pocketMoneyPaid: 0, grossSalary: 6442.80 },
   deductions: { medicalInsuranceDeduction: 0, accommodationDeduction: 0, utilitiesDeduction: 0, foodDeduction: 0, incomeTax: 0, totalPermittedDeductions: 0 },
   employerContributions: { nii: 0, pensionSubstitute: 0, severanceSubstitute: 0, cumulativePensionBalance: 0, cumulativeSeveranceBalance: 0 },
   netSalary: 6443.85,

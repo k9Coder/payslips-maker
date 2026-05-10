@@ -6,6 +6,7 @@ export interface PayslipConstantsDocument extends Omit<IPayslipConstants, '_id'>
 const PayslipConstantsSchema = new Schema<PayslipConstantsDocument>(
   {
     minimumMonthlyWage: { type: Number, required: true },
+    minimumHourlyWage: { type: Number, required: true },
     dailyRate: { type: Number, required: true },
     restDayPremium: { type: Number, required: true },
     medicalDeductionCeiling: { type: Number, required: true },

@@ -9,6 +9,7 @@ const router = Router();
 
 const APRIL_2026_DEFAULTS = {
   minimumMonthlyWage: 6443.85,
+  minimumHourlyWage: 35.40,
   dailyRate: 257.75,
   restDayPremium: 426.35,
   medicalDeductionCeiling: 164.91,
@@ -23,6 +24,7 @@ const APRIL_2026_DEFAULTS = {
 
 const patchConstantsSchema = z.object({
   minimumMonthlyWage: z.number().positive().optional(),
+  minimumHourlyWage: z.number().positive().optional(),
   dailyRate: z.number().positive().optional(),
   restDayPremium: z.number().positive().optional(),
   medicalDeductionCeiling: z.number().positive().optional(),

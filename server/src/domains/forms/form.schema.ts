@@ -38,6 +38,7 @@ const workDetailsSchema = z.object({
 const payCalculationSchema = z.object({
   minimumWage: z.number().min(0),
   dailyRate: z.number().min(0),
+  hourlyRate: z.number().min(0).default(0),
   baseSalary: z.number().min(0),
   restDayPremium: z.number().default(0),
   sickPayAdjustment: z.number().default(0),
