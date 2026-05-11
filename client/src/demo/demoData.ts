@@ -1,4 +1,4 @@
-import type { IUser, IForm, FormListItem, AdminUserView, IEmployee } from '@payslips-maker/shared';
+﻿import type { IUser, IForm, FormListItem, AdminUserView, IEmployee } from '@payslips-maker/shared';
 
 // ─── Demo Users ────────────────────────────────────────────────────────────────
 
@@ -95,6 +95,7 @@ const FORM_ADMIN_1: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 400,
+    hourlyRate: 35.40,
     baseSalary: 8800,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -157,6 +158,7 @@ const FORM_ADMIN_2: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 450,
+    hourlyRate: 35.40,
     baseSalary: 9000,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -219,6 +221,7 @@ const FORM_ADMIN_3: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 477,
+    hourlyRate: 35.40,
     baseSalary: 10017,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -283,6 +286,7 @@ const FORM_DAVID_1: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 350,
+    hourlyRate: 35.40,
     baseSalary: 7000,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -345,6 +349,7 @@ const FORM_DAVID_2: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 380,
+    hourlyRate: 35.40,
     baseSalary: 8360,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -407,6 +412,7 @@ const FORM_SARAH_1: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 320,
+    hourlyRate: 35.40,
     baseSalary: 6720,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -469,6 +475,7 @@ const FORM_SARAH_2: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 320,
+    hourlyRate: 35.40,
     baseSalary: 6080,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -531,6 +538,7 @@ const FORM_YOSEF_1: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 290,
+    hourlyRate: 35.40,
     baseSalary: 6670,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -593,6 +601,7 @@ const FORM_YOSEF_2: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 295,
+    hourlyRate: 35.40,
     baseSalary: 6195,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -655,6 +664,7 @@ const FORM_RACHEL_1: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 500,
+    hourlyRate: 35.40,
     baseSalary: 10000,
     restDayPremium: 0,
     sickPayAdjustment: 0,
@@ -717,6 +727,7 @@ const FORM_RACHEL_2: IForm = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 500,
+    hourlyRate: 35.40,
     baseSalary: 9000,
     restDayPremium: 0,
     sickPayAdjustment: 0,

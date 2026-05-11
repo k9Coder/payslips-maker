@@ -33,6 +33,7 @@ const defaultValues: PayslipFormValues = {
   payCalculation: {
     minimumWage: 0,
     dailyRate: 0,
+    hourlyRate: 0,
     baseSalary: 0,
     restDayPremium: 0,
     sickPayAdjustment: 0,

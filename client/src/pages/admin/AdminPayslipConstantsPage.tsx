@@ -9,6 +9,7 @@ import type { IPayslipConstants } from '@payslips-maker/shared';
 
 const FIELD_LABELS: Record<keyof Omit<IPayslipConstants, '_id' | 'updatedAt'>, string> = {
   minimumMonthlyWage: 'שכר מינימום חודשי (₪)',
+  minimumHourlyWage: 'שכר מינימום שעתי (₪)',
   dailyRate: 'שכר יומי (₪)',
   restDayPremium: 'גמול יום מנוחה/חג (₪)',
   medicalDeductionCeiling: 'תקרת ניכוי ביטוח רפואי (₪)',
