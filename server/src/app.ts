@@ -9,6 +9,7 @@ import './domains/users/user.model';
 import './domains/forms/form.model';
 import './domains/worklog/worklog.model';
 import './domains/payslip-constants/payslip-constants.model';
+import './domains/subscriptions/subscription.model';
 import { clerkWebhookRouter } from './webhooks/clerk.webhook';
 import { userRouter } from './domains/users/user.router';
 import { formRouter } from './domains/forms/form.router';
@@ -16,6 +17,7 @@ import { adminRouter } from './domains/admin/admin.router';
 import { employeeRouter } from './domains/employees/employee.router';
 import worklogRouter from './domains/worklog/worklog.router';
 import { payslipConstantsRouter } from './domains/payslip-constants/payslip-constants.router';
+import { subscriptionRouter } from './domains/subscriptions/subscription.router';
 import { internalMiddleware } from './middleware/internal.middleware';
 import { userInternalRouter } from './domains/users/user.internal.router';
 import { employeeInternalRouter } from './domains/employees/employee.internal.router';
@@ -55,6 +57,7 @@ app.use('/api/admin', adminRouter);
 app.use('/api/employees', employeeRouter);
 app.use('/api/worklog', worklogRouter);
 app.use('/api/payslip-constants', payslipConstantsRouter);
+app.use('/api/subscriptions', subscriptionRouter);
 
 // Internal M2M routes (service-to-service only)
 app.use('/api/internal/users', internalMiddleware, userInternalRouter);
