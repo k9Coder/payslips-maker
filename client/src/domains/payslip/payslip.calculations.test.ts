@@ -4,6 +4,7 @@ import type { IEmployee, IPayslipConstants, WorkLogMonthSummary, IForm } from '@
 
 const CONSTANTS: IPayslipConstants = {
   minimumMonthlyWage: 6443.85,
+  minimumHourlyWage: 35.40,
   dailyRate: 257.75,
   restDayPremium: 426.35,
   medicalDeductionCeiling: 164.91,
@@ -45,7 +46,7 @@ const WORKLOG: WorkLogMonthSummary = {
   sickDays: 0,
   holidayDays: 0,
   overtimeHours: 0,
-  totalWorkHours: 0,
+  totalWorkHours: 182,
   entries: [],
 };
 
@@ -55,9 +56,10 @@ const EMPLOYER = {
 };
 
 describe('computePayslip', () => {
-  it('calculates base salary = minimum wage', () => {
+  it('calculates base salary = totalWorkHours × minimumHourlyWage', () => {
     const result = computePayslip({ employee: EMPLOYEE, employerProfile: EMPLOYER, worklogSummary: { ...WORKLOG, restDays: 0 }, previousPayslip: null, constants: CONSTANTS, period: { year: 2026, month: 4 } });
-    expect(result.payCalculation.baseSalary).toBe(6443.85);
+    expect(result.payCalculation.hourlyRate).toBe(35.40);
+    expect(result.payCalculation.baseSalary).toBe(6442.80); // 182 × 35.40
   });
 
   it('calculates rest day premium = restDays × 426.35', () => {

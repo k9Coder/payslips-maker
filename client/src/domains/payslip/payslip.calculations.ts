@@ -56,7 +56,7 @@ export function computePayslip(sources: ComputePayslipSources): PayslipFormValue
     (periodStart.getMonth() - start.getMonth());
 
   // Pay
-  const baseSalary = r(constants.minimumMonthlyWage);
+  const baseSalary = r(worklogSummary.totalWorkHours * constants.minimumHourlyWage);
   const restDayPremium = r(worklogSummary.restDays * constants.restDayPremium);
 
   // Sick pay adjustment
@@ -156,6 +156,7 @@ export function computePayslip(sources: ComputePayslipSources): PayslipFormValue
     payCalculation: {
       minimumWage: constants.minimumMonthlyWage,
       dailyRate: constants.dailyRate,
+      hourlyRate: constants.minimumHourlyWage,
       baseSalary,
       restDayPremium,
       sickPayAdjustment,

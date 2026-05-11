@@ -22,12 +22,13 @@ const VALID_FORM = {
   payCalculation: {
     minimumWage: 6443.85,
     dailyRate: 257.75,
-    baseSalary: 6443.85,
+    hourlyRate: 35.40,
+    baseSalary: 6442.80,
     restDayPremium: 0,
     sickPayAdjustment: 0,
     recoveryPay: 0,
     pocketMoneyPaid: 0,
-    grossSalary: 6443.85,
+    grossSalary: 6442.80,
   },
   deductions: {
     medicalInsuranceDeduction: 0,
@@ -44,7 +45,7 @@ const VALID_FORM = {
     cumulativePensionBalance: 0,
     cumulativeSeveranceBalance: 0,
   },
-  netSalary: 6443.85,
+  netSalary: 6442.80,
   bankTransfer: 6043.85,
   paymentInfo: {
     paymentMethod: 'bank',
