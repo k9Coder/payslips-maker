@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {
   LayoutDashboard, Users, CalendarDays, FileText,
-  Settings, HelpCircle, ChevronRight, ChevronLeft, X, ShieldCheck, SlidersHorizontal,
+  Settings, HelpCircle, ChevronRight, ChevronLeft, X, ShieldCheck, SlidersHorizontal, CreditCard,
 } from 'lucide-react';
 import { SidebarItem } from './SidebarItem';
 import { useSidebar } from '../context/SidebarContext';
@@ -11,12 +11,13 @@ import { CareIcon } from './brand/CareIcon';
 import { useCurrentUser } from '../../hooks/useCurrentUser';
 
 const NAV_ITEMS = [
-  { to: '/dashboard', icon: LayoutDashboard, label: 'ראשי' },
-  { to: '/employees', icon: Users, label: 'כרטיסי עובדים' },
-  { to: '/worklog', icon: CalendarDays, label: 'יומן עבודה' },
-  { to: '/payslips', icon: FileText, label: 'תלושי שכר' },
-  { to: '/settings', icon: Settings, label: 'הגדרות' },
-  { to: '/help', icon: HelpCircle, label: 'עזרה' },
+  { to: '/dashboard',     icon: LayoutDashboard, label: 'ראשי' },
+  { to: '/employees',     icon: Users,           label: 'כרטיסי עובדים' },
+  { to: '/worklog',       icon: CalendarDays,    label: 'יומן עבודה' },
+  { to: '/payslips',      icon: FileText,        label: 'תלושי שכר' },
+  { to: '/subscriptions', icon: CreditCard,      label: 'מנויים' },
+  { to: '/settings',      icon: Settings,        label: 'הגדרות' },
+  { to: '/help',          icon: HelpCircle,      label: 'עזרה' },
 ] as const;
 
 const ADMIN_NAV_ITEM = { to: '/admin', icon: ShieldCheck, label: 'ניהול' } as const;
@@ -90,7 +91,7 @@ export function Sidebar({ className }: SidebarProps) {
         <div className="flex items-center justify-between h-14 px-4 border-b border-gray-200">
           <div className="flex items-center gap-2">
             <CareIcon size={26} />
-            <span className="text-[#1B2A4A] font-bold text-lg" dir="ltr">{BRAND_NAME}</span>
+            <span className="text-[#1B2A4A] font-bold text-lg">{BRAND_NAME}</span>
           </div>
           <button
             onClick={closeMobile}
@@ -120,7 +121,7 @@ export function Sidebar({ className }: SidebarProps) {
           {!collapsed && (
             <div className="flex items-center gap-2 min-w-0">
               <CareIcon size={26} className="shrink-0" />
-              <span className="text-[#1B2A4A] font-bold text-lg truncate" dir="ltr">{BRAND_NAME}</span>
+              <span className="text-[#1B2A4A] font-bold text-lg truncate">{BRAND_NAME}</span>
             </div>
           )}
           {collapsed && <CareIcon size={28} />}

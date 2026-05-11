@@ -59,6 +59,9 @@ const EmployeeFormPage = lazy(() =>
 const WorkLogPage = lazy(() =>
   import('@/domains/worklog/WorkLogPage').then((m) => ({ default: m.WorkLogPage }))
 );
+const SubscriptionsPage = lazy(() =>
+  import('@/pages/SubscriptionsPage').then((m) => ({ default: m.SubscriptionsPage }))
+);
 
 function ImpersonationLayout() {
   return (
@@ -159,6 +162,14 @@ function AppRoutes() {
             element={
               <Suspense fallback={<PageLoading />}>
                 <SettingsPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="subscriptions"
+            element={
+              <Suspense fallback={<PageLoading />}>
+                <SubscriptionsPage />
               </Suspense>
             }
           />
