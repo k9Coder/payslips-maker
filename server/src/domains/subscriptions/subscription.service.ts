@@ -10,7 +10,14 @@ const PLAN_AMOUNTS: Record<string, number> = {
 
 export const SubscriptionService = {
   async getActiveByUserId(userId: string): Promise<ISubscription[]> {
-    const now  = new Date();
+    const now = new Date();
+
+    // Flip any subscriptions that expired without being explicitly cancelled
+    await Subscription.updateMany(
+      { userId: new Types.ObjectId(userId), status: 'active', expiresAt: { $lte: now } },
+      { $set: { status: 'expired' } }
+    );
+
     const docs = await Subscription.find({
       userId:    new Types.ObjectId(userId),
       status:    'active',
