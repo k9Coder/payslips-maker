@@ -20,6 +20,7 @@ export function PaySection() {
     <div className="grid gap-5 sm:grid-cols-2">
       <DisabledField label="שכר מינימום" value={pc.minimumWage} />
       <DisabledField label="שכר יומי" value={pc.dailyRate} />
+      <DisabledField label="שכר שעתי" value={pc.hourlyRate} />
       <DisabledField label="שכר יסוד" value={pc.baseSalary} />
       <DisabledField label="גמול יום מנוחה" value={pc.restDayPremium} />
       <DisabledField label="התאמת מחלה" value={pc.sickPayAdjustment} />
