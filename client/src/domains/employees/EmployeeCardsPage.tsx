@@ -1,13 +1,18 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Plus, Users } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { EmployeeCard } from './components/EmployeeCard';
 import { useEmployees } from './hooks/useEmployees';
+import { useSubscriptions } from '@/domains/subscriptions/hooks/useEmployeeSubscription';
+import { UpgradePrompt } from '@/domains/subscriptions/components/UpgradePrompt';
 
 export function EmployeeCardsPage() {
   const navigate = useNavigate();
   const { data: employees, isLoading } = useEmployees();
+  const { data: subscriptions } = useSubscriptions();
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const hasAnySubscription = (subscriptions ?? []).length > 0;
 
   useEffect(() => {
     if (employees && employees.length === 1) {
@@ -30,7 +35,16 @@ export function EmployeeCardsPage() {
           <Users className="h-6 w-6 text-[#1B2A4A]" />
           <h1 className="text-2xl font-bold text-[#1B2A4A]">כרטיסי עובדים</h1>
         </div>
-        <Button className="w-full sm:w-auto" onClick={() => navigate('/employees/new')}>
+        <Button
+          className="w-full sm:w-auto"
+          onClick={() => {
+            if (employees && employees.length >= 1 && !hasAnySubscription) {
+              setUpgradeOpen(true);
+            } else {
+              navigate('/employees/new');
+            }
+          }}
+        >
           <Plus className="h-4 w-4 ms-2" />
           עובד חדש
         </Button>
@@ -43,6 +57,8 @@ export function EmployeeCardsPage() {
           <Button onClick={() => navigate('/employees/new')}>הוסף עובד ראשון</Button>
         </div>
       )}
+
+      <UpgradePrompt open={upgradeOpen} onClose={() => setUpgradeOpen(false)} reason="employee" />
 
       {employees && employees.length > 1 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
