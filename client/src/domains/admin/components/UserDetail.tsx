@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, Mail, Phone, Crown, ChevronDown, ChevronUp, ExternalLink, UserCog, CalendarDays } from 'lucide-react';
+import { ChevronRight, Mail, Phone, ChevronDown, ChevronUp, ExternalLink, UserCog, CalendarDays } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,7 +11,6 @@ import { useApiClient } from '@/lib/useApiClient';
 import { formatCurrency, formatDate, formatPeriod } from '@/lib/utils';
 import type { IUser, IEmployee, FormListItem } from '@payslips-maker/shared';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
-import { useToggleSubscription } from '../hooks/useToggleSubscription';
 
 function FormTypeBadge({ formType }: { formType: string }) {
   if (formType === 'final_settlement') {
@@ -114,8 +113,6 @@ export function UserDetail() {
   const { t } = useTranslation();
   const { get } = useApiClient();
 
-  const toggleSubscription = useToggleSubscription(id!);
-
   const { data, isLoading } = useQuery({
     queryKey: ['admin', 'user', id],
     queryFn: () =>
@@ -145,7 +142,6 @@ export function UserDetail() {
             <CardTitle className="text-2xl">{user.fullName}</CardTitle>
             <div className="flex items-center gap-2">
               {user.isAdmin && <Badge variant="secondary">מנהל</Badge>}
-              {user.hasSubscription && <Badge variant="default">מנוי פעיל</Badge>}
               <Button variant="outline" size="sm" className="gap-1" asChild>
                 <Link to={`/${user._id}/dashboard`}>
                   <UserCog className="h-4 w-4" />
@@ -157,16 +153,6 @@ export function UserDetail() {
                   <CalendarDays className="h-4 w-4" />
                   יומן עבודה
                 </Link>
-              </Button>
-              <Button
-                variant={user.hasSubscription ? 'default' : 'outline'}
-                size="sm"
-                className="gap-1"
-                disabled={toggleSubscription.isPending}
-                onClick={() => toggleSubscription.mutate(!user.hasSubscription)}
-              >
-                <Crown className="h-4 w-4" />
-                {user.hasSubscription ? 'בטל מנוי' : 'הפעל מנוי'}
               </Button>
             </div>
           </div>

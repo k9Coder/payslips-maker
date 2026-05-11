@@ -8,7 +8,6 @@ export const DEMO_USER: IUser = {
   email: 'israel@demo.local',
   fullName: 'ישראל האדמין',
   isAdmin: true,
-  hasSubscription: true,
   createdAt: '2024-01-15T08:00:00.000Z',
   updatedAt: '2024-01-15T08:00:00.000Z',
 };
@@ -19,7 +18,6 @@ const DAVID_COHEN: IUser = {
   email: 'david.cohen@demo.local',
   fullName: 'דוד כהן',
   isAdmin: false,
-  hasSubscription: false,
   createdAt: '2024-02-01T08:00:00.000Z',
   updatedAt: '2024-02-01T08:00:00.000Z',
 };
@@ -30,7 +28,6 @@ const SARAH_LEVI: IUser = {
   email: 'sarah.levi@demo.local',
   fullName: 'שרה לוי',
   isAdmin: false,
-  hasSubscription: false,
   createdAt: '2024-03-10T08:00:00.000Z',
   updatedAt: '2024-03-10T08:00:00.000Z',
 };
@@ -41,7 +38,6 @@ const YOSEF_MIZRAHI: IUser = {
   email: 'yosef.mizrahi@demo.local',
   fullName: 'יוסף מזרחי',
   isAdmin: false,
-  hasSubscription: false,
   createdAt: '2024-04-05T08:00:00.000Z',
   updatedAt: '2024-04-05T08:00:00.000Z',
 };
@@ -52,7 +48,6 @@ const RACHEL_ABRAHAM: IUser = {
   email: 'rachel.abraham@demo.local',
   fullName: 'רחל אברהם',
   isAdmin: false,
-  hasSubscription: false,
   createdAt: '2024-05-20T08:00:00.000Z',
   updatedAt: '2024-05-20T08:00:00.000Z',
 };
@@ -1021,13 +1016,6 @@ export function getDemoResponse<T>(url: string, method: string, impersonateUserI
     const emp = ALL_DEMO_EMPLOYEES.find((e) => e._id === employeeMatch[1]);
     if (method === 'DELETE') return { success: true, data: null } as T;
     return { success: true, data: emp ?? null } as T;
-  }
-
-  // PATCH /api/admin/users/:id/subscription
-  const subscriptionMatch = cleanUrl.match(/^\/api\/admin\/users\/([^/]+)\/subscription$/);
-  if (subscriptionMatch && method === 'PATCH') {
-    const user = ALL_DEMO_USERS.find((u) => u._id === subscriptionMatch[1]);
-    return { success: true, data: user ?? null } as T;
   }
 
   // GET /api/admin/users/:id

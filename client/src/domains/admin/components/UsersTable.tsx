@@ -59,9 +59,6 @@ export function UsersTable() {
                         {user.isAdmin && (
                           <Badge variant="secondary" className="text-xs">מנהל</Badge>
                         )}
-                        {user.hasSubscription && (
-                          <Badge variant="default" className="text-xs">מנוי</Badge>
-                        )}
                       </div>
                     </TableCell>
                     <TableCell className="text-muted-foreground">{user.email}</TableCell>

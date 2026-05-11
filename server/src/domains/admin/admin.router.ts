@@ -29,21 +29,6 @@ router.get('/users/:id', routeHandler(async (req: Request, res: Response): Promi
   res.json({ success: true, data: result });
 }));
 
-// PATCH /api/admin/users/:id/subscription
-router.patch('/users/:id/subscription', routeHandler(async (req: Request, res: Response): Promise<void> => {
-  const { hasSubscription } = req.body;
-  if (typeof hasSubscription !== 'boolean') {
-    res.status(400).json({ success: false, error: 'hasSubscription must be a boolean' });
-    return;
-  }
-  const user = await UserService.setSubscription(req.params.id, hasSubscription);
-  if (!user) {
-    res.status(404).json({ success: false, error: 'User not found' });
-    return;
-  }
-  res.json({ success: true, data: user });
-}));
-
 // GET /api/admin/forms
 router.get('/forms', routeHandler(async (req: Request, res: Response): Promise<void> => {
   const query: AdminFormsQuery = {

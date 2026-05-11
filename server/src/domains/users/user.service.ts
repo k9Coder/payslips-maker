@@ -105,15 +105,6 @@ export const UserService = {
     return { users: adminUsers, total };
   },
 
-  async setSubscription(userId: string, hasSubscription: boolean): Promise<IUser | null> {
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $set: { hasSubscription } },
-      { new: true }
-    );
-    return user ? (user.toObject() as unknown as IUser) : null;
-  },
-
   async getUserWithForms(userId: string) {
     const user = await User.findById(userId).lean();
     if (!user) return null;

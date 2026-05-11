@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useUser, useClerk } from '@clerk/clerk-react';
-import { Settings, LogOut, Globe } from 'lucide-react';
+import { Settings, LogOut, Globe, CreditCard } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useCurrentUser } from '../hooks/useCurrentUser';
 import { useApiClient } from '../lib/useApiClient';
@@ -9,7 +10,6 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Badge } from '../components/ui/badge';
 
 export function SettingsPage() {
   const { user } = useUser();
@@ -178,14 +178,12 @@ export function SettingsPage() {
           <CardTitle className="text-base text-[#1B2A4A]">מנוי</CardTitle>
         </CardHeader>
         <CardContent>
-          <Badge variant={currentUser?.hasSubscription ? 'default' : 'outline'}>
-            {currentUser?.hasSubscription ? 'מנוי פעיל ✓' : 'גרסת חינם'}
-          </Badge>
-          {!currentUser?.hasSubscription && (
-            <p className="text-sm text-gray-500 mt-2">
-              שדרג למנוי לגישה לעובדים ותלושים ללא הגבלה
-            </p>
-          )}
+          <Button variant="outline" asChild>
+            <Link to="/subscriptions" className="flex items-center gap-2">
+              <CreditCard className="h-4 w-4" />
+              נהל מנויים
+            </Link>
+          </Button>
         </CardContent>
       </Card>
 
