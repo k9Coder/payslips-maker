@@ -150,7 +150,7 @@ router.get('/:id/send-email/status', authMiddleware, routeHandler(async (req: Re
 }));
 
 // POST /api/forms/:id/send-email
-router.post('/:id/send-email', authMiddleware, subscriptionMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
+router.post('/:id/send-email', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
   const parsed = sendEmailSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ success: false, error: parsed.error.flatten().fieldErrors });
@@ -161,6 +161,13 @@ router.post('/:id/send-email', authMiddleware, subscriptionMiddleware, routeHand
   if (!form) {
     res.status(404).json({ success: false, error: 'Form not found' });
     return;
+  }
+
+  const emailGate = checkGate(Feature.SEND_EMAIL, req.activeSubscriptions ?? [], {
+    employeeId: form.employeeId,
+  });
+  if (!emailGate.allowed) {
+    throw new AppError(403, emailGate.reason ?? 'EMPLOYEE_SUBSCRIPTION_REQUIRED');
   }
 
   const employee = await getEmployeeById(form.employeeId.toString(), req.userId!);

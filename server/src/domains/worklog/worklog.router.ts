@@ -3,23 +3,32 @@ import { authMiddleware } from '../../middleware/auth.middleware';
 import { routeHandler } from '../../middleware/routeHandler';
 import { getMonthSummary, createEntry, updateEntry, deleteEntry } from './worklog.service';
 import { createWorkLogEntrySchema, updateWorkLogEntrySchema, workLogMonthQuerySchema } from './worklog.schema';
+import { requireFeature, Feature } from '../subscriptions/subscription.gates';
 
 const router = Router();
 router.use(authMiddleware);
 
 // GET /api/worklog?employeeId=&year=&month=
-router.get('/', routeHandler(async (req, res) => {
-  const { employeeId, year, month } = workLogMonthQuerySchema.parse(req.query);
-  const summary = await getMonthSummary(req.isAdmin ? null : req.userId!, employeeId, year, month);
-  res.json({ data: summary });
-}));
+router.get(
+  '/',
+  requireFeature(Feature.WORKLOG, (req) => req.query.employeeId as string | undefined),
+  routeHandler(async (req, res) => {
+    const { employeeId, year, month } = workLogMonthQuerySchema.parse(req.query);
+    const summary = await getMonthSummary(req.isAdmin ? null : req.userId!, employeeId, year, month);
+    res.json({ data: summary });
+  })
+);
 
 // POST /api/worklog — create a new entry (multiple allowed per day)
-router.post('/', routeHandler(async (req, res) => {
-  const body = createWorkLogEntrySchema.parse(req.body);
-  const entry = await createEntry(req.userId!, body);
-  res.status(201).json({ data: entry });
-}));
+router.post(
+  '/',
+  requireFeature(Feature.WORKLOG, (req) => req.body?.employeeId as string | undefined),
+  routeHandler(async (req, res) => {
+    const body = createWorkLogEntrySchema.parse(req.body);
+    const entry = await createEntry(req.userId!, body);
+    res.status(201).json({ data: entry });
+  })
+);
 
 // PATCH /api/worklog/:id — update an existing entry
 router.patch('/:id', routeHandler(async (req, res) => {
