@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken } from '@clerk/backend';
 import { User } from '../domains/users/user.model';
+import { SubscriptionService } from '../domains/subscriptions/subscription.service';
 import { env } from '../infrastructure/env';
 import { logger } from '../infrastructure/logger/logger';
 
@@ -42,9 +43,8 @@ export async function authMiddleware(
     }
 
     req.clerkId = clerkId;
-    req.userId = user._id.toString();
+    req.userId  = user._id.toString();
     req.isAdmin = user.isAdmin;
-    req.hasSubscription = user.hasSubscription;
 
     const impersonateId = req.headers['x-impersonate-user'] as string | undefined;
     if (impersonateId && user.isAdmin) {
@@ -53,11 +53,12 @@ export async function authMiddleware(
         res.status(404).json({ success: false, error: 'Impersonation target not found' });
         return;
       }
-      req.userId = target._id.toString();
-      req.hasSubscription = target.hasSubscription;
-      req.impersonating = true;
+      req.userId             = target._id.toString();
+      req.impersonating      = true;
       req.impersonatedUserId = target._id.toString();
     }
+
+    req.activeSubscriptions = await SubscriptionService.getActiveByUserId(req.userId);
 
     next();
   } catch (error) {
