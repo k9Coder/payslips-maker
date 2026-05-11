@@ -35,6 +35,7 @@ export interface IEmployee {
   accommodationDeduction: number;
   utilitiesDeduction: number;
   hasFoodDeduction: boolean;
+  pdfGenerateCount?: number;
   createdAt: Date | string;
   updatedAt: Date | string;
 }

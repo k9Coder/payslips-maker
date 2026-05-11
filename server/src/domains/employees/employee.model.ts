@@ -15,6 +15,7 @@ export interface IEmployeeDocument extends Document {
   accommodationDeduction: number;
   utilitiesDeduction: number;
   hasFoodDeduction: boolean;
+  pdfGenerateCount: number;
 }
 
 const EmployeeSchema = new Schema<IEmployeeDocument>(
@@ -41,6 +42,7 @@ const EmployeeSchema = new Schema<IEmployeeDocument>(
     accommodationDeduction: { type: Number, default: 0 },
     utilitiesDeduction: { type: Number, default: 0 },
     hasFoodDeduction: { type: Boolean, default: false },
+    pdfGenerateCount: { type: Number, default: 0 },
   },
   { timestamps: true }
 );
