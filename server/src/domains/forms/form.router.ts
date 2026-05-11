@@ -2,8 +2,9 @@ import { Router, Request, Response } from 'express';
 import { z } from 'zod';
 import mongoose from 'mongoose';
 import { authMiddleware } from '../../middleware/auth.middleware';
-import { subscriptionMiddleware } from '../../middleware/subscription.middleware';
 import { FormService } from './form.service';
+import { checkGate, Feature } from '../subscriptions/subscription.gates';
+import { SubscriptionService } from '../subscriptions/subscription.service';
 import { Form } from './form.model';
 import { EmailService } from '../email/email.service';
 import { getEmployeeById } from '../employees/employee.service';
@@ -50,23 +51,24 @@ router.post('/', authMiddleware, routeHandler(async (req: Request, res: Response
     return;
   }
 
+  if (parsed.data.formType === 'final_settlement') {
+    const gateResult = checkGate(Feature.FINAL_SETTLEMENT, req.activeSubscriptions ?? [], {
+      employeeId: parsed.data.employeeId,
+    });
+    if (!gateResult.allowed) {
+      throw new AppError(403, gateResult.reason ?? 'EMPLOYEE_SUBSCRIPTION_REQUIRED');
+    }
+  }
+
   const user = await UserService.getUserByClerkId(req.clerkId!);
   const producedByName = user?.fullName ?? '';
-  try {
-    const form = await FormService.createForm(
-      req.clerkId!,
-      req.userId!,
-      producedByName,
-      parsed.data,
-      req.hasSubscription
-    );
-    res.status(201).json({ success: true, data: form });
-  } catch (error) {
-    if (error instanceof Error && error.message === 'FORM_LIMIT_REACHED') {
-      throw new AppError(422, 'FORM_LIMIT_REACHED');
-    }
-    throw error;
-  }
+  const form = await FormService.createForm(
+    req.clerkId!,
+    req.userId!,
+    producedByName,
+    parsed.data
+  );
+  res.status(201).json({ success: true, data: form });
 }));
 
 // GET /api/forms/previous?employeeId=X&year=Y&month=M — must be before /:id
@@ -76,6 +78,33 @@ router.get('/previous', authMiddleware, routeHandler(async (req: Request, res: R
   const month = z.coerce.number().int().min(1).max(12).parse(req.query.month);
   const form = await FormService.getPreviousPayslip(req.userId!, employeeId, year, month);
   res.json({ data: form });
+}));
+
+// POST /api/forms/:id/generate — gate check + increment free-tier counter
+router.post('/:id/generate', authMiddleware, routeHandler(async (req: Request, res: Response): Promise<void> => {
+  const form = await FormService.getFormById(req.params.id, req.userId!);
+  if (!form) {
+    res.status(404).json({ success: false, error: 'Form not found' });
+    return;
+  }
+
+  const { employeeId } = form;
+  const currentCount = await SubscriptionService.getEmployeeGenerateCount(employeeId, req.userId!);
+  const result = checkGate(Feature.GENERATE_PDF, req.activeSubscriptions ?? [], {
+    employeeId,
+    currentCount,
+  });
+
+  if (!result.allowed) {
+    res.status(403).json({ success: false, error: result.reason, remaining: 0 });
+    return;
+  }
+
+  if (result.remaining !== null) {
+    await SubscriptionService.incrementGenerateCount(employeeId, req.userId!);
+  }
+
+  res.json({ success: true, data: { allowed: true, remaining: result.remaining } });
 }));
 
 // GET /api/forms/:id

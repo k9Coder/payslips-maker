@@ -14,15 +14,8 @@ export const FormService = {
     clerkId: string,
     userId: string,
     producedByName: string,
-    dto: CreateFormDto,
-    hasSubscription = false
+    dto: CreateFormDto
   ): Promise<IForm> {
-    if (!hasSubscription) {
-      const count = await Form.countDocuments({
-        userId: new Types.ObjectId(userId),
-      });
-      if (count >= 10) throw new Error('FORM_LIMIT_REACHED');
-    }
     const { employeeId, ...restDto } = dto;
     const form = await Form.create({
       clerkId,
