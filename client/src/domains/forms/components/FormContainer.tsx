@@ -13,6 +13,8 @@ import { useEmployee } from '@/domains/employees/hooks/useEmployees';
 import { getFormConfig } from '../form-registry';
 import { PDFDownloadDialog } from './PDFDownloadDialog';
 import { SendEmailDialog } from './SendEmailDialog';
+import { useEmployeeSubscription, useRecordGenerate } from '@/domains/subscriptions/hooks/useEmployeeSubscription';
+import { UpgradePrompt } from '@/domains/subscriptions/components/UpgradePrompt';
 import { useCurrentUser } from '@/hooks/useCurrentUser';
 import { useResolveMultiLang } from '@/hooks/useResolveMultiLang';
 import { toast } from '@/hooks/use-toast';
@@ -39,7 +41,11 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
   const [pdfDialogOpen, setPdfDialogOpen] = useState(false);
   const [sendEmailDialogOpen, setSendEmailDialogOpen] = useState(false);
   const [formReady, setFormReady] = useState(false);
+  const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [upgradeReason, setUpgradeReason] = useState<'pdf_limit' | 'email' | 'final_settlement' | 'worklog' | 'employee'>('pdf_limit');
   const { data: currentUser } = useCurrentUser();
+  const { data: subStatus } = useEmployeeSubscription(employeeId);
+  const recordGenerate = useRecordGenerate();
 
   const config = getFormConfig(formType);
 
@@ -203,9 +209,23 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setPdfDialogOpen(true)}
+                  onClick={async () => {
+                    if (!formId) return;
+                    try {
+                      const result = await recordGenerate.mutateAsync(formId);
+                      if (!result.allowed) {
+                        setUpgradeReason('pdf_limit');
+                        setUpgradeOpen(true);
+                      } else {
+                        setPdfDialogOpen(true);
+                      }
+                    } catch {
+                      setUpgradeReason('pdf_limit');
+                      setUpgradeOpen(true);
+                    }
+                  }}
                   className="flex items-center gap-2"
-                  disabled={!existingForm}
+                  disabled={!existingForm || recordGenerate.isPending}
                 >
                   <FileText className="h-4 w-4" />
                   {t('payslip.generatePdf')}
@@ -216,8 +236,8 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
                     variant="outline"
                     onClick={() => setSendEmailDialogOpen(true)}
                     className="flex items-center gap-2"
-                    disabled={!existingForm || !currentUser?.hasSubscription}
-                    title={!currentUser?.hasSubscription ? t('email.subscriptionRequired') : undefined}
+                    disabled={!existingForm || !subStatus?.features.sendEmail}
+                    title={!subStatus?.features.sendEmail ? t('email.subscriptionRequired') : undefined}
                   >
                     <Mail className="h-4 w-4" />
                     {t('email.sendButton')}
@@ -265,7 +285,7 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
       )}
 
       {/* Send email dialog */}
-      {existingForm && currentUser?.hasSubscription && (
+      {existingForm && subStatus?.features.sendEmail && (
         <SendEmailDialog
           open={sendEmailDialogOpen}
           onClose={() => setSendEmailDialogOpen(false)}
@@ -274,6 +294,12 @@ export function FormContainer({ formType, employeeId, formId, workLogOverride, p
           PDFDocument={config.PDFDocument}
         />
       )}
+
+      <UpgradePrompt
+        open={upgradeOpen}
+        onClose={() => setUpgradeOpen(false)}
+        reason={upgradeReason}
+      />
 
       {/* Unsaved changes guard */}
       <Dialog
