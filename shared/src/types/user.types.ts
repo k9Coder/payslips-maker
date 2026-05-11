@@ -5,7 +5,6 @@ export interface IUser {
   fullName: string;
   phone?: string;
   isAdmin: boolean;
-  hasSubscription: boolean;
   employerName?: Record<string, string>;
   employerTaxId?: string;
   employerAddress?: string;
