@@ -5,7 +5,7 @@ import { useCurrentUser } from '@/hooks/useCurrentUser';
 
 const DEMO_MODE = import.meta.env.VITE_DEMO_MODE === 'true';
 
-const ALLOWED_EMAILS = ['Holdingliat@gmail.com', 'yarinmagdaci@gmail.com', 'yarin0600@gmail.com', 'omermfla@gmail.com'];
+const ALLOWED_EMAILS = ['ariel@isavta.co.il', 'yarinmagdaci@gmail.com', 'yarin0600@gmail.com', 'omermfla@gmail.com'];
 
 interface ProtectedRouteProps {
   requireAdmin?: boolean;
