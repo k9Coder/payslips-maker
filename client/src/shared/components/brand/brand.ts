@@ -3,13 +3,13 @@
  * Import from here — never hardcode brand strings elsewhere.
  */
 
-export const BRAND_NAME = 'Care+' as const;
+export const BRAND_NAME = 'פשוט-תלוש' as const;
 
-export const BRAND_COMPANY = 'Liat Holding' as const;
+export const BRAND_COMPANY = 'פשוט-תלוש' as const;
 
-export const BRAND_WEBSITE = 'liatholding.com' as const;
+export const BRAND_WEBSITE = 'pashut-tlush.co.il' as const;
 
-export const BRAND_SUPPORT_EMAIL = 'support@liatholding.com' as const;
+export const BRAND_SUPPORT_EMAIL = 'support@pashut-tlush.co.il' as const;
 
 export const BRAND_TAGLINE = 'מערכת מקצועית ליצירת תלושי שכר לעובדים זרים בישראל.' as const;
 

@@ -8,7 +8,7 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
         <span>
           © {year}{' '}
-          <span dir="ltr" className="font-medium text-gray-500">{BRAND_NAME}</span>
+          <span className="font-medium text-gray-500">{BRAND_NAME}</span>
           {' '}·{' '}
           <a href={`https://${BRAND_WEBSITE}`} target="_blank" rel="noopener noreferrer" className="hover:text-gray-600 transition-colors">{BRAND_COMPANY}</a>
         </span>

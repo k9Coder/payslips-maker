@@ -10,7 +10,7 @@ export function MobileHeader() {
     <header className="flex md:hidden items-center justify-between h-14 px-4 bg-white border-b border-gray-200 shrink-0">
       <div className="flex items-center gap-2">
         <CareIcon size={26} />
-        <span className="text-[#1B2A4A] font-bold text-lg" dir="ltr">{BRAND_NAME}</span>
+        <span className="text-[#1B2A4A] font-bold text-lg">{BRAND_NAME}</span>
       </div>
       <button
         onClick={openMobile}

@@ -13,15 +13,19 @@ export function CareIcon({ size = 28, className }: CareIconProps) {
       aria-hidden="true"
       className={className}
     >
-      <rect width="32" height="32" rx="7" fill="#1B2A4A" />
-      {/* Heart shape */}
-      <path
-        d="M16 24C16 24 6 17.5 6 11.5A5.5 5.5 0 0 1 16 10.2A5.5 5.5 0 0 1 26 11.5C26 17.5 16 24 16 24Z"
-        fill="white"
-      />
-      {/* Plus mark — top-right of icon */}
-      <rect x="23" y="4" width="5.5" height="2" rx="1" fill="#3b82f6" />
-      <rect x="25" y="2" width="2" height="5.5" rx="1" fill="#3b82f6" />
+      <rect width="32" height="32" rx="6" fill="#1e3a8a" />
+      {/* Header row */}
+      <rect x="5" y="6" width="22" height="4" rx="1.5" fill="white" />
+      {/* Row 1 — label */}
+      <rect x="5" y="13" width="13" height="2.5" rx="1.2" fill="#93c5fd" />
+      {/* Row 1 — value */}
+      <rect x="21" y="13" width="6" height="2.5" rx="1.2" fill="white" opacity="0.7" />
+      {/* Row 2 — label */}
+      <rect x="5" y="18" width="10" height="2.5" rx="1.2" fill="#93c5fd" />
+      {/* Row 2 — value */}
+      <rect x="21" y="18" width="6" height="2.5" rx="1.2" fill="white" opacity="0.7" />
+      {/* Total row */}
+      <rect x="5" y="24" width="22" height="2.5" rx="1.2" fill="white" opacity="0.9" />
     </svg>
   );
 }
